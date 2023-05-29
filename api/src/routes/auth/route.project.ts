@@ -1,7 +1,7 @@
 import express from 'express'
 import { connect } from '../../database/database.mongo.js'
-import Project, { IProject } from '../../schemas/scheme.project.js'
-import { Schema, Types } from 'mongoose'
+import Project from '../../schemas/scheme.project.js'
+import { Types } from 'mongoose'
 import User from '../../schemas/scheme.user.js'
 
 export const projectRoute = express.Router()
@@ -14,10 +14,10 @@ projectRoute.get('/:id', (req, res) => {
   res.send(`current project is ${req.params.id}`)
 })
 
-projectRoute.post('', (req, res) => {
+projectRoute.post('', async (req, res) => {
   const { owner, name, description } = req.body
 
-  connect()
+  await connect()
 
   const project = new Project({
     name: name,
