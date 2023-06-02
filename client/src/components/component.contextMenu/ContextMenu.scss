@@ -1,0 +1,18 @@
+.active {
+  display: block;
+}
+
+.disabled {
+  display: none;
+}
+
+.context-menu {
+  width: 200px;
+  height: auto;
+  background-color: #fff;
+  position: absolute;
+
+  ul {
+    list-style-type: none;
+  }
+}

@@ -1,0 +1,66 @@
+[
+  {
+    "name": "orders",
+    "positionX": 400,
+    "positionY": 180,
+    "deps": [],
+    "fields": [
+      {
+        "name": "id",
+        "isPrimatyKey": true,
+        "isForeignKey": false,
+        "type": "guid"
+      },
+      {
+        "name": "user_id",
+        "isPrimatyKey": false,
+        "isForeignKey": true,
+        "type": "guid"
+      }
+    ]
+  },
+  {
+    "name": "users",
+    "positionX": 100,
+    "positionY": 80,
+    "fields": [
+      {
+        "name": "id",
+        "isPrimatyKey": true,
+        "isForeignKey": false,
+        "type": "guid"
+      },
+      {
+        "name": "name",
+        "isPrimatyKey": false,
+        "isForeignKey": false,
+        "type": "varchar"
+      }
+    ]
+  },
+  {
+    "name": "products",
+    "positionX": 100,
+    "positionY": 80,
+    "fields": [
+      {
+        "name": "id",
+        "isPrimatyKey": true,
+        "isForeignKey": false,
+        "type": "guid"
+      },
+      {
+        "name": "name",
+        "isPrimatyKey": false,
+        "isForeignKey": false,
+        "type": "varchar"
+      },
+      {
+        "name": "description",
+        "isPrimatyKey": false,
+        "isForeignKey": false,
+        "type": "varchar"
+      }
+    ]
+  }
+]
