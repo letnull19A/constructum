@@ -3,32 +3,38 @@ import { Field } from './shape.field'
 import { KonvaEventObject } from 'konva/lib/Node'
 import { useEffect, useState } from 'react'
 
-export type EntityData = {
+export type FieldData = {
   name: string
-  isPrimatyKey: boolean
+  isPrimaryKey: boolean
   isForeignKey: boolean
   type: string
+  deps?: string
 }
 
 export interface IEntityProps {
   name?: string
   positionX: number
   positionY: number
-  fields: Array<EntityData>
-  deps?: Array<IEntityProps>
+  width: number
+  height: number
+  fields: Array<FieldData>
+  deps?: Array<string>
   onPositionChanged?: (e: KonvaEventObject<DragEvent>) => any
 }
 
 export const Entity = (entityData: IEntityProps) => {
   const [positionX, setPositionX] = useState(0)
   const [positionY, setPositionY] = useState(0)
+  const [width, setWidth] = useState(180)
+  const [height, setHeight] = useState(0)
 
   const fields = entityData.fields.map((item, index) => (
     <Field
       type={item.type}
       order={index}
-      isPrimaryKey={item.isPrimatyKey}
+      isPrimaryKey={item.isPrimaryKey}
       isForeignKey={item.isForeignKey}
+      width={width}
       name={item.name}
     />
   ))
@@ -36,6 +42,8 @@ export const Entity = (entityData: IEntityProps) => {
   useEffect(() => {
     setPositionX(entityData.positionX)
     setPositionY(entityData.positionY)
+    setWidth(entityData.width)
+    setHeight(entityData.height)
   }, [])
 
   return (
@@ -55,9 +63,9 @@ export const Entity = (entityData: IEntityProps) => {
         })
       }}
     >
-      <Rect width={180} height={40 * (fields.length + 1)} x={10} y={10} fill="grey" />
-      <Rect width={180} height={40} stroke="#3c3c3c" fill="blue"></Rect>
-      <Text text={entityData.name} x={80} y={15} fill="#fff" />
+      <Rect draggable={false} width={width} height={40 * (fields.length + 1)} x={10} y={10} fill="#8F8F8FC9" />
+      <Rect width={width} height={40} stroke="#3c3c3c" fill="#5C84FAFF"></Rect>
+      <Text text={entityData.name} width={width} align="center" y={15} fill="#fff" />
       {fields}
     </Group>
   )

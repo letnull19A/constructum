@@ -1,9 +1,9 @@
 import { Group, Layer, Line, Stage, Text } from 'react-konva'
 import './Canvas.scss'
 import { Entity } from '../../shapes'
-import { IEntityProps } from '../../shapes/shape.entity'
+import { FieldData, IEntityProps } from '../../shapes/shape.entity'
 import { Grid } from '../component.grid/Grid'
-import { useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import fake from './fake.json'
 
 export interface ILines {
@@ -27,62 +27,182 @@ export const Canvas = () => {
       toX: 0,
       toY: 0,
     },
+    {
+      index: 1,
+      startFromX: 0,
+      fromX: 0,
+      fromY: 0,
+      startToX: 0,
+      toX: 0,
+      toY: 0,
+    },
+    {
+      index: 2,
+      startFromX: 0,
+      fromX: 0,
+      fromY: 0,
+      startToX: 0,
+      toX: 0,
+      toY: 0,
+    },
   ])
-  const [entities, setEntities] = useState<Array<IEntityProps>>([])
+
+  const [_, setEntities] = useState<Array<IEntityProps>>([])
+  const [linesMap, setLinesMap] = useState<Array<Array<number>>>([
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+  ])
 
   useEffect(() => {
-    subscribe(fake)
+    let entityList: Array<IEntityProps> = new Array<IEntityProps>()
+
+    fake.forEach((entity) => {
+      entityList.push(subscribe(entity as IEntityProps))
+    })
+
+    setEntities(entityList)
+    setLinesMap(generateLinesMap(fake as Array<IEntityProps>))
+    recalculateLines(linesMap, fake as Array<IEntityProps>)
   }, [])
 
-  const subscribe = (data: Array<IEntityProps>) => {
-    let origin = data
+  useEffect(() => {
+    recalculateLines(linesMap, fake as Array<IEntityProps>)
+  }, [linesMap, lines])
 
-    for (let i = 0; i < data.length; i++) {
-      origin[i].onPositionChanged = (e) => {
-        origin[i].positionX = Math.round(e.target.x() / 20) * 20
-        origin[i].positionY = Math.round(e.target.y() / 20) * 20
+  const generateLinesMap = (entities: Array<IEntityProps>): Array<Array<number>> => {
+    let originLinesMap: Array<Array<number>> = []
 
-        let y = lines
-        const deltaX = origin[0].positionX - origin[1].positionX
+    entities.forEach((entity, index) => {
+      const deps = getDependenciesFromTable(entity)
 
-        if (deltaX < -219 && deltaX <= 0) {
-          y[0].startFromX = origin[0].positionX + 180
-          y[0].fromX = origin[0].positionX + 180
-          y[0].startToX = origin[1].positionX
-          y[0].toX = origin[1].positionX
-        }
-        if (deltaX > 219 && deltaX >= 0) {
-          y[0].startFromX = origin[0].positionX - 40
-          y[0].fromX = origin[0].positionX
-          y[0].startToX = origin[1].positionX + 220
-          y[0].toX = origin[1].positionX + 180
-        }
+      deps.forEach((dependency) => {
+        const split = dependency.split('.')
+        const tableName = split[0]
+        const columnName = split[1]
 
-        y[0].fromY = origin[0].positionY + 20 + 40 * 2
-        y[0].toY = origin[1].positionY + 20 + 40 * 1
+        const tableIndex = getDependencyTableIndex(entities, tableName)
+        const columnIndex = getDependencyColumnIndex(entities[tableIndex], columnName)
 
-        if (deltaX < 221 && deltaX > -201) {
-          y[0].startFromX = origin[0].positionX + 70
-          y[0].fromX = origin[0].positionX + 90
-          y[0].startToX = origin[1].positionX + 110
-          y[0].toX = origin[1].positionX + 90
+        const lastColumnIndex = getColumnIndexByDependency(entities[index], dependency)
 
-          if (origin[0].positionY > origin[1].positionY) {
-            y[0].fromY = origin[0].positionY
-            y[0].toY = origin[1].positionY + 120
-          }
+        originLinesMap.push([index, tableIndex, lastColumnIndex + 1, columnIndex + 1])
+      })
+    })
 
-          if (origin[0].positionY < origin[1].positionY) {
-            y[0].fromY = origin[0].positionY + 120
-            y[0].toY = origin[1].positionY
-          }
-        }
+    console.log('originLinesMap2: ' + originLinesMap)
 
-        setLines([...lines, y])
-      }
+    return originLinesMap
+  }
+
+  const getColumnIndexByDependency = (column: IEntityProps, columnName: string): number => {
+    return column.fields.map((q) => q.deps).indexOf(columnName)
+  }
+
+  const getDependenciesFromTable = (table: IEntityProps): Array<string> => {
+    return table.deps === undefined ? [] : table.deps
+  }
+
+  const getDependencyColumnIndex = (table: IEntityProps, fieldName: string): number => {
+    return (table.fields as Array<FieldData>).map((r) => r.name).indexOf(fieldName)
+  }
+
+  const getDependencyTableIndex = (db: Array<IEntityProps>, tableName: string): number => {
+    return db.map((e) => e.name).indexOf(tableName)
+  }
+
+  const subscribe = (entity: IEntityProps): IEntityProps => {
+    entity.onPositionChanged = (e) => {
+      entity.positionX = Math.round(e.target.x() / 20) * 20
+      entity.positionY = Math.round(e.target.y() / 20) * 20
+      entity.height = entity.fields.length * 40 + 40
+
+      recalculateLines(linesMap, fake as Array<IEntityProps>)
     }
 
-    setEntities(origin)
+    return entity
+  }
+
+  const recalculateLines = (map: Array<Array<number>>, entities: Array<IEntityProps>) => {
+    map.forEach((mapItem, index) => {
+      recalculateLine(entities, mapItem[0], mapItem[1], index, mapItem[2], mapItem[3])
+    })
+  }
+
+  const recalculateLine = (
+    data: Array<IEntityProps>,
+    startIndex: number,
+    targetIndex: number,
+    indx: number,
+    fieldStart: number,
+    fieldEnd: number,
+  ) => {
+    let line = lines
+
+    const firstEntity = data[startIndex]
+    const secondEntity = data[targetIndex]
+    const currrentline = line[indx]
+
+    const deltaX = firstEntity.positionX - secondEntity.positionX
+
+    if (deltaX < -219 && deltaX <= 0) {
+      currrentline.startFromX = firstEntity.positionX + firstEntity.width
+      currrentline.fromX = firstEntity.positionX + firstEntity.width
+      currrentline.startToX = secondEntity.positionX
+      currrentline.toX = secondEntity.positionX
+    }
+    if (deltaX > 219 && deltaX >= 0) {
+      currrentline.startFromX = firstEntity.positionX - 40
+      currrentline.fromX = firstEntity.positionX
+      currrentline.startToX = secondEntity.positionX + secondEntity.width + 40
+      currrentline.toX = secondEntity.positionX + secondEntity.width
+    }
+
+    currrentline.fromY = firstEntity.positionY + 20 + 40 * fieldStart
+    currrentline.toY = secondEntity.positionY + 20 + 40 * fieldEnd
+
+    if (deltaX < 220 && deltaX > -201) {
+      currrentline.startFromX = firstEntity.positionX - 20 + firstEntity.width / 2
+      currrentline.fromX = firstEntity.positionX + firstEntity.width / 2
+      currrentline.startToX = secondEntity.positionX + 20 + secondEntity.width / 2
+      currrentline.toX = secondEntity.positionX + secondEntity.width / 2
+
+      if (firstEntity.positionY > secondEntity.positionY) {
+        currrentline.fromY = firstEntity.positionY
+        currrentline.toY = secondEntity.positionY + secondEntity.height
+      }
+
+      if (firstEntity.positionY < secondEntity.positionY) {
+        currrentline.fromY = firstEntity.positionY + firstEntity.height
+        currrentline.toY = secondEntity.positionY
+      }
+    }
+    setLines([...line])
+  }
+
+  const drawLines = (): Array<ReactElement> => {
+    let result: Array<ReactElement> = []
+
+    console.log(lines)
+
+    for (let i = 0; i < lines.length; i++) {
+      result.push(
+        <Line
+          points={[
+            lines[i].fromX,
+            lines[i].fromY,
+            lines[i].startFromX + 20,
+            lines[i].fromY,
+            lines[i].startToX - 20,
+            lines[i].toY,
+            lines[i].toX,
+            lines[i].toY,
+          ]}
+          stroke="red"
+        />,
+      )
+    }
+
+    return result
   }
 
   return (
@@ -90,30 +210,19 @@ export const Canvas = () => {
       <Layer>
         <Group draggable>
           <Grid />
-          {entities.map((obj, index) => (
+          {(fake as Array<IEntityProps>).map((obj, index) => (
             <Group>
               <Entity key={index} {...obj} />
               <Text
-                fill="black"
+                fill="transparent"
                 x={obj.positionX}
                 y={obj.positionY - 15}
-                text={`index: ${index} - ${obj.positionX} ${obj.positionY}`}
+                text={`index: ${index} x:${obj.positionX} y:${obj.positionY} h: ${obj.height} w: ${obj.width}`}
               />
             </Group>
           ))}
-          <Line
-            points={[
-              lines[0].fromX,
-              lines[0].fromY,
-              lines[0].startFromX + 20,
-              lines[0].fromY,
-              lines[0].startToX - 20,
-              lines[0].toY,
-              lines[0].toX,
-              lines[0].toY,
-            ]}
-            stroke="red"
-          />
+
+          {drawLines()}
         </Group>
       </Layer>
     </Stage>

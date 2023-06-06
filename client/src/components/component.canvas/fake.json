@@ -1,38 +1,48 @@
 [
   {
     "name": "orders",
-    "positionX": 400,
-    "positionY": 180,
-    "deps": [],
+    "positionX": 380,
+    "positionY": 120,
+    "width": 180,
+    "deps": ["users.id", "products.id"],
     "fields": [
       {
         "name": "id",
-        "isPrimatyKey": true,
+        "isPrimaryKey": true,
         "isForeignKey": false,
         "type": "guid"
       },
       {
         "name": "user_id",
-        "isPrimatyKey": false,
+        "isPrimaryKey": false,
         "isForeignKey": true,
-        "type": "guid"
+        "type": "guid",
+        "deps": "users.id"
+      },
+      {
+        "name": "product_id",
+        "isPrimaryKey": false,
+        "isForeignKey": true,
+        "type": "guid",
+        "deps": "products.id"
       }
     ]
   },
   {
     "name": "users",
     "positionX": 100,
-    "positionY": 80,
+    "positionY": 60,
+    "width": 180,
     "fields": [
       {
         "name": "id",
-        "isPrimatyKey": true,
+        "isPrimaryKey": true,
         "isForeignKey": false,
         "type": "guid"
       },
       {
         "name": "name",
-        "isPrimatyKey": false,
+        "isPrimaryKey": false,
         "isForeignKey": false,
         "type": "varchar"
       }
@@ -41,23 +51,52 @@
   {
     "name": "products",
     "positionX": 100,
-    "positionY": 80,
+    "positionY": 280,
+    "width": 200,
+    "deps": ["photos.id"],
     "fields": [
       {
         "name": "id",
-        "isPrimatyKey": true,
+        "isPrimaryKey": true,
         "isForeignKey": false,
         "type": "guid"
       },
       {
         "name": "name",
-        "isPrimatyKey": false,
+        "isPrimaryKey": false,
         "isForeignKey": false,
         "type": "varchar"
       },
       {
         "name": "description",
-        "isPrimatyKey": false,
+        "isPrimaryKey": false,
+        "isForeignKey": false,
+        "type": "varchar"
+      },
+      {
+        "name": "photo_id",
+        "isPrimaryKey": false,
+        "isForeignKey": true,
+        "type": "guid",
+        "deps": "photos.id"
+      }
+    ]
+  },
+  {
+    "name": "photos",
+    "positionX": 380,
+    "positionY": 480,
+    "width": 240,
+    "fields": [
+      {
+        "name": "id",
+        "isPrimaryKey": true,
+        "isForeignKey": false,
+        "type": "guid"
+      },
+      {
+        "name": "photo_name",
+        "isPrimaryKey": false,
         "isForeignKey": false,
         "type": "varchar"
       }

@@ -1,0 +1,43 @@
+version: '3.9'
+name: 'constructum'
+
+services:
+  db:
+    image: mongo:latest
+    restart: always
+    ports:
+      - '27001:27001'
+    networks:
+      network:
+        ipv4_address: 7.5.0.40
+
+  cache:
+    image: redis:latest
+    restart: always
+    ports:
+      - '6379:6379'
+    networks:
+      network:
+        ipv4_address: 7.5.0.20
+
+  api-server:
+    image: constructum:latest
+    restart: always
+    ports:
+      - '7001:7001'
+    environment:
+      - PORT=7001
+    networks:
+      network:
+        ipv4_address: 7.5.0.10
+
+volumes:
+  mongodb:
+
+networks:
+  network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 7.5.0.0/16
+          gateway: 7.5.0.1
