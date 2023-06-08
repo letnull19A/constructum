@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+// import { useRef } from 'react'
 import './ContextMenu.scss'
 
 interface IProp {
@@ -8,16 +8,16 @@ interface IProp {
 }
 
 export const ConstextMenu = ({ isActive = false, posX, posY }: IProp) => {
-  const refContext = useRef()
+  // const refContext = useRef()
 
-  const disable = () => {
-    console.log(refContext.current)
-  }
+  // const disable = () => {
+  //   console.log(refContext.current)
+  // }
 
   return (
     <div
       style={{ top: posY, left: posX }}
-      ref={refContext}
+      // ref={refContext}
       className={'context-menu' + (isActive ? ' active' : ' disabled')}
     >
       <p>Контекстное меню</p>

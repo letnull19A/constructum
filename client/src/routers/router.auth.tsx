@@ -19,25 +19,35 @@ export const RequireAuth = ({ children }: { children: JSX.Element }) => {
 
 export const AuthRouting = () => {
   return (
-    <RequireAuth>
-      <Routes>
-        <Route
-          path="/project"
-          element={<LayoutDefault header={<Header />} menu={<Menu />} content={<p>Projects</p>} footer={<Footer />} />}
-        />
-        <Route
-          path="/scheme"
-          element={<LayoutDefault header={<Header />} menu={<Menu />} content={<Canvas />} footer={<Footer />} />}
-        />
-        <Route
-          path="/account"
-          element={<LayoutDefault header={<Header />} menu={<Menu />} content={<p>Account</p>} footer={<Footer />} />}
-        />
-        <Route
-          path="/project/:id"
-          element={<LayoutDefault header={<Header />} menu={<Menu />} content={<Project />} footer={<Footer />} />}
-        />
-      </Routes>
-    </RequireAuth>
+    <Routes>
+      <Route
+        path="/project"
+        element={
+          <RequireAuth>
+            <LayoutDefault header={<Header />} menu={<Menu />} content={<p>Projects</p>} footer={<Footer />} />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/scheme"
+        element={<LayoutDefault header={<Header />} menu={<Menu />} content={<Canvas />} footer={<Footer />} />}
+      />
+      <Route
+        path="/account"
+        element={
+          <RequireAuth>
+            <LayoutDefault header={<Header />} menu={<Menu />} content={<p>Account</p>} footer={<Footer />} />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/project/:id"
+        element={
+          <RequireAuth>
+            <LayoutDefault header={<Header />} menu={<Menu />} content={<Project />} footer={<Footer />} />
+          </RequireAuth>
+        }
+      />
+    </Routes>
   )
 }

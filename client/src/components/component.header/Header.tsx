@@ -7,8 +7,8 @@ export const Header = () => {
         <span>constructum</span>
       </div>
       <div className="header-account">
-        <a href="#">Войти</a>
-        <a href="#">Регистрация</a>
+        <a href="/login">Войти</a>
+        <a href="/registration">Регистрация</a>
       </div>
     </header>
   )

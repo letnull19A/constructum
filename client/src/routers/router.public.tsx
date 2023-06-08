@@ -1,22 +1,46 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { useUserContext } from '../hooks/hook.user-context'
 import { LayoutFlat } from '../layouts/layout.flat'
 import { Footer, Header } from '../components'
 
-export const PublicRouting = () => {
-  const context = useUserContext()
+export const RequirePublic = ({ children }: { children: JSX.Element }) => {
+  const auth = useUserContext()
 
-  const routing = (
+  console.log(auth.user === null && auth.isAuthenticated === false)
+
+  if (auth.user === null && auth.isAuthenticated === false) {
+    return <Navigate to="/main" />
+  }
+
+  return children
+}
+
+export const PublicRouting = () => {
+  return (
     <Routes>
-      <Route path={'/'} element={<LayoutFlat header={<Header />} content={<p>main page</p>} footer={<Footer />} />} />
-      <Route path="/main" element={<LayoutFlat header={<Header />} content={<p>main page</p>} footer={<Footer />} />} />
-      <Route path="/login" element={<LayoutFlat header={<Header />} content={<p>Login</p>} footer={<Footer />} />} />
+      {['/', '/main'].map((path, index) => (
+        <Route
+          key={index}
+          path={path}
+          element={<LayoutFlat header={<Header />} content={<p>main page</p>} footer={<Footer />} />}
+        />
+      ))}
+      <Route
+        path="/login"
+        element={
+          <RequirePublic>
+            <LayoutFlat header={<Header />} content={<p>Login</p>} footer={<Footer />} />
+          </RequirePublic>
+        }
+      />
       <Route
         path="/registration"
-        element={<LayoutFlat header={<Header />} content={<p>Registration</p>} footer={<Footer />} />}
+        element={
+          <RequirePublic>
+            <LayoutFlat header={<Header />} content={<p>Registration</p>} footer={<Footer />} />
+          </RequirePublic>
+        }
       />
     </Routes>
   )
-
-  return !context.isAuthenticated ? routing : null
 }

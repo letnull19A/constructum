@@ -26,7 +26,7 @@ export const Entity = (entityData: IEntityProps) => {
   const [positionX, setPositionX] = useState(0)
   const [positionY, setPositionY] = useState(0)
   const [width, setWidth] = useState(180)
-  const [height, setHeight] = useState(0)
+  const [_, setHeight] = useState(0)
 
   const fields = entityData.fields.map((item, index) => (
     <Field
@@ -43,7 +43,7 @@ export const Entity = (entityData: IEntityProps) => {
     setPositionX(entityData.positionX)
     setPositionY(entityData.positionY)
     setWidth(entityData.width)
-    setHeight(entityData.height)
+    setHeight(entityData.fields.length * 40 + 40)
   }, [])
 
   return (

@@ -52,9 +52,10 @@ export const Canvas = () => {
     [0, 0, 0, 0],
     [0, 0, 0, 0],
   ])
+  //const [isNeedToUpdate, setIsNeedToUpdate] = useState(true)
 
   useEffect(() => {
-    let entityList: Array<IEntityProps> = new Array<IEntityProps>()
+    const entityList: Array<IEntityProps> = new Array<IEntityProps>()
 
     fake.forEach((entity) => {
       entityList.push(subscribe(entity as IEntityProps))
@@ -66,11 +67,13 @@ export const Canvas = () => {
   }, [])
 
   useEffect(() => {
+    //if (isNeedToUpdate) {
     recalculateLines(linesMap, fake as Array<IEntityProps>)
+    //}
   }, [linesMap, lines])
 
   const generateLinesMap = (entities: Array<IEntityProps>): Array<Array<number>> => {
-    let originLinesMap: Array<Array<number>> = []
+    const originLinesMap: Array<Array<number>> = []
 
     entities.forEach((entity, index) => {
       const deps = getDependenciesFromTable(entity)
@@ -88,8 +91,6 @@ export const Canvas = () => {
         originLinesMap.push([index, tableIndex, lastColumnIndex + 1, columnIndex + 1])
       })
     })
-
-    console.log('originLinesMap2: ' + originLinesMap)
 
     return originLinesMap
   }
@@ -111,10 +112,11 @@ export const Canvas = () => {
   }
 
   const subscribe = (entity: IEntityProps): IEntityProps => {
+    entity.height = entity.fields.length * 40 + 40
+
     entity.onPositionChanged = (e) => {
       entity.positionX = Math.round(e.target.x() / 20) * 20
       entity.positionY = Math.round(e.target.y() / 20) * 20
-      entity.height = entity.fields.length * 40 + 40
 
       recalculateLines(linesMap, fake as Array<IEntityProps>)
     }
@@ -136,7 +138,7 @@ export const Canvas = () => {
     fieldStart: number,
     fieldEnd: number,
   ) => {
-    let line = lines
+    const line = lines
 
     const firstEntity = data[startIndex]
     const secondEntity = data[targetIndex]
@@ -176,13 +178,16 @@ export const Canvas = () => {
         currrentline.toY = secondEntity.positionY
       }
     }
+
+    //setIsNeedToUpdate((prev) => !prev)
+
+    //if (isNeedToUpdate) {
     setLines([...line])
+    //}
   }
 
   const drawLines = (): Array<ReactElement> => {
-    let result: Array<ReactElement> = []
-
-    console.log(lines)
+    const result: Array<ReactElement> = []
 
     for (let i = 0; i < lines.length; i++) {
       result.push(
@@ -214,7 +219,7 @@ export const Canvas = () => {
             <Group>
               <Entity key={index} {...obj} />
               <Text
-                fill="transparent"
+                fill="red"
                 x={obj.positionX}
                 y={obj.positionY - 15}
                 text={`index: ${index} x:${obj.positionX} y:${obj.positionY} h: ${obj.height} w: ${obj.width}`}
