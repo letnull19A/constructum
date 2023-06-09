@@ -2,13 +2,14 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { useUserContext } from '../hooks/hook.user-context'
 import { LayoutFlat } from '../layouts/layout.flat'
 import { Footer, Header } from '../components'
+import { Login, Registration } from '../pages'
 
 export const RequirePublic = ({ children }: { children: JSX.Element }) => {
   const auth = useUserContext()
 
   console.log(auth.user === null && auth.isAuthenticated === false)
 
-  if (auth.user === null && auth.isAuthenticated === false) {
+  if (auth.user === null && auth.isAuthenticated === true) {
     return <Navigate to="/main" />
   }
 
@@ -29,7 +30,7 @@ export const PublicRouting = () => {
         path="/login"
         element={
           <RequirePublic>
-            <LayoutFlat header={<Header />} content={<p>Login</p>} footer={<Footer />} />
+            <Login />
           </RequirePublic>
         }
       />
@@ -37,7 +38,7 @@ export const PublicRouting = () => {
         path="/registration"
         element={
           <RequirePublic>
-            <LayoutFlat header={<Header />} content={<p>Registration</p>} footer={<Footer />} />
+            <Registration />
           </RequirePublic>
         }
       />

@@ -10,7 +10,6 @@ export const isNotAuth = async (req: Request, res: Response, next: NextFunction)
 
     if (!resultValidation) {
       next()
-      return
     }
 
     const userId = authorizationHeader?.split(' ')[1] ?? ''

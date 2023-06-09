@@ -1,5 +1,7 @@
 FROM node:alpine
 
+ENV NODE_ENV="production"
+
 EXPOSE 7301
 
 COPY . .

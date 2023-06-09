@@ -5,7 +5,7 @@
   height: 100%;
   display: grid;
   grid-template-columns: $gap 1fr 1fr 1fr 1fr 1fr $gap;
-  grid-template-rows: $header-height $gap calc(100vh - $header-height - $footer-height - $gap * 2) $gap $footer-height;
+  grid-template-rows: $header-height $gap auto $gap $footer-height;
 
   .layout-header {
     width: 100%;
@@ -18,6 +18,8 @@
   .layout-content {
     grid-row: 3/4;
     grid-column: 2/7;
+    min-height: calc(100vh - $header-height - $gap * 2 - $footer-height);
+    height: auto;
   }
 
   .layout-footer {

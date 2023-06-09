@@ -12,13 +12,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.getItem('token') !== undefined &&
       localStorage.getItem('token') !== '',
   )
-  const [user, setUser] = useState<any>(null!)
+  const [user, setUser] = useState<any>(null)
 
   const value = { isAuthenticated, user }
 
   useEffect(() => {
-    setIsAuthenticated(true)
-    setUser('1')
+    setIsAuthenticated(false)
+    setUser(null)
   }, [])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

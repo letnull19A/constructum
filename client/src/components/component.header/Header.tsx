@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import './Header.scss'
 
 export const Header = () => {
@@ -7,8 +8,8 @@ export const Header = () => {
         <span>constructum</span>
       </div>
       <div className="header-account">
-        <a href="/login">Войти</a>
-        <a href="/registration">Регистрация</a>
+        <Link to="/login">Войти</Link>
+        <Link to="/registration">Регистрация</Link>
       </div>
     </header>
   )

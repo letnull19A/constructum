@@ -1,19 +1,22 @@
+import { env } from 'process'
 import { createClient } from 'redis'
+import { $log as logger } from '@tsed/logger'
 
-export const cilent = createClient({ url: 'redis://127.0.0.1:6379' })
+export const client = createClient({ url: env.REDIS_URL })
 
 export const connect = async () => {
-  cilent.on('error', (err) => console.error(err))
+  client.on('error', (err) => logger.error(err))
+  client.on('ready', () => logger.info('Redis is ready'))
 
-  if (!cilent.isOpen) {
-    await cilent.connect()
+  if (!client.isOpen) {
+    await client.connect()
   }
 }
 
 export const disconnect = async () => {
-  cilent.on('error', (err) => console.error(err))
+  client.on('error', (err) => logger.error(err))
 
-  if (cilent.isOpen) {
-    await cilent.quit()
+  if (client.isOpen) {
+    await client.disconnect()
   }
 }

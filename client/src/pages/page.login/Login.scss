@@ -1,0 +1,16 @@
+.login-content {
+  display: grid;
+  grid-template-columns: 1fr 450px 1fr;
+  grid-template-rows: 1fr auto 1fr;
+
+  .login-form {
+    grid-column: 2/3;
+    grid-row: 2/3;
+    height: auto;
+    padding: 30px;
+
+    .textbox:not(:last-child) {
+      margin-bottom: 12px;
+    }
+  }
+}

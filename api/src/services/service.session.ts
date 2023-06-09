@@ -1,30 +1,30 @@
-import { cilent, connect, disconnect } from '../database/database.redis.js'
+import { client, connect, disconnect } from '../database/database.redis.js'
+import { $log as logger } from '@tsed/logger'
 
 export const startSession = async (key: string | undefined, payload: any) => {
   if (key === undefined) {
     throw new Error('Ключ не определён')
   }
 
-  await cilent.set(key, payload)
+  await client.set(key, payload)
 }
 
 export const endSesison = async (key: string) => {
-  await cilent.del(key)
+  await client.del(key)
 }
 
 export const sessionIsAvalible = async (key: string): Promise<boolean> => {
-  if (!cilent.isOpen) {
+  try {
     await connect()
+
+    const jwtToken = await client.get(key)
+
+    return jwtToken !== null && jwtToken !== undefined && jwtToken !== ''
+  } catch (e) {
+    logger.error(e)
+  } finally {
+    await disconnect()
   }
 
-  const userId = await cilent
-    .get(key)
-    .then()
-    .catch((e) => {
-      console.error(e)
-    })
-
-  await disconnect()
-
-  return userId !== null && userId !== undefined && userId !== ''
+  return false
 }
