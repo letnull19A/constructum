@@ -31,8 +31,6 @@ export const useHttp = () => {
       data: data.data,
     })
       .then((res) => {
-        console.log(res)
-
         setStatusCode(res.status)
         setResponse(res.data)
         setLoading(false)

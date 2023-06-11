@@ -5,13 +5,17 @@ import { useUserContext } from '../../hooks/hook.user-context'
 export const Header = () => {
   const { isAuthenticated } = useUserContext()
 
+  const handleLogout = () => {
+    localStorage.clear()
+  }
+
   return (
     <header className="header">
       <div className="header-title">
         <span>constructum</span>
       </div>
       <div className="header-account">
-        {!isAuthenticated ?? (
+        {!isAuthenticated && (
           <>
             <Link to="/login">Войти</Link>
             <Link to="/registration">Регистрация</Link>
@@ -19,7 +23,9 @@ export const Header = () => {
         )}
         {isAuthenticated && (
           <>
-            <Link to="/logout">Выйти</Link>
+            <Link to="/login" onClick={() => handleLogout()}>
+              Выйти
+            </Link>
             <Link to="/account">nickname</Link>
           </>
         )}

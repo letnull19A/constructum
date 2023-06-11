@@ -38,6 +38,19 @@
     }
   }
 
+  label.disabled {
+    color: #4e4e4ea8;
+  }
+
+  input.disabled {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    border: 2px solid transparent;
+
+    &::placeholder {
+      color: #4e4e4ea8;
+    }
+  }
+
   label.danger-heading,
   span.danger-help {
     color: red;

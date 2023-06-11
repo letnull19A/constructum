@@ -10,41 +10,45 @@ import { useUserContext } from '../../hooks/hook.user-context'
 
 export const Login = () => {
   useTitle('Войти')
-  const { request, statusCode, error, response } = useHttp()
-  const loginFieldRef = useRef()
-  const passwordFieldRef = useRef()
+  const { request, statusCode, error, response, loading } = useHttp()
+  const loginFieldRef = useRef<HTMLInputElement>(null)
+  const passwordFieldRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
   const { setUser, setIsAuthenticated } = useUserContext()
 
   const handleLogin = () => {
-    const login = loginFieldRef.current.value
-    const password = passwordFieldRef.current.value
+    if (loginFieldRef.current && passwordFieldRef.current) {
+      const login = loginFieldRef.current.value
+      const password = passwordFieldRef.current.value
 
-    request({
-      method: Method.POST,
-      url: 'http://localhost:7161/api/auth',
-      headers: {
-        Authorization: 'Bearer 6474fe6b51cb50792799d4bf',
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      data: qs.stringify({
-        login: login,
-        password: password,
-      }),
-    })
+      request({
+        method: Method.POST,
+        url: 'http://localhost:7161/api/auth',
+        headers: {
+          Authorization: 'Bearer 0',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        data: qs.stringify({
+          login: login,
+          password: password,
+        }),
+      })
+    }
   }
 
   useEffect(() => {
-    if (statusCode === 200) {
-      loginFieldRef.current.value = ''
-      passwordFieldRef.current.value = ''
+    if (statusCode === 200 && loginFieldRef.current && passwordFieldRef.current) {
+      loginFieldRef.current.disabled = true
+      passwordFieldRef.current.disabled = true
 
-      localStorage.setItem('token', JSON.stringify(response))
+      setTimeout(() => {
+        localStorage.setItem('token', JSON.stringify(response))
 
-      setUser(JSON.stringify(response))
-      setIsAuthenticated(true)
+        setUser(JSON.stringify(response))
+        setIsAuthenticated(true)
 
-      navigate('/scheme')
+        navigate('/project')
+      }, 2000)
     }
   }, [error, statusCode])
 
@@ -53,8 +57,16 @@ export const Login = () => {
       <Header />
       <Content className="login-content">
         <Form className="login-form" formTitle="Войти">
-          <Textbox forwardRef={loginFieldRef} type="text" label="Логин" placeholder="Введите Ваш логин" dangerText="" />
           <Textbox
+            disabled={loading}
+            forwardRef={loginFieldRef}
+            type="text"
+            label="Логин"
+            placeholder="Введите Ваш логин"
+            dangerText=""
+          />
+          <Textbox
+            disabled={loading}
             forwardRef={passwordFieldRef}
             type="password"
             placeholder="Введите Ваш пароль"

@@ -1,6 +1,7 @@
 import express from 'express'
 import User, { IUser } from '../../schemas/scheme.user.js'
 import { connect as mongoConnect, disconnect as mongoDisconnect } from '../../database/database.mongo.js'
+import { connect as redisConnect, disconnect as redisDisconnect } from '../../database/database.redis.js'
 import { generateJwtSet } from '../../services/index.js'
 import { comparePassword } from '../../services/service.salt.js'
 import { startSession } from '../../services/service.session.js'
@@ -13,6 +14,7 @@ authRoute.post('/auth', isNotAuth, async (req, res) => {
   const { login, password } = req.body
 
   await mongoConnect()
+  await redisConnect()
 
   User.findOne({ login: login })
     .then(async (data) => {
@@ -41,9 +43,10 @@ authRoute.post('/auth', isNotAuth, async (req, res) => {
       const jwtToken = generateJwtSet(payload)
 
       await startSession(jwtToken?.access.toString(), JSON.stringify(jwtToken))
+      await redisDisconnect()
       await mongoDisconnect()
 
-      res.status(200).send(jwtToken)
+      res.status(200).send({ ...jwtToken, ...payload.user })
     })
     .catch((err) => {
       logger.error(err)

@@ -4,7 +4,11 @@ import './Menu.scss'
 export const Menu = () => {
   return (
     <div className="menu">
-      <Link to="/project">Мои проекты</Link>
+      <div className="menu-container">
+        <Link to="/account">Мой аккаунт</Link>
+        <Link to="/project">Мои проекты</Link>
+        <Link to="/templates">Мои шаблоны</Link>
+      </div>
     </div>
   )
 }

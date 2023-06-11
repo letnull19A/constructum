@@ -1,8 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useUserContext } from '../hooks/hook.user-context'
-import { LayoutFlat } from '../layouts/layout.flat'
-import { Footer, Header } from '../components'
 import { Login, Registration } from '../pages'
+import { Main } from '../pages/page.main/Main'
 
 export const RequirePublic = ({ children }: { children: JSX.Element }) => {
   const auth = useUserContext()
@@ -20,11 +19,7 @@ export const PublicRouting = () => {
   return (
     <Routes>
       {['/', '/main'].map((path, index) => (
-        <Route
-          key={index}
-          path={path}
-          element={<LayoutFlat header={<Header />} content={<p>main page</p>} footer={<Footer />} />}
-        />
+        <Route key={index} path={path} element={<Main />} />
       ))}
       <Route
         path="/login"
