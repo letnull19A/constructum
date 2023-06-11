@@ -5,11 +5,11 @@ import { projectRoute } from './auth/route.project.js'
 import { logoutRoute } from './auth/route.logout.js'
 import { isAuth } from '../middlewares/middleware.auth.js'
 
-const publicRouter = Router()
+const router = Router()
 
-publicRouter.use(authRoute)
-publicRouter.use(registrationRoute)
-publicRouter.use(logoutRoute)
-publicRouter.use('/project', isAuth, projectRoute)
+router.use(authRoute)
+router.use(registrationRoute)
+router.use(logoutRoute)
+router.use('/project', isAuth, projectRoute)
 
-export default publicRouter
+export default router

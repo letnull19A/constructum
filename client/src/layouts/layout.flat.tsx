@@ -1,10 +1,11 @@
 import { ReactNode, isValidElement } from 'react'
 import './layout-flat.scss'
 
-interface IContents {
+export interface IContents {
   children?: ReactNode[]
   header?: ReactNode
   content?: ReactNode
+  menu?: ReactNode
   footer?: ReactNode
 }
 

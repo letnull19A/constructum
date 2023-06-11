@@ -1,12 +1,10 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import { $log as logger } from '@tsed/logger'
-import router from './routes/index.js'
+import publicRouter from './routes/index.js'
 import bodyParser from 'body-parser'
-import cors from 'cors'
 import { env } from 'process'
-import { connect as mongoConnect, disconnect as mongoDisconnect } from './database/database.mongo.js'
-import { connect as redisConnect, disconnect as redisDisconnect } from './database/database.redis.js'
+import { connect as redisConnect, disconnect } from './database/database.redis.js'
 
 logger.level = 'debug'
 logger.name = 'API'
@@ -17,18 +15,8 @@ const port = process.env.PORT | 3001
 
 const app = express()
 
-app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use('/api', router)
-
-mongoConnect()
-  .then(() => {
-    logger.info('mongodb connected')
-  })
-  .catch((err) => {
-    logger.error(err)
-  })
-  .finally(() => mongoDisconnect())
+app.use('/api', publicRouter)
 
 redisConnect()
   .then(() => {
@@ -37,14 +25,12 @@ redisConnect()
   .catch((err) => {
     logger.error(err)
   })
-  .finally(() => redisDisconnect())
 
 app.listen(port, () => {
   console.clear()
 
-  logger.info(`server started on port: ${port}`)
-  logger.info(`server started with mode: ${env.NODE_ENV}`)
-  logger.info(`mongo started on port: ${env.MONGO_CONNECTION}`)
+  logger.info(`auth-server started on port: ${port}`)
+  logger.info(`auth-server started with mode: ${env.NODE_ENV}`)
   logger.info(`redis started on port: ${env.REDIS_CONNECTION}`)
   logger.info(`redis data: ${env.REDIS_HOST}:${env.REDIS_PORT}`)
 })

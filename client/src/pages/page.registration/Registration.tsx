@@ -1,7 +1,10 @@
 import { Button, Content, Footer, Form, Header, Textbox } from '../../components'
+import { useTitle } from '../../hooks/hook.use-title'
 import { LayoutFlat } from '../../layouts/layout.flat'
 
 export const Registration = () => {
+  useTitle('Регистрация')
+
   return (
     <LayoutFlat>
       <Header />

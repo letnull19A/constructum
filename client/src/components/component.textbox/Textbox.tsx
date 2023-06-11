@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { LegacyRef, MutableRefObject } from 'react'
 import './Textbox.scss'
 
 export interface ITextbox {
@@ -7,6 +7,7 @@ export interface ITextbox {
   className?: string
   value?: string
   label?: string
+  forwardRef?: LegacyRef<HTMLInputElement> | undefined | MutableRefObject<undefined>
   dangerText?: string
   isNotCorrect?: boolean
   onChange?: React.ChangeEventHandler<HTMLInputElement> | undefined
@@ -20,6 +21,7 @@ export class Textbox extends React.Component<ITextbox> {
           {this.props.label}
         </label>
         <input
+          ref={this.props.forwardRef}
           type={this.props.type}
           placeholder={this.props.placeholder}
           value={this.props.value}

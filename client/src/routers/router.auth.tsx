@@ -2,6 +2,7 @@ import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { Header, Menu, Footer, Canvas } from '../components'
 import { LayoutDefault } from '../layouts/layout.default'
 import { useUserContext } from '../hooks/hook.user-context'
+import { Projects } from '../pages/page.projects/Projects'
 import { Project } from '../components/component.project/Project'
 
 export const RequireAuth = ({ children }: { children: JSX.Element }) => {
@@ -10,7 +11,7 @@ export const RequireAuth = ({ children }: { children: JSX.Element }) => {
 
   console.log(auth)
 
-  if (auth.user === null && auth.isAuthenticated === false) {
+  if (auth.user === null || auth.isAuthenticated === false) {
     return <Navigate to="/login" state={{ from: location }} replace />
   }
 
@@ -24,7 +25,7 @@ export const AuthRouting = () => {
         path="/project"
         element={
           <RequireAuth>
-            <LayoutDefault header={<Header />} menu={<Menu />} content={<p>Projects</p>} footer={<Footer />} />
+            <Projects />
           </RequireAuth>
         }
       />
