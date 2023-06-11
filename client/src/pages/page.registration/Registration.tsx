@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 export const Registration = () => {
   useTitle('Регистрация')
 
-  const { request, statusCode, error, loading } = useHttp()
+  const { request, statusCode, error } = useHttp()
 
   const nameFieldRef = useRef<HTMLInputElement>(null)
   const surnameFieldRef = useRef<HTMLInputElement>(null)

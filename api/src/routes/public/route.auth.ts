@@ -30,10 +30,12 @@ authRoute.post('/auth', isNotAuth, async (req, res) => {
         return
       }
 
-      const { name, surname, email } = data as IUser
+      const { name, surname, email, login } = data as IUser
 
       const payload = {
         user: {
+          id: data._id,
+          nickname: login,
           name: name,
           surname: surname,
           email: email,

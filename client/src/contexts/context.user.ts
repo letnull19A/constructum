@@ -1,9 +1,17 @@
 import { createContext } from 'react'
 
+export interface IUserData {
+  id: string
+  name: string
+  email: string
+  surname: string
+  nickname: string
+}
+
 export interface IUserContext {
   isAuthenticated: boolean
-  user: string
-  setUser: (user: string) => void
+  user: IUserData
+  setUser: (user: IUserData | null) => void
   setIsAuthenticated: (isAuthenticated: boolean) => void
 }
 

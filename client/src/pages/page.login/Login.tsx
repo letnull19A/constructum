@@ -7,6 +7,16 @@ import './Login.scss'
 import qs from 'qs'
 import { useNavigate } from 'react-router-dom'
 import { useUserContext } from '../../hooks/hook.user-context'
+import { IUserData } from '../../contexts/context.user'
+
+interface IResponse {
+  access: string
+  refresh: string
+  name: string
+  surname: string
+  email: string
+  nickname: string
+}
 
 export const Login = () => {
   useTitle('Войти')
@@ -42,9 +52,20 @@ export const Login = () => {
       passwordFieldRef.current.disabled = true
 
       setTimeout(() => {
-        localStorage.setItem('token', JSON.stringify(response))
+        const parsedData = JSON.parse(JSON.stringify(response)) as IResponse
 
-        setUser(JSON.stringify(response))
+        localStorage.setItem('token', JSON.stringify({ access: parsedData.access, refresh: parsedData.refresh }))
+        localStorage.setItem(
+          'user',
+          JSON.stringify({
+            name: parsedData.name,
+            surname: parsedData.surname,
+            email: parsedData.email,
+            nickname: parsedData.nickname,
+          }),
+        )
+
+        setUser(response as IUserData | null)
         setIsAuthenticated(true)
 
         navigate('/project')

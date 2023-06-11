@@ -4,6 +4,7 @@ import { LayoutDefault } from '../layouts/layout.default'
 import { useUserContext } from '../hooks/hook.user-context'
 import { Projects } from '../pages/page.projects/Projects'
 import { Project } from '../components/component.project/Project'
+import { AddProject } from '../pages/page.add-project/AddProject'
 
 export const RequireAuth = ({ children }: { children: JSX.Element }) => {
   const auth = useUserContext()
@@ -26,6 +27,14 @@ export const AuthRouting = () => {
         element={
           <RequireAuth>
             <Projects />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/project/new"
+        element={
+          <RequireAuth>
+            <AddProject />
           </RequireAuth>
         }
       />

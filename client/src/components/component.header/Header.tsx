@@ -1,13 +1,18 @@
 import { Link } from 'react-router-dom'
 import './Header.scss'
 import { useUserContext } from '../../hooks/hook.user-context'
+import { IUserContext } from '../../contexts/context.user'
 
 export const Header = () => {
-  const { isAuthenticated } = useUserContext()
+  const { isAuthenticated, setIsAuthenticated, setUser } = useUserContext()
 
   const handleLogout = () => {
     localStorage.clear()
+    setIsAuthenticated(false)
+    setUser(null)
   }
+
+  const parsedData = JSON.parse(localStorage.getItem('user') ?? '{}') as IUserContext
 
   return (
     <header className="header">
@@ -26,7 +31,7 @@ export const Header = () => {
             <Link to="/login" onClick={() => handleLogout()}>
               Выйти
             </Link>
-            <Link to="/account">nickname</Link>
+            <Link to="/account">{parsedData.user.nickname}</Link>
           </>
         )}
       </div>

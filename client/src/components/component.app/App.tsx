@@ -4,11 +4,11 @@ import './App.scss'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { AuthRouting } from '../../routers/router.auth'
 import { PublicRouting } from '../../routers/router.public'
-import { AuthContext } from '../../contexts/context.user'
+import { AuthContext, IUserData } from '../../contexts/context.user'
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>()
-  const [user, setUser] = useState<string>('')
+  const [user, setUser] = useState<IUserData | null>(null)
 
   const value = { isAuthenticated, user, setIsAuthenticated, setUser }
 
