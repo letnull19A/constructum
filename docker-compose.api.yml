@@ -15,6 +15,21 @@ services:
   redis_cache:
     image: redis:latest
 
+  auth-server:
+    image: constructum-auth:latest
+    ports:
+      - '11261:11261'
+    environment:
+      PORT: 11261
+      MONGO_CONNECTION: 'mongodb://root:rootpassword@db:27017'
+      REDIS_URL: 'redis://redis_cache:6379'
+    depends_on:
+      - db
+      - redis_cache
+    links:
+      - db
+      - redis_cache
+
   api-server:
     image: constructum-api:latest
     ports:
