@@ -17,7 +17,7 @@ export const isAuth = async (req: Request, res: Response, next: NextFunction) =>
     if (resultValidation) {
       await connect()
 
-      if ((await sessionIsAvalible(bearerToken.access)) && isVerifyAccessToken(bearerToken)) {
+      if (isVerifyAccessToken(bearerToken)) {
         await disconnect()
         next()
       } else {
