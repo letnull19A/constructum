@@ -1,18 +1,19 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
-import { useUserContext } from '../hooks/hook.user-context'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { Login, Registration } from '../pages'
 import { Main } from '../pages/page.main/Main'
 
 export const RequirePublic = ({ children }: { children: JSX.Element }) => {
-  const auth = useUserContext()
+  const location = useLocation()
 
-  console.log(auth.user === null || (auth.user === '' && auth.isAuthenticated === false))
+  let element = children
 
-  if (auth.user !== null && auth.isAuthenticated === true) {
-    return <Navigate to="/main" />
+  console.log(localStorage.getItem('token') !== null)
+
+  if (localStorage.getItem('token') !== null) {
+    element = <Navigate to="/main" state={{ from: location }} replace />
   }
 
-  return children
+  return element
 }
 
 export const PublicRouting = () => {

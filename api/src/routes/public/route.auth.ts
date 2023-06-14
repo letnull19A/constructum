@@ -7,6 +7,8 @@ import { comparePassword } from '../../services/service.salt.js'
 import { startSession } from '../../services/service.session.js'
 import { isNotAuth } from '../../middlewares/middleware.not-auth.js'
 import { $log as logger } from '@tsed/logger'
+import { IJwtPayload } from '../../interfaces/IJwtPayload.js'
+import { IAuthResponse } from '../../interfaces/index.js'
 
 export const authRoute = express.Router()
 
@@ -32,23 +34,26 @@ authRoute.post('/auth', isNotAuth, async (req, res) => {
 
       const { name, surname, email, login } = data as IUser
 
-      const payload = {
-        user: {
-          id: data._id,
-          nickname: login,
-          name: name,
-          surname: surname,
-          email: email,
-        },
+      const payload: IJwtPayload = {
+        id: data._id,
+        nickname: login,
+        name: name,
+        surname: surname,
+        email: email,
       }
 
-      const jwtToken = generateJwtSet(payload)
+      const jwtTokens = await generateJwtSet(payload)
 
-      await startSession(jwtToken?.access.toString(), JSON.stringify(jwtToken))
+      await startSession(jwtTokens.refresh.toString(), JSON.stringify(jwtTokens))
       await redisDisconnect()
       await mongoDisconnect()
 
-      res.status(200).send({ ...jwtToken, ...payload.user })
+      const response: IAuthResponse = {
+        tokens: jwtTokens,
+        user: payload,
+      }
+
+      res.status(200).send(response)
     })
     .catch((err) => {
       logger.error(err)

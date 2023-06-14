@@ -7,6 +7,10 @@ import User from '../../schemas/scheme.user.js'
 export const projectRoute = express.Router()
 
 projectRoute.get('', (req, res) => {
+  const { id } = req.body
+
+  console.log(id)
+
   res.send('some project')
 })
 

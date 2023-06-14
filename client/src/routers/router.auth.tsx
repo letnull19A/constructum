@@ -1,22 +1,20 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { Header, Menu, Footer, Canvas } from '../components'
 import { LayoutDefault } from '../layouts/layout.default'
-import { useUserContext } from '../hooks/hook.user-context'
 import { Projects } from '../pages/page.projects/Projects'
 import { Project } from '../components/component.project/Project'
 import { AddProject } from '../pages/page.add-project/AddProject'
 
 export const RequireAuth = ({ children }: { children: JSX.Element }) => {
-  const auth = useUserContext()
   const location = useLocation()
 
-  console.log(auth)
+  let element = children
 
-  if (auth.user === null || auth.isAuthenticated === false) {
-    return <Navigate to="/login" state={{ from: location }} replace />
+  if (localStorage.getItem('token') === null) {
+    element = <Navigate to="/login" state={{ from: location }} replace />
   }
 
-  return children
+  return element
 }
 
 export const AuthRouting = () => {

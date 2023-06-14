@@ -3,10 +3,35 @@ import { Button, Card, CardContent, CardFooter, CardHead, Content, Footer, Heade
 import { useTitle } from '../../hooks/hook.use-title'
 import { LayoutDefault } from '../../layouts/layout.default'
 import './Projects.scss'
+import { Method, useHttp } from '../../hooks/hook.use-http'
+import { useEffect } from 'react'
+import qs from 'qs'
 
 export const Projects = () => {
   useTitle('Мои проекты')
   const navigate = useNavigate()
+
+  const { request, error, statusCode, response } = useHttp()
+
+  useEffect(() => {
+    const bearer = 'Bearer ' + JSON.parse(localStorage.getItem('token')).access
+
+    request({
+      method: Method.GET,
+      url: 'http://localhost:7161/api/project',
+      headers: {
+        Authorization: bearer,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      data: qs.stringify({
+        id: localStorage.getItem('user').id,
+      }),
+    })
+  }, [])
+
+  useEffect(() => {
+    console.log(response)
+  }, [error, statusCode])
 
   return (
     <LayoutDefault>

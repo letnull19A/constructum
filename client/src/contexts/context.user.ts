@@ -1,18 +1,12 @@
 import { createContext } from 'react'
-
-export interface IUserData {
-  id: string
-  name: string
-  email: string
-  surname: string
-  nickname: string
-}
+import { IJwtPayload } from '../interfaces'
 
 export interface IUserContext {
   isAuthenticated: boolean
-  user: IUserData
-  setUser: (user: IUserData | null) => void
+  user: IJwtPayload
+  setUser: (user: IJwtPayload | null) => void
   setIsAuthenticated: (isAuthenticated: boolean) => void
 }
 
 export const AuthContext = createContext<IUserContext>(null!)
+export { IJwtPayload }

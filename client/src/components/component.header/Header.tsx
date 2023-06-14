@@ -13,6 +13,7 @@ export const Header = () => {
   }
 
   const parsedData = JSON.parse(localStorage.getItem('user') ?? '{}') as IUserContext
+  console.log(parsedData)
 
   return (
     <header className="header">
@@ -31,7 +32,7 @@ export const Header = () => {
             <Link to="/login" onClick={() => handleLogout()}>
               Выйти
             </Link>
-            <Link to="/account">{parsedData.user.nickname}</Link>
+            <Link to="/account">{parsedData.nickname}</Link>
           </>
         )}
       </div>
