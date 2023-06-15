@@ -4,4 +4,4 @@ import { IJwtAccessToken } from './IJwtAccessToken'
 import { IAuthResponse } from './IAuthResponse'
 import { IJwtRefreshToken } from './IJwtRefreshToken'
 
-export { IJwtSet, IJwtPayload, IJwtAccessToken, IAuthResponse, IJwtRefreshToken }
+export { type IJwtSet, type IJwtPayload, type IJwtAccessToken, type IAuthResponse, type IJwtRefreshToken }
