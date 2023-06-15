@@ -1,7 +1,7 @@
-import { IJwtSet } from './IJwtSet.js'
-import { IJwtPayload } from './IJwtPayload.js'
-import { IJwtAccessToken } from './IJwtAccessToken.js'
-import { IAuthResponse } from './IAuthResponse.js'
-import { IJwtRefreshToken } from './IJwtRefreshToken.js'
+import { IJwtSet } from './IJwtSet'
+import { IJwtPayload } from './IJwtPayload'
+import { IJwtAccessToken } from './IJwtAccessToken'
+import { IAuthResponse } from './IAuthResponse'
+import { IJwtRefreshToken } from './IJwtRefreshToken'
 
 export { IJwtSet, IJwtPayload, IJwtAccessToken, IAuthResponse, IJwtRefreshToken }

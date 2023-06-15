@@ -10,90 +10,90 @@ import { useUserContext } from '../../hooks/hook.user-context'
 import { IAuthResponse } from '../../interfaces/IAuthResponse'
 
 export const Login = () => {
-  useTitle('Войти')
-  const { request, statusCode, error, response, loading } = useHttp()
-  const loginFieldRef = useRef<HTMLInputElement>(null)
-  const passwordFieldRef = useRef<HTMLInputElement>(null)
-  const navigate = useNavigate()
-  const { setUser, setIsAuthenticated } = useUserContext()
+	useTitle('Войти')
+	const { request, statusCode, error, response, loading } = useHttp()
+	const loginFieldRef = useRef<HTMLInputElement>(null)
+	const passwordFieldRef = useRef<HTMLInputElement>(null)
+	const navigate = useNavigate()
+	const { setUser, setIsAuthenticated } = useUserContext()
 
-  const handleLogin = () => {
-    if (loginFieldRef.current && passwordFieldRef.current) {
-      const login = loginFieldRef.current.value
-      const password = passwordFieldRef.current.value
+	const handleLogin = () => {
+		if (loginFieldRef.current && passwordFieldRef.current) {
+			const login = loginFieldRef.current.value
+			const password = passwordFieldRef.current.value
 
-      request({
-        method: Method.POST,
-        url: 'http://localhost:7161/api/auth',
-        headers: {
-          Authorization: 'Bearer 0',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        data: qs.stringify({
-          login: login,
-          password: password,
-        }),
-      })
-    }
-  }
+			request({
+				method: Method.POST,
+				url: 'http://localhost:11261/api/auth',
+				headers: {
+					Authorization: 'Bearer 0',
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				data: qs.stringify({
+					login: login,
+					password: password
+				})
+			})
+		}
+	}
 
-  useEffect(() => {
-    if (statusCode === 200 && loginFieldRef.current && passwordFieldRef.current) {
-      loginFieldRef.current.disabled = true
-      passwordFieldRef.current.disabled = true
+	useEffect(() => {
+		if (statusCode === 200 && loginFieldRef.current && passwordFieldRef.current) {
+			loginFieldRef.current.disabled = true
+			passwordFieldRef.current.disabled = true
 
-      setTimeout(() => {
-        const parsedData = JSON.parse(JSON.stringify(response)) as IAuthResponse
+			setTimeout(() => {
+				const parsedData = JSON.parse(JSON.stringify(response)) as IAuthResponse
 
-        localStorage.setItem(
-          'token',
-          JSON.stringify({ access: parsedData.tokens.access, refresh: parsedData.tokens.refresh }),
-        )
-        localStorage.setItem(
-          'user',
-          JSON.stringify({
-            id: parsedData.user.id,
-            name: parsedData.user.name,
-            surname: parsedData.user.surname,
-            email: parsedData.user.email,
-            nickname: parsedData.user.nickname,
-          }),
-        )
+				localStorage.setItem(
+					'token',
+					JSON.stringify({ access: parsedData.tokens.access, refresh: parsedData.tokens.refresh })
+				)
+				localStorage.setItem(
+					'user',
+					JSON.stringify({
+						id: parsedData.user.id,
+						name: parsedData.user.name,
+						surname: parsedData.user.surname,
+						email: parsedData.user.email,
+						nickname: parsedData.user.nickname
+					})
+				)
 
-        setUser(parsedData.user)
-        setIsAuthenticated(true)
+				setUser(parsedData.user)
+				setIsAuthenticated(true)
 
-        navigate('/project')
-      }, 2000)
-    }
-  }, [error, statusCode])
+				navigate('/project')
+			}, 2000)
+		}
+	}, [error, statusCode])
 
-  return (
-    <LayoutFlat>
-      <Header />
-      <Content className="login-content">
-        <Form className="login-form" formTitle="Войти">
-          <Textbox
-            disabled={loading}
-            forwardRef={loginFieldRef}
-            type="text"
-            label="Логин"
-            placeholder="Введите Ваш логин"
-            dangerText=""
-          />
-          <Textbox
-            disabled={loading}
-            forwardRef={passwordFieldRef}
-            type="password"
-            placeholder="Введите Ваш пароль"
-            label="Пароль"
-            dangerText=""
-          />
-          <Button onClick={handleLogin} label="Войти" />
-          {statusCode === 404 && error}
-        </Form>
-      </Content>
-      <Footer />
-    </LayoutFlat>
-  )
+	return (
+		<LayoutFlat>
+			<Header />
+			<Content className="login-content">
+				<Form className="login-form" formTitle="Войти">
+					<Textbox
+						disabled={loading}
+						forwardRef={loginFieldRef}
+						type="text"
+						label="Логин"
+						placeholder="Введите Ваш логин"
+						dangerText=""
+					/>
+					<Textbox
+						disabled={loading}
+						forwardRef={passwordFieldRef}
+						type="password"
+						placeholder="Введите Ваш пароль"
+						label="Пароль"
+						dangerText=""
+					/>
+					<Button onClick={handleLogin} label="Войти" />
+					{statusCode === 404 && error}
+				</Form>
+			</Content>
+			<Footer />
+		</LayoutFlat>
+	)
 }
