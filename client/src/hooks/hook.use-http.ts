@@ -1,6 +1,10 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
+import qs from 'qs'
 import { useState } from 'react'
 
+/**
+ * @description Перечисление с методами отправки запросов
+ */
 export enum Method {
   GET = 'GET',
   POST = 'POST',
@@ -8,18 +12,31 @@ export enum Method {
   DELETE = 'DELETE',
 }
 
+/**
+ * @description интерфейс http запроса на сервер
+ * @member url - url сайта
+ * @member params - параметры запроса
+ * @member headers - заголовки запроса
+ * @member data - отправляемые данные
+ */
 export interface IHttpQuery {
   url: string
   params?: any
   data?: any
-  method: Method
+  method: Method | string
   headers?: any
 }
 
+/**
+ * @description интерфейс с данными интерсепторов
+ * @member onResponse - выполняется при ответе
+ * @member onRequest - выполняется при запросе
+ * @member onError - выполняется при ошибке
+ */
 export interface IInterceptors {
-  onResponse: (response: AxiosResponse) => AxiosResponse
-  onRequest: (config: InternalAxiosRequestConfig) => InternalAxiosRequestConfig
-  onError: (error: AxiosError) => Promise<AxiosError>
+  onResponse?: (response: AxiosResponse) => AxiosResponse
+  onRequest?: (config: InternalAxiosRequestConfig) => InternalAxiosRequestConfig
+  onError?: (error: AxiosError) => Promise<AxiosError<unknown, any>>
 }
 
 export function setupInterceptorsTo(axiosInstance: AxiosInstance, interceptors?: IInterceptors): AxiosInstance {
@@ -30,46 +47,74 @@ export function setupInterceptorsTo(axiosInstance: AxiosInstance, interceptors?:
 
 export const useHttp = () => {
   const [response, setResponse] = useState(null)
-  const [statusCode, setStatusCode] = useState<number | null>(null)
-  const [error, setError] = useState(null)
+  const [statusCode, setStatusCode] = useState<number | undefined>()
+  const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
 
-  const request = async (data: IHttpQuery) => {
-    axios
-      .create()
-      .request({ ...data })
-      .then((res) => {
-        setStatusCode(res.status)
-        setResponse(res.data)
-        setLoading(false)
-        setError(null)
-      })
-      .catch((error) => {
-        setError(error.response.data)
-        setStatusCode(error.response.status)
-      })
+  const request = async (data: IHttpQuery): Promise<AxiosResponse<any, any> | undefined> => {
+    try {
+      const r = axios.create()
+      const res = await r.request({ ...data })
+
+      setStatusCode(res.status)
+      setResponse(res.data)
+      setLoading(false)
+      setError(null)
+
+      return res
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setError(error.message)
+        setStatusCode(error.status)
+      }
+    }
   }
 
-  const requestWithInterceptors = async (data: IHttpQuery, interceptors: IInterceptors) => {
+  const requestWithInterceptors = async (data: IHttpQuery, interceptors?: IInterceptors) => {
     let axiosInstance: AxiosInstance = axios.create()
 
+    const tokens = JSON.parse(localStorage.getItem('token') ?? '{}')
     axiosInstance = setupInterceptorsTo(axiosInstance)
 
-    axiosInstance(data)
+    await axiosInstance(data)
       .then((res) => {
         setStatusCode(res.status)
         setResponse(res.data)
         setLoading(false)
         setError(null)
-        interceptors?.onRequest(res.request)
-        interceptors?.onResponse(res)
+        if (interceptors?.onRequest !== undefined && interceptors?.onResponse !== undefined) {
+          interceptors?.onRequest(res.request)
+          interceptors?.onResponse(res)
+        }
       })
-      .catch((error) => {
+      .catch(async (error) => {
         setError(error.response.data)
         setStatusCode(error.response.status)
 
-        if (error instanceof AxiosError) {
-          interceptors?.onError(error)
+        if (interceptors?.onError !== undefined) interceptors?.onError(error)
+
+        if (error instanceof AxiosError && error.response?.status === 401 && error.config) {
+          try {
+            await request({
+              url: 'http://localhost:7161/api/refresh',
+              method: Method.POST,
+              data: qs.stringify({ refresh: tokens.refresh }),
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+              },
+            })
+              .then((res) => {
+                localStorage.setItem('token', JSON.stringify(res?.data))
+              })
+              .catch((error) => console.error(error))
+          } catch (err) {
+            if (err instanceof AxiosError) {
+              if (err.status === 401) {
+                console.log(response)
+              }
+            }
+            console.error(err)
+          }
         }
       })
   }

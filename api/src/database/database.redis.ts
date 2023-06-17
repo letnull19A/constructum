@@ -6,7 +6,6 @@ export const client = createClient({ url: env.REDIS_URL })
 
 export const connect = async () => {
   client.on('error', (err) => logger.error(err))
-  client.on('ready', () => logger.info('Redis is ready'))
 
   if (!client.isOpen) {
     await client.connect()

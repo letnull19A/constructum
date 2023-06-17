@@ -11,6 +11,8 @@
 
 - добавлен интерфейс IProjectCreate
 - интерфейсы перенесены в пакет constructum-interfaces
+- перенос docker-compose файлов в папку docker
+- перенос Dockerfile каждого из сервисов в корень проекта
 
 ### общие изменения
 

@@ -2,7 +2,7 @@ import React from 'react'
 import './Button.scss'
 
 export interface IButtonProp {
-  label?: string
+  label?: string | JSX.Element
   onClick?: () => void
 }
 

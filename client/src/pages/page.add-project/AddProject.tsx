@@ -4,7 +4,7 @@ import { useTitle } from '../../hooks/hook.use-title'
 import { LayoutFlat } from '../../layouts/layout.flat'
 import { Method, useHttp, IInterceptors } from '../../hooks/hook.use-http'
 import { useNavigate } from 'react-router-dom'
-import { IJwtPayload, IJwtSet, IProjectCreate } from '../../interfaces'
+import { IJwtPayload, IJwtSet, IProjectCreate } from 'constructum-interfaces'
 import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 
 export const AddProject = () => {

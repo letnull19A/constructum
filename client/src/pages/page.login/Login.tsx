@@ -6,7 +6,7 @@ import { LayoutFlat } from '../../layouts/layout.flat'
 import './Login.scss'
 import { useNavigate } from 'react-router-dom'
 import { useUserContext } from '../../hooks/hook.user-context'
-import { IAuthResponse } from '../../interfaces/IAuthResponse'
+import { IAuthResponse } from 'constructum-interfaces'
 
 export const Login = () => {
   useTitle('Войти')
