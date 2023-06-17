@@ -1,7 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import { $log as logger } from '@tsed/logger'
-import publicRouter from './routes/index.js'
+import { router } from './routes/index.js'
 import bodyParser from 'body-parser'
 import { env } from 'process'
 import { connect as redisConnect, disconnect } from './database/database.redis.js'
@@ -16,7 +16,7 @@ const port = process.env.PORT | 3001
 const app = express()
 
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use('/api', publicRouter)
+app.use('/api', router)
 
 redisConnect()
   .then(() => {
