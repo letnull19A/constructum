@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import fs from 'fs'
 import path, { dirname } from 'path'
-import { IJwtAccessToken, IJwtPayload, IJwtRefreshToken, IJwtSet } from '../interfaces/index.js'
+import { IJwtAccessToken, IJwtPayload, IJwtRefreshToken, IJwtSet } from 'constructum-interfaces'
 
 const { TokenExpiredError } = jwt
 
@@ -18,7 +18,7 @@ export const generateAccessToken = (payload: IJwtPayload): string => {
 
   const accessToken = jwt.sign(payload, privateKey, {
     algorithm: 'HS256',
-    expiresIn: 60 * 2,
+    expiresIn: 60 * 5,
     issuer: 'api.constructum.io',
   })
 
@@ -31,7 +31,7 @@ export const generateRefreshToken = (payload: IJwtPayload): string => {
 
   const refreshToken = jwt.sign(payload, privateKey, {
     algorithm: 'HS256',
-    expiresIn: 60 * 15,
+    expiresIn: 60 * 30,
     issuer: 'api.constructum.io',
   })
 

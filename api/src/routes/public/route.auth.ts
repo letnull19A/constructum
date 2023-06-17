@@ -7,8 +7,7 @@ import { comparePassword } from '../../services/service.salt.js'
 import { startSession } from '../../services/service.session.js'
 import { isNotAuth } from '../../middlewares/middleware.not-auth.js'
 import { $log as logger } from '@tsed/logger'
-import { IJwtPayload } from '../../interfaces/IJwtPayload.js'
-import { IAuthResponse } from '../../interfaces/index.js'
+import { IJwtPayload, IAuthResponse } from 'constructum-interfaces'
 
 export const authRoute = express.Router()
 
@@ -35,11 +34,11 @@ authRoute.post('/auth', isNotAuth, async (req, res) => {
       const { name, surname, email, login } = data as IUser
 
       const payload: IJwtPayload = {
-        id: data._id,
-        nickname: login,
-        name: name,
-        surname: surname,
-        email: email,
+        id: data._id.toString(),
+        nickname: login as string,
+        name: name as string,
+        surname: surname as string,
+        email: email as string,
       }
 
       const jwtTokens = await generateJwtSet(payload)

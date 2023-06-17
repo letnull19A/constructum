@@ -4,7 +4,6 @@ import { Method, useHttp } from '../../hooks/hook.use-http'
 import { useTitle } from '../../hooks/hook.use-title'
 import { LayoutFlat } from '../../layouts/layout.flat'
 import './Login.scss'
-import qs from 'qs'
 import { useNavigate } from 'react-router-dom'
 import { useUserContext } from '../../hooks/hook.user-context'
 import { IAuthResponse } from '../../interfaces/IAuthResponse'
@@ -27,12 +26,11 @@ export const Login = () => {
         url: 'http://localhost:7161/api/auth',
         headers: {
           Authorization: 'Bearer 0',
-          'Content-Type': 'application/x-www-form-urlencoded',
         },
-        data: qs.stringify({
+        data: {
           login: login,
           password: password,
-        }),
+        },
       })
     }
   }
@@ -75,7 +73,7 @@ export const Login = () => {
         <Form className="login-form" formTitle="Войти">
           <Textbox
             disabled={loading}
-            forwardRef={loginFieldRef}
+            forwardref={loginFieldRef}
             type="text"
             label="Логин"
             placeholder="Введите Ваш логин"
@@ -83,7 +81,7 @@ export const Login = () => {
           />
           <Textbox
             disabled={loading}
-            forwardRef={passwordFieldRef}
+            forwardref={passwordFieldRef}
             type="password"
             placeholder="Введите Ваш пароль"
             label="Пароль"

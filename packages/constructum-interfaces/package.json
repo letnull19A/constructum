@@ -1,0 +1,15 @@
+{
+  "name": "constructum-interfaces",
+  "version": "0.0.1",
+  "description": "interfaces for constructum.io",
+  "main": "./dist/index.js",
+  "typings": "./@types/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "letnull19a",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.1.3"
+  }
+}

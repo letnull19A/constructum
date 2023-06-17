@@ -3,7 +3,7 @@ import { IJwtPayload } from '../interfaces'
 
 export interface IUserContext {
   isAuthenticated: boolean | undefined
-  user: IJwtPayload | null
+  user: IJwtPayload
   setUser: (user: IJwtPayload | null) => void
   setIsAuthenticated: (isAuthenticated: boolean) => void
 }

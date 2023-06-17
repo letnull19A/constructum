@@ -1,3 +1,25 @@
+## v_0.0.1.snapshot.5
+
+### добавлено
+
+- пакет constructum-interfaces
+- пакет @types/constructum-interfaces
+
+### фиксы
+
+### рефакторинг
+
+- добавлен интерфейс IProjectCreate
+- интерфейсы перенесены в пакет constructum-interfaces
+
+### общие изменения
+
+- удалён пакет qs (client)
+- удалён пакет react-custom-scrollbars-2 (client)
+
+дата изменения: 17.06.2023
+издатель: letnull19a
+
 ## v_0.0.1.snapshot.4
 
 ### добавлено
@@ -16,7 +38,7 @@
 
 ### общие изменения
 
-дата изменения: 1.06.2023
+дата изменения: 14.06.2023
 издатель: letnull19a
 
 ## v_0.0.1.snapshot.3

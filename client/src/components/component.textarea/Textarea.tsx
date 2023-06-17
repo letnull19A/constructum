@@ -2,16 +2,15 @@ import React, { LegacyRef } from 'react'
 import './Textarea.scss'
 
 export interface ITextarea {
-  type?: string
   placeholder?: string
   className?: string
   value?: string
   label?: string
   disabled?: boolean
-  forwardRef?: LegacyRef<HTMLInputElement>
+  forwardref?: LegacyRef<HTMLTextAreaElement>
   dangerText?: string
   isNotCorrect?: boolean
-  onChange?: React.ChangeEventHandler<HTMLInputElement> | undefined
+  onChange?: React.ChangeEventHandler<HTMLTextAreaElement> | undefined
 }
 
 export class Textarea extends React.Component<ITextarea> {
@@ -27,10 +26,9 @@ export class Textarea extends React.Component<ITextarea> {
         </label>
         <textarea
           contentEditable
-          forwardRef={this.props.forwardRef}
+          ref={this.props.forwardref}
           disabled={this.props.disabled}
           autoComplete="off"
-          type={this.props.type}
           placeholder={this.props.placeholder}
           value={this.props.value}
           className={`
