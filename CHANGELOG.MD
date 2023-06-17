@@ -2,7 +2,28 @@
 
 ### добавлено
 
+- пакет constructum-interfaces
+- пакет @types/constructum-interfaces
+- функция в хуке useHttp requestWithInterceptors
+
 ### фиксы
+
+- обновление токенов на клиенте
+
+### рефакторинг
+
+- добавлен интерфейс IProjectCreate
+- интерфейсы перенесены в пакет constructum-interfaces
+- перенос docker-compose файлов в папку docker
+- перенос Dockerfile каждого из сервисов в корень проекта
+
+### общие изменения
+
+- удалён пакет qs (client)
+- удалён пакет react-custom-scrollbars-2 (client)
+
+дата изменения: 18.06.2023
+издатель: letnull19a
 
 ## v_0.0.1.auth
 

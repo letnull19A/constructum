@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import './Header.scss'
 import { useUserContext } from '../../hooks/hook.user-context'
-import { IUserContext } from '../../contexts/context.user'
+import { IJwtPayload, IUserContext } from '../../contexts/context.user'
 
 export const Header = () => {
   const { isAuthenticated, setIsAuthenticated, setUser } = useUserContext()
@@ -12,8 +12,7 @@ export const Header = () => {
     setUser(null)
   }
 
-  const parsedData = JSON.parse(localStorage.getItem('user') ?? '{}') as IUserContext
-  console.log(parsedData)
+  const parsedData = JSON.parse(localStorage.getItem('user') ?? '{}') as IJwtPayload
 
   return (
     <header className="header">

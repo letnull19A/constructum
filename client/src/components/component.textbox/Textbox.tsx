@@ -8,7 +8,7 @@ export interface ITextbox {
   value?: string
   label?: string
   disabled?: boolean
-  forwardRef?: LegacyRef<HTMLInputElement>
+  forwardref?: LegacyRef<HTMLInputElement>
   dangerText?: string
   isNotCorrect?: boolean
   onChange?: React.ChangeEventHandler<HTMLInputElement> | undefined
@@ -26,7 +26,7 @@ export class Textbox extends React.Component<ITextbox> {
           {this.props.label}
         </label>
         <input
-          ref={this.props.forwardRef}
+          ref={this.props.forwardref}
           disabled={this.props.disabled}
           autoComplete="off"
           type={this.props.type}

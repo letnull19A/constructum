@@ -2,8 +2,8 @@ import React from 'react'
 import './Button.scss'
 
 export interface IButtonProp {
-	label?: string
-	onClick?: () => void
+  label?: string | JSX.Element
+  onClick?: () => void
 }
 
 export class Button extends React.Component<IButtonProp> {

@@ -5,18 +5,16 @@ import { endSesison, sessionIsAvalible, startSession } from '../../services/serv
 import { generateJwtSet, isVerifyRefreshToken } from '../../services/service.jwt.js'
 import path, { dirname } from 'path'
 import fs from 'fs'
-import { IJwtPayload } from '../../interfaces/IJwtPayload.js'
-import { IJwtSet } from '../../interfaces/IJwtSet.js'
+import { IJwtPayload } from 'constructum-interfaces'
 import { $log as logger } from '@tsed/logger'
-import { Types } from 'mongoose'
 
 export const refreshRoute = express.Router()
 
 logger.name = 'REFRESH'
 
-refreshRoute.get('', async (req, res) => {
+refreshRoute.post('', async (req, res) => {
   try {
-    const { refresh } = req.body as IJwtSet
+    const { refresh } = req.body
 
     if ((await sessionIsAvalible(refresh)) && isVerifyRefreshToken({ refresh })) {
       const pathToKey = path.join(dirname('.'), './keys/key.secret.pub')
@@ -27,7 +25,7 @@ refreshRoute.get('', async (req, res) => {
       const decoded = jwt.verify(refresh?.toString() ?? '', privateKey) as IJwtPayload
 
       const payload: IJwtPayload = {
-        id: new Types.ObjectId(decoded.id),
+        id: decoded.id,
         name: decoded.name,
         email: decoded.email,
         surname: decoded.surname,

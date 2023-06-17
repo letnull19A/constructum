@@ -3,7 +3,6 @@ import { Button, Content, Footer, Form, Header, Textbox } from '../../components
 import { useTitle } from '../../hooks/hook.use-title'
 import { LayoutFlat } from '../../layouts/layout.flat'
 import { Method, useHttp } from '../../hooks/hook.use-http'
-import qs from 'qs'
 import { useNavigate } from 'react-router-dom'
 
 export const Registration = () => {
@@ -33,9 +32,9 @@ export const Registration = () => {
         url: 'http://localhost:7161/api/registration',
         headers: {
           Authorization: 'Bearer 0',
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
         },
-        data: qs.stringify({
+        data: JSON.stringify({
           name: nameFieldRef.current.value,
           surname: surnameFieldRef.current.value,
           email: emailFieldRef.current.value,
@@ -68,18 +67,18 @@ export const Registration = () => {
       <Header />
       <Content className="login-content">
         <Form className="login-form" formTitle="Регистрация">
-          <Textbox forwardRef={nameFieldRef} label="Ваше имя" placeholder="К примеру: Алексей" dangerText="" />
-          <Textbox forwardRef={surnameFieldRef} label="Ваше фамилия" placeholder="К примеру: Алексеев" dangerText="" />
-          <Textbox forwardRef={loginFieldRef} label="Никнейм" placeholder="К примеру: _Xarlein_" dangerText="" />
+          <Textbox forwardref={nameFieldRef} label="Ваше имя" placeholder="К примеру: Алексей" dangerText="" />
+          <Textbox forwardref={surnameFieldRef} label="Ваше фамилия" placeholder="К примеру: Алексеев" dangerText="" />
+          <Textbox forwardref={loginFieldRef} label="Никнейм" placeholder="К примеру: _Xarlein_" dangerText="" />
           <Textbox
-            forwardRef={emailFieldRef}
+            forwardref={emailFieldRef}
             type="email"
             label="E-Mail"
             placeholder="К примеру: alex@mail.ru"
             dangerText=""
           />
-          <Textbox forwardRef={passwordFieldRef} type="password" label="Пароль" dangerText="" />
-          <Textbox forwardRef={confirmPasswordFieldRef} type="password" label="Подтвердите пароль" dangerText="" />
+          <Textbox forwardref={passwordFieldRef} type="password" label="Пароль" dangerText="" />
+          <Textbox forwardref={confirmPasswordFieldRef} type="password" label="Подтвердите пароль" dangerText="" />
           <Button onClick={handleRegistration} label="Зарегистрироваться" />
         </Form>
       </Content>

@@ -6,6 +6,11 @@ export interface ICardProps {
   className?: string
 }
 
+export interface ICardElement {
+  children?: JSX.Element[] | string | React.ReactNode
+  className?: string
+}
+
 export const Card = (props: ICardProps) => {
   let cardTitle
   let cardImage
@@ -42,18 +47,18 @@ export const Card = (props: ICardProps) => {
   )
 }
 
-export const CardHead = (props: ICardProps) => {
+export const CardHead = (props: ICardElement) => {
   return <div className={`card-head ${props.className}`}>{props.children}</div>
 }
 
-export const CardImage = (props: ICardProps) => {
+export const CardImage = (props: ICardElement) => {
   return <div className={`card-image ${props.className}`}>{props.children}</div>
 }
 
-export const CardContent = (props: ICardProps) => {
+export const CardContent = (props: ICardElement) => {
   return <div className={`card-content ${props.className}`}>{props.children}</div>
 }
 
-export const CardFooter = (props: ICardProps) => {
+export const CardFooter = (props: ICardElement) => {
   return <div className={`card-footer ${props.className}`}>{props.children}</div>
 }

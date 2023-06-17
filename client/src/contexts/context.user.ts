@@ -1,9 +1,9 @@
 import { createContext } from 'react'
-import { IJwtPayload } from '../interfaces'
+import { IJwtPayload } from 'constructum-interfaces'
 
 export interface IUserContext {
   isAuthenticated: boolean | undefined
-  user: IJwtPayload | null
+  user: IJwtPayload
   setUser: (user: IJwtPayload | null) => void
   setIsAuthenticated: (isAuthenticated: boolean) => void
 }

@@ -1,6 +1,10 @@
-import axios, { AxiosError } from 'axios'
+import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
+import qs from 'qs'
 import { useState } from 'react'
 
+/**
+ * @description Перечисление с методами отправки запросов
+ */
 export enum Method {
 	GET = 'GET',
 	POST = 'POST',
@@ -8,67 +12,112 @@ export enum Method {
 	DELETE = 'DELETE'
 }
 
+/**
+ * @description интерфейс http запроса на сервер
+ * @member url - url сайта
+ * @member params - параметры запроса
+ * @member headers - заголовки запроса
+ * @member data - отправляемые данные
+ */
 export interface IHttpQuery {
-	url: string
-	params?: any
-	data?: any
-	method: Method
-	headers?: any
+  url: string
+  params?: any
+  data?: any
+  method: Method | string
+  headers?: any
+}
+
+/**
+ * @description интерфейс с данными интерсепторов
+ * @member onResponse - выполняется при ответе
+ * @member onRequest - выполняется при запросе
+ * @member onError - выполняется при ошибке
+ */
+export interface IInterceptors {
+  onResponse?: (response: AxiosResponse) => AxiosResponse
+  onRequest?: (config: InternalAxiosRequestConfig) => InternalAxiosRequestConfig
+  onError?: (error: AxiosError) => Promise<AxiosError<unknown, any>>
+}
+
+export function setupInterceptorsTo(axiosInstance: AxiosInstance, interceptors?: IInterceptors): AxiosInstance {
+  axiosInstance.interceptors.request.use(interceptors?.onRequest, interceptors?.onError)
+  axiosInstance.interceptors.response.use(interceptors?.onResponse, interceptors?.onError)
+  return axiosInstance
 }
 
 export const useHttp = () => {
-	const [response, setResponse] = useState(null)
-	const [statusCode, setStatusCode] = useState<number | undefined>()
-	const [error, setError] = useState<string | null>(null)
-	const [loading, setLoading] = useState<boolean>(false)
+  const [response, setResponse] = useState(null)
+  const [statusCode, setStatusCode] = useState<number | undefined>()
+  const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState<boolean>(false)
 
-	const request = async (data: IHttpQuery): Promise<void> => {
-		await axios({ ...data })
-			.then((res) => {
-				setStatusCode(res.status)
-				setResponse(res.data)
-				setLoading(false)
-				setError(null)
-			})
-			.catch((error: AxiosError) => {
-				setError(error.message)
-				setStatusCode(error.status)
-			})
-	}
+  const request = async (data: IHttpQuery): Promise<AxiosResponse<any, any> | undefined> => {
+    try {
+      const r = axios.create()
+      const res = await r.request({ ...data })
 
-	const requestWithInterspectors = (data: IHttpQuery) => {
-		const instance = axios.create({ ...data })
+      setStatusCode(res.status)
+      setResponse(res.data)
+      setLoading(false)
+      setError(null)
 
-		instance.interceptors.request.use((config) => {
-			config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
-			return config
-		})
+      return res
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setError(error.message)
+        setStatusCode(error.status)
+      }
+    }
+  }
 
-		instance.interceptors.response.use(
-			(config) => config,
-			async (error) => {
-				const originalRequest = error.config
+  const requestWithInterceptors = async (data: IHttpQuery, interceptors?: IInterceptors) => {
+    let axiosInstance: AxiosInstance = axios.create()
 
-				if (error.response.status === 401 && error.config && error.config._isRetry) {
-					originalRequest._isRetry = true
-					try {
-						request({
-							url: 'http://localhost:7161/api/refresh',
-							method: Method.GET,
-							headers: {
-								Authorization: `Bearer ${localStorage.getItem('token')}`,
-								'Content-Type': 'application/x-www-form-urlencoded'
-							}
-						})
+    const tokens = JSON.parse(localStorage.getItem('token') ?? '{}')
+    axiosInstance = setupInterceptorsTo(axiosInstance)
 
-						return instance.request(originalRequest)
-					} catch (e) {
-						console.log(e)
-					}
-				}
-			}
-		)
-	}
+    await axiosInstance(data)
+      .then((res) => {
+        setStatusCode(res.status)
+        setResponse(res.data)
+        setLoading(false)
+        setError(null)
+        if (interceptors?.onRequest !== undefined && interceptors?.onResponse !== undefined) {
+          interceptors?.onRequest(res.request)
+          interceptors?.onResponse(res)
+        }
+      })
+      .catch(async (error) => {
+        setError(error.response.data)
+        setStatusCode(error.response.status)
 
-	return { requestWithInterspectors, request, response, error, statusCode, loading }
+        if (interceptors?.onError !== undefined) interceptors?.onError(error)
+
+        if (error instanceof AxiosError && error.response?.status === 401 && error.config) {
+          try {
+            await request({
+              url: 'http://localhost:7161/api/refresh',
+              method: Method.POST,
+              data: qs.stringify({ refresh: tokens.refresh }),
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+              },
+            })
+              .then((res) => {
+                localStorage.setItem('token', JSON.stringify(res?.data))
+              })
+              .catch((error) => console.error(error))
+          } catch (err) {
+            if (err instanceof AxiosError) {
+              if (err.status === 401) {
+                console.log(response)
+              }
+            }
+            console.error(err)
+          }
+        }
+      })
+  }
+
+  return { request, requestWithInterceptors, response, error, statusCode, loading }
 }
