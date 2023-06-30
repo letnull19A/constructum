@@ -7,6 +7,7 @@ import './Login.scss'
 import { useNavigate } from 'react-router-dom'
 import { useUserContext } from '../../hooks/hook.user-context'
 import { IAuthResponse } from 'constructum-interfaces'
+import qs from 'qs'
 
 export const Login = () => {
 	useTitle('Войти')
@@ -23,14 +24,14 @@ export const Login = () => {
 
 			request({
 				method: Method.POST,
-				url: 'http://localhost:7161/api/auth',
+				url: 'http://localhost:3005/api/auth',
 				headers: {
 					Authorization: 'Bearer 0'
 				},
-				data: {
+				data: qs.stringify({
 					login: login,
 					password: password
-				}
+				})
 			})
 		}
 	}

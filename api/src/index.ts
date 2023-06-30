@@ -22,26 +22,26 @@ app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/api', router)
 
-mongoConnect()
-  .then(() => {
-    logger.info('mongodb connected')
-  })
-  .catch((err) => {
-    logger.error(err)
-  })
-  .finally(() => mongoDisconnect())
-
-redisConnect()
-  .then(() => {
-    logger.info('redis connected')
-  })
-  .catch((err) => {
-    logger.error(err)
-  })
-  .finally(() => redisDisconnect())
-
 app.listen(port, () => {
   console.clear()
+
+  mongoConnect()
+    .then(() => {
+      logger.info('mongodb connected')
+    })
+    .catch((err) => {
+      logger.error(err)
+    })
+    .finally(() => mongoDisconnect())
+
+  redisConnect()
+    .then(() => {
+      logger.info('redis connected')
+    })
+    .catch((err) => {
+      logger.error(err)
+    })
+    .finally(() => redisDisconnect())
 
   logger.info(`server started on port: ${port}`)
   logger.info(`server started with mode: ${env.NODE_ENV}`)

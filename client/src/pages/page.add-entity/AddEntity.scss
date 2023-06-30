@@ -1,0 +1,20 @@
+@import './../../scss/style.variables.scss';
+
+.add-entity-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 64px repeat(9, 1fr);
+
+  .add-form {
+    grid-column: 2/3;
+    grid-row: 2/5;
+    height: auto;
+    padding: 30px;
+
+    .textbox {
+      display: grid;
+      grid-column: 2/3;
+      grid-row: 2/3;
+    }
+  }
+}

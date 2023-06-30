@@ -6,6 +6,7 @@ import { Method, useHttp, IInterceptors } from '../../hooks/hook.use-http'
 import { useNavigate } from 'react-router-dom'
 import { IJwtPayload, IJwtSet, IProjectCreate } from 'constructum-interfaces'
 import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
+import qs from 'qs'
 
 export const AddProject = () => {
   useTitle('Создание нового проекта')
@@ -31,19 +32,20 @@ export const AddProject = () => {
         onError: async (error: AxiosError) => {
           const original = error.config
 
-          const formData = new FormData()
-          formData.append('refresh', userTokens.refresh)
+          const data = qs.stringify({
+            refresh: userTokens.refresh,
+          })
 
           if (error.code === AxiosError.ERR_BAD_REQUEST) {
             const response = await request({
-              url: 'http://localhost:7161/api/refresh',
-              method: Method.GET,
-              data: formData,
+              url: 'http://localhost:3005/api/refresh',
+              method: Method.POST,
+              data: data,
             })
 
             console.log(response)
 
-            // localStorage.setItem('token', response)
+            //localStorage.setItem('token', response)
             // request({ url: original?.url ?? '', method: Method.POST })
           }
 

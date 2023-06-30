@@ -5,7 +5,7 @@ import { encryptPassword } from '../../services/index.js'
 
 export const registrationRoute = express.Router()
 
-registrationRoute.post('/registration', async (req, res) => {
+registrationRoute.post('', async (req, res) => {
   const { name, surname, login, password, repassword, email } = req.body
 
   if (password !== repassword) {

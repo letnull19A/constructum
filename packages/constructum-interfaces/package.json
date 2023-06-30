@@ -1,15 +1,20 @@
 {
   "name": "constructum-interfaces",
-  "version": "0.0.1",
+  "version": "0.0.2.6",
   "description": "interfaces for constructum.io",
   "main": "./dist/index.js",
   "typings": "./@types/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pkgi": "npm i",
+    "build": "npx tsc"
   },
   "author": "letnull19a",
   "license": "ISC",
   "devDependencies": {
     "typescript": "^5.1.3"
+  },
+  "dependencies": {
+    "mongoose": "^7.3.1"
   }
 }

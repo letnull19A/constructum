@@ -4,19 +4,29 @@ import { $log as logger } from '@tsed/logger'
 
 export const client = createClient({ url: env.REDIS_URL })
 
-export const connect = async () => {
-  client.on('error', (err) => logger.error(err))
-  client.on('ready', () => logger.info('Redis is ready'))
+logger.name = 'REDIS'
 
-  if (!client.isOpen) {
-    await client.connect()
+export const connect = async () => {
+  try {
+    client.on('error', (err) => logger.error(err))
+
+    if (!client.isOpen) {
+      logger.info(`connected now ${client.info}`)
+      await client.connect()
+    }
+  } catch (error) {
+    logger.error(error)
   }
 }
 
 export const disconnect = async () => {
-  client.on('error', (err) => logger.error(err))
+  try {
+    client.on('error', (err) => logger.error(err))
 
-  if (client.isOpen) {
-    await client.disconnect()
+    if (client.isOpen) {
+      await client.QUIT()
+    }
+  } catch (error) {
+    logger.error(error)
   }
 }

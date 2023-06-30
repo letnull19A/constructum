@@ -1,6 +1,10 @@
 import { Router } from 'express'
-import { authRoute } from './route.auth'
+import { authRoute } from './route.authorization'
+import { refreshRoute } from './route.refresh'
 
-export const router = Router()
+const router = Router()
 
 router.use(authRoute)
+router.use('/refresh', refreshRoute)
+
+export default router

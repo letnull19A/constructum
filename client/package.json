@@ -7,9 +7,16 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --fix --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "pkgi": "npm i",
+    "pkgup": "npm update"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-brands-svg-icons": "^6.4.0",
+    "@fortawesome/free-regular-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@types/constructum-interfaces": "file:../packages/@types/constructum-interfaces",
     "@types/qs": "^6.9.7",
     "@types/react-router-dom": "^5.3.3",
@@ -18,6 +25,7 @@
     "konva": "^9.0.2",
     "qs": "^6.11.2",
     "react": "^18.2.0",
+    "react-bootstrap-icons": "^1.10.3",
     "react-dom": "^18.2.0",
     "react-konva": "^18.2.8",
     "react-router-dom": "^6.11.2",

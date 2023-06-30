@@ -2,12 +2,13 @@ import { isValidElement } from 'react'
 import './Card.scss'
 
 export interface ICardProps {
-  children?: JSX.Element[]
+  style?: React.CSSProperties | undefined
+  children?: JSX.Element | JSX.Element[] | string
   className?: string
 }
 
 export interface ICardElement {
-  children?: JSX.Element[] | string | React.ReactNode
+  children?: JSX.Element | string | React.ReactNode
   className?: string
 }
 
@@ -17,32 +18,36 @@ export const Card = (props: ICardProps) => {
   let cardContent
   let cardFooter
 
-  props.children?.forEach((child) => {
-    if (isValidElement(child) && typeof child?.type === 'function') {
-      switch (child.type.name) {
-        case 'CardHead':
-          cardTitle = child
-          break
-        case 'CardImage':
-          cardImage = child
-          break
-        case 'CardContent':
-          cardContent = child
-          break
-        case 'CardFooter':
-          cardFooter = child
-          break
-        default:
-          break
+  if (props.children instanceof Array) {
+    props.children?.forEach((child) => {
+      if (isValidElement(child) && typeof child?.type === 'function') {
+        switch (child.type.name) {
+          case 'CardHead':
+            cardTitle = child
+            break
+          case 'CardImage':
+            cardImage = child
+            break
+          case 'CardContent':
+            cardContent = child
+            break
+          case 'CardFooter':
+            cardFooter = child
+            break
+          default:
+            break
+        }
       }
-    }
-  })
+    })
+  } else {
+    cardContent = props.children
+  }
   return (
-    <div className={`card ${props.className}`}>
-      <div className="card-image">{cardImage}</div>
-      <div className="card-title">{cardTitle}</div>
-      <div className="card-content">{cardContent}</div>
-      <div className="card-footer">{cardFooter}</div>
+    <div style={props.style} className={`card ${props.className}`}>
+      {cardImage ? <div className="card-section-image">{cardImage}</div> : null}
+      {cardTitle ? <div className="card-section-title">{cardTitle}</div> : null}
+      {cardContent ? <div className="card-section-content">{cardContent}</div> : null}
+      {cardFooter ? <div className="card-section-footer">{cardFooter}</div> : null}
     </div>
   )
 }

@@ -4,36 +4,50 @@
   background-color: #fff;
   display: grid;
   grid-template-columns: 10px 1fr 10px;
-  grid-template-rows: 10px 1.5fr 0.5fr 1fr 0fr 10px;
+  grid-template-rows: 10px auto 10px 0.2fr 10px auto 10px 0.2fr 10px;
+  grid-auto-rows: max-content;
+  border: 1px solid black;
+  border-radius: 8px;
 
-  &-image {
+  &-section-image {
     grid-row: 1/3;
     grid-column: 1/4;
     background-color: #7d7d7d;
     border-radius: 7px 7px 0 0;
+    overflow: hidden;
   }
 
-  &-title,
-  &-footer,
-  &-content {
+  .card-image {
+    height: 100%;
+  }
+
+  &-section-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &-section-title,
+  &-section-footer,
+  &-section-content {
     grid-column: 2/3;
   }
 
-  &-title {
-    grid-row: 3/4;
+  &-section-title {
+    grid-row: 4/5;
     font-weight: 600;
     font-size: 1.1rem;
 
-    .card-head {
+    .card-section-head {
       line-height: 2.4rem;
     }
   }
 
-  &-content {
-    grid-row: 4/5;
+  &-section-content {
+    grid-row: 6/7;
   }
 
-  &-footer {
-    grid-row: 5/6;
+  &-section-footer {
+    grid-row: 8/9;
   }
 }

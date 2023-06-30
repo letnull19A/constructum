@@ -1,30 +1,36 @@
 import { client, connect, disconnect } from '../database/database.redis.js'
 import { $log as logger } from '@tsed/logger'
 
-export const startSession = async (key: string | undefined, payload: string) => {
-  if (key === undefined) {
-    throw new Error('Ключ не определён')
-  }
+logger.name = 'SERVICE_SESSION'
 
-  await client.set(key, payload)
+export const startSession = async (key: string | undefined, payload: string) => {
+	if (key === undefined) {
+		throw new Error('Ключ не определён')
+	}
+
+	await connect()
+	await client.set(key, payload)
+	await disconnect()
 }
 
 export const endSesison = async (key: string) => {
-  await client.del(key)
+	await connect()
+	await client.del(key)
+	await disconnect()
 }
 
 export const sessionIsAvalible = async (key: string): Promise<boolean> => {
-  try {
-    await connect()
+	try {
+		await connect()
 
-    const jwtToken = await client.get(key)
+		const jwtToken = await client.get(key)
 
-    return jwtToken !== null && jwtToken !== undefined && jwtToken !== ''
-  } catch (e) {
-    logger.error(e)
-  } finally {
-    await disconnect()
-  }
+		await disconnect()
 
-  return false
+		return jwtToken !== null && jwtToken !== undefined && jwtToken !== ''
+	} catch (e) {
+		logger.error(e)
+	}
+
+	return false
 }

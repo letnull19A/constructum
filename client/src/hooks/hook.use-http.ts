@@ -45,8 +45,8 @@ export function setupInterceptorsTo(axiosInstance: AxiosInstance, interceptors?:
   return axiosInstance
 }
 
-export const useHttp = () => {
-  const [response, setResponse] = useState(null)
+export const useHttp = <T>() => {
+  const [response, setResponse] = useState<T | null>(null)
   const [statusCode, setStatusCode] = useState<number | undefined>()
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
@@ -57,7 +57,7 @@ export const useHttp = () => {
       const res = await r.request({ ...data })
 
       setStatusCode(res.status)
-      setResponse(res.data)
+      setResponse(res.data as T)
       setLoading(false)
       setError(null)
 
@@ -79,7 +79,7 @@ export const useHttp = () => {
     await axiosInstance(data)
       .then((res) => {
         setStatusCode(res.status)
-        setResponse(res.data)
+        setResponse(res.data as T)
         setLoading(false)
         setError(null)
         if (interceptors?.onRequest !== undefined && interceptors?.onResponse !== undefined) {
@@ -96,15 +96,17 @@ export const useHttp = () => {
         if (error instanceof AxiosError && error.response?.status === 401 && error.config) {
           try {
             await request({
-              url: 'http://localhost:7161/api/refresh',
+              url: 'http://localhost:11261/api/refresh',
               method: Method.POST,
               data: qs.stringify({ refresh: tokens.refresh }),
               headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
               },
             })
-              .then((res) => {
-                localStorage.setItem('token', JSON.stringify(res?.data))
+              .then(async (res) => {
+                if (res?.data !== undefined) {
+                  localStorage.setItem('token', JSON.stringify(res?.data))
+                }
               })
               .catch((error) => console.error(error))
           } catch (err) {

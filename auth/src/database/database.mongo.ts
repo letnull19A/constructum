@@ -4,14 +4,21 @@ import { env } from 'process'
 
 type MongoConnection = Promise<Mongoose | undefined>
 
+logger.name = 'MONGO'
+
 export const connect = async (): MongoConnection => {
   try {
-    return await mongoose.connect(env.MONGO_CONNECTION as string)
+    logger.info(`(connect) connections now: ${mongoose.connections.length}`)
+
+    return await mongoose.connect(env.MONGO_URL as string)
   } catch (e) {
     logger.error(e)
   }
 }
 
 export const disconnect = async () => {
-  await mongoose.connection.close()
+  logger.info(`(disconnect) connections now: ${mongoose.connections.length}`)
+  if (mongoose.connection !== undefined) {
+    await mongoose.disconnect()
+  }
 }
