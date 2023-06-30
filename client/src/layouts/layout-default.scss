@@ -1,11 +1,19 @@
 @import './../scss/style.variables.scss';
 
+$menu-height: calc(100vh - $header-height - $gap - $footer-height);
+$full-menu-width: calc($menu-width + $gap * 2);
+
 .layout-default {
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: $gap 1fr $gap $gap 1fr 1fr 1fr 1fr $gap;
-  grid-template-rows: $header-height $gap calc(100vh - $header-height - $footer-height - $gap * 2) $footer-height $gap;
+  grid-template-columns: $gap $menu-width $gap $gap 1fr 1fr 1fr 1fr $gap;
+  grid-template-rows:
+    $header-height
+    $gap
+    calc(100vh - $header-height - $footer-height - $gap * 2)
+    $footer-height
+    $gap;
 
   .layout-header {
     width: 100%;
@@ -13,21 +21,30 @@
     z-index: 9;
     grid-column: 1/10;
     grid-row: 1/2;
+    position: fixed;
   }
 
   .layout-menu {
     z-index: 8;
     grid-column: 1/4;
     grid-row: 2/4;
+    position: fixed;
+    top: $header-height;
+    width: $full-menu-width;
+    height: $menu-height;
   }
 
   .layout-content {
-    grid-row: 3/6;
+    grid-row: 3/5;
     grid-column: 5/9;
   }
 
   .layout-footer {
     grid-column: 1/4;
     grid-row: 4/6;
+    position: fixed;
+    top: calc(100vh - $footer-height - $gap);
+    height: $footer-height + $gap;
+    width: $full-menu-width;
   }
 }

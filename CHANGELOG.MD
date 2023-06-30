@@ -1,3 +1,32 @@
+## v_0.0.1.snapshot.6
+
+### добавлено
+
+- интерфейс в пакете constructum-interfaces IMetaBase
+- интерфейс в пакете constructum-interfaces IMetaData
+- интерфейс в пакете constructum-interfaces IFieldData
+- интерфейс в пакете constructum-interfaces IEntity
+- интерфейс в пакете constructum-interfaces IProjectData
+- интерфейс в пакете constructum-interfaces IVersion
+- интерфейс в пакете constructum-interfaces IProject
+- страница аккаунта
+- страница обзора проекта
+- страница добавления сущности
+- страница конструктора сущности
+
+### фиксы
+
+- отсоединение от сервера redis
+
+### рефакторинг
+
+- хук useHttp работает с generic'ами
+
+### общие изменения
+
+дата изменения: 30.06.2023
+издатель: letnull19a
+
 ## v_0.0.1.snapshot.5
 
 ### добавлено

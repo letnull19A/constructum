@@ -4,7 +4,7 @@ import { client, connect, disconnect } from '../../database/database.redis.js'
 
 export const logoutRoute = express.Router()
 
-logoutRoute.post('/logout', isAuth, async (req, res) => {
+logoutRoute.post('', isAuth, async (req, res) => {
   try {
     const authorizationHeader = req.headers['authorization']
     const userId = authorizationHeader?.split(' ')[1] ?? ''

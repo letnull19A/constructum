@@ -5,13 +5,12 @@ import { connect as redisConnect, disconnect as redisDisconnect } from '../../da
 import { generateJwtSet } from '../../services/index.js'
 import { comparePassword } from '../../services/service.salt.js'
 import { startSession } from '../../services/service.session.js'
-import { isNotAuth } from '../../middlewares/middleware.not-auth.js'
 import { $log as logger } from '@tsed/logger'
 import { IJwtPayload, IAuthResponse } from 'constructum-interfaces'
 
 export const authRoute = express.Router()
 
-authRoute.post('/auth', isNotAuth, async (req, res) => {
+authRoute.post('', async (req, res) => {
   const { login, password } = req.body
 
   await mongoConnect()
@@ -44,8 +43,6 @@ authRoute.post('/auth', isNotAuth, async (req, res) => {
       const jwtTokens = await generateJwtSet(payload)
 
       await startSession(jwtTokens.refresh.toString(), JSON.stringify(jwtTokens))
-      await redisDisconnect()
-      await mongoDisconnect()
 
       const response: IAuthResponse = {
         tokens: jwtTokens,
@@ -56,5 +53,9 @@ authRoute.post('/auth', isNotAuth, async (req, res) => {
     })
     .catch((err) => {
       logger.error(err)
+    })
+    .finally(async () => {
+      await redisDisconnect()
+      await mongoDisconnect()
     })
 })

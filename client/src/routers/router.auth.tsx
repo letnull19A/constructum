@@ -1,9 +1,9 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
-import { Header, Menu, Footer, Canvas } from '../components'
+import { Header, Menu, Footer, Canvas, Content } from '../components'
 import { LayoutDefault } from '../layouts/layout.default'
 import { Projects } from '../pages/page.projects/Projects'
-import { Project } from '../components/component.project/Project'
 import { AddProject } from '../pages/page.add-project/AddProject'
+import { Account, AddEntity, EntityConstructor, ViewProject } from '../pages'
 
 export const RequireAuth = ({ children }: { children: JSX.Element }) => {
   const location = useLocation()
@@ -38,13 +38,24 @@ export const AuthRouting = () => {
       />
       <Route
         path="/scheme"
-        element={<LayoutDefault header={<Header />} menu={<Menu />} content={<Canvas />} footer={<Footer />} />}
+        element={
+          <RequireAuth>
+            <LayoutDefault>
+              <Header />
+              <Menu />
+              <Content>
+                <Canvas />
+              </Content>
+              <Footer />
+            </LayoutDefault>
+          </RequireAuth>
+        }
       />
       <Route
         path="/account"
         element={
           <RequireAuth>
-            <LayoutDefault header={<Header />} menu={<Menu />} content={<p>Account</p>} footer={<Footer />} />
+            <Account />
           </RequireAuth>
         }
       />
@@ -52,7 +63,23 @@ export const AuthRouting = () => {
         path="/project/:id"
         element={
           <RequireAuth>
-            <LayoutDefault header={<Header />} menu={<Menu />} content={<Project />} footer={<Footer />} />
+            <ViewProject />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="project/:id/entities/add"
+        element={
+          <RequireAuth>
+            <AddEntity />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="project/:id/entities/:entity_id/constructor"
+        element={
+          <RequireAuth>
+            <EntityConstructor />
           </RequireAuth>
         }
       />

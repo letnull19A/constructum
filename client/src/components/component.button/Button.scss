@@ -1,5 +1,16 @@
+@use "sass:color";
+@import './../../scss/style.variables.scss';
+
 button.button {
   width: 100%;
   padding: 14px;
   border-radius: 8px;
+  border: 1px solid #3c3c3c;
+  background-color: $cl-primary;
+  color: #fff;
+  cursor: pointer;
+
+  &:hover {
+    background-color: lighten($cl-primary, 10);
+  }
 }

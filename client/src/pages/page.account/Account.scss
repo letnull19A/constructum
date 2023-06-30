@@ -1,0 +1,63 @@
+@import './../../scss/style.variables.scss';
+
+.fw-icon {
+  width: 32px;
+}
+
+.account-content {
+  height: fit-content;
+  display: grid;
+  gap: $gap;
+  grid-template-columns: $profile-section-width 2fr;
+
+  .profile-section {
+    width: $profile-section-width;
+    height: fit-content;
+    gap: $gap;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    position: fixed;
+  }
+
+  .profile {
+    grid-column: 1/2;
+    grid-row: 1/2;
+  }
+
+  .profile-contacts {
+    display: grid;
+    grid-column: 1/2;
+    grid-row: 2/3;
+    grid-template-rows: 10px 40px 10px 1fr 10px;
+
+    .card-section-title {
+      grid-row: 2/3;
+    }
+
+    .card-section-content {
+      grid-row: 4/5;
+    }
+  }
+
+  .grid-desk {
+    display: grid;
+    gap: 10px;
+    grid-column: 2/4;
+    grid-row: 1;
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+
+    .section {
+      display: grid;
+      gap: 10px;
+      grid-template-rows: 40px auto;
+
+      .cards {
+        gap: 10px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-auto-rows: 120px;
+      }
+    }
+  }
+}

@@ -5,6 +5,7 @@ import publicRouter from './routes/index.js'
 import bodyParser from 'body-parser'
 import { env } from 'process'
 import { connect as redisConnect, disconnect } from './database/database.redis.js'
+import cors from 'cors'
 
 logger.level = 'debug'
 logger.name = 'API'
@@ -15,6 +16,7 @@ const port = process.env.PORT | 3001
 
 const app = express()
 
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/api', publicRouter)
 
