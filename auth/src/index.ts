@@ -1,7 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import { $log as logger } from '@tsed/logger'
-import { router } from './routes/index.js'
+import router from './routes/index.js'
 import bodyParser from 'body-parser'
 import { env } from 'process'
 import { connect as redisConnect, disconnect } from './database/database.redis.js'
