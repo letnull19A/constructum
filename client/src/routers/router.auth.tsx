@@ -10,7 +10,9 @@ export const RequireAuth = ({ children }: { children: JSX.Element }) => {
 
   let element = children
 
-  if (localStorage.getItem('token') === null) {
+  const localStorageContent = localStorage.getItem('token')
+
+  if (localStorageContent === null || localStorageContent === '{}') {
     element = <Navigate to="/login" state={{ from: location }} replace />
   }
 

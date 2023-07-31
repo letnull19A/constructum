@@ -33,8 +33,8 @@ export class Textarea extends React.Component<ITextarea> {
           value={this.props.value}
           className={`
             ${this.props.className} 
-            ${this.props.isNotCorrect ? 'danger-input' : ''}
-            ${this.props.disabled ? 'disabled' : ''}`}
+            ${this.props.isNotCorrect ? ' danger-input ' : ''}
+            ${this.props.disabled ? ' disabled ' : ''}`}
           onChange={this.props.onChange}
         />
         <span

@@ -17,7 +17,7 @@ header.header {
     span {
       font-size: 1.9rem;
       height: 44px;
-      color: $cl-primary;
+      color: map-get($theme, 'primary');
     }
   }
 

@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
-import { Login, Registration } from '../pages'
+import { Accounts, Login, Registration } from '../pages'
 import { Main } from '../pages/page.main/Main'
 
 export const RequirePublic = ({ children }: { children: JSX.Element }) => {
@@ -7,9 +7,9 @@ export const RequirePublic = ({ children }: { children: JSX.Element }) => {
 
   let element = children
 
-  console.log(localStorage.getItem('token') !== null)
+  const localStorageContent = localStorage.getItem('token')
 
-  if (localStorage.getItem('token') !== null) {
+  if (localStorageContent !== null && localStorageContent !== '{}') {
     element = <Navigate to="/main" state={{ from: location }} replace />
   }
 
@@ -23,7 +23,7 @@ export const PublicRouting = () => {
         <Route key={index} path={path} element={<Main />} />
       ))}
       <Route
-        path="/login"
+        path="/login/:nickname?"
         element={
           <RequirePublic>
             <Login />
@@ -35,6 +35,14 @@ export const PublicRouting = () => {
         element={
           <RequirePublic>
             <Registration />
+          </RequirePublic>
+        }
+      />
+      <Route
+        path="/accounts"
+        element={
+          <RequirePublic>
+            <Accounts />
           </RequirePublic>
         }
       />

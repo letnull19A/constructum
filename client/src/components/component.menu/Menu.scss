@@ -15,7 +15,7 @@
     height: 100px;
 
     a {
-      color: $cl-primary;
+      color: map-get($theme, 'primary');
     }
   }
 }

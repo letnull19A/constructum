@@ -8,4 +8,21 @@ $profile-section-width: 330px;
  *  COLORS
  */
 
-$cl-primary: olivedrab;
+$theme: (
+	primary: rgb(128, 173, 36),
+	secondary: rgb(57, 156, 202),
+	danger: rgb(255, 76, 44),
+	warning: rgb(241, 216, 72),
+	magic: rgb(128, 42, 128),
+	dummy: pink
+);
+
+/*
+ *  FUNCTIONS
+ */
+
+ $threshold: 55%;
+
+ @function contrast-color($color, $dark, $light) {
+   @return if(lightness($color) < $threshold, $light, $dark)
+ }

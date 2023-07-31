@@ -38,7 +38,7 @@ refreshRoute.post('', async (req, res) => {
 
       await startSession(jwtTokens.refresh.toString(), JSON.stringify(jwtTokens))
 
-      disconnect()
+      await disconnect()
 
       res.status(200).json(jwtTokens)
     } else {

@@ -1,0 +1,51 @@
+@import './../../scss/style.variables.scss';
+
+.content-constructor {
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 48px min-content 32px;
+    row-gap: $gap;
+
+    h2.title {
+        grid-row: 1/2;
+        grid-column: 1/14;
+    }
+
+    .constructor-table {
+        height: fit-content;
+        grid-row: 2;
+        grid-column: 1/14;
+        border-spacing: 0;
+
+        thead {
+            background-color: rgb(214, 214, 214);
+            height: 64px;
+        }
+
+        tbody {
+
+            tr {
+                background-color: rgb(224, 224, 224);
+                height: 48px;
+
+                td {
+                    text-align: center;
+                    vertical-align: middle;
+                }
+            }
+        }
+    }
+
+    .constructor-controls {
+        display: grid;
+        grid-auto-columns: 120px 160px;
+        gap: $gap;
+        grid-auto-flow: column;
+    }
+
+    .field-description {
+        min-height: 80px;
+        height: auto;
+    }
+}

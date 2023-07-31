@@ -3,7 +3,7 @@ import { IJwtPayload } from 'constructum-interfaces'
 
 export interface IUserContext {
   isAuthenticated: boolean | undefined
-  user: IJwtPayload
+  user: IJwtPayload | null
   setUser: (user: IJwtPayload | null) => void
   setIsAuthenticated: (isAuthenticated: boolean) => void
 }

@@ -4,7 +4,8 @@ import './App.scss'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { AuthRouting } from '../../routers/router.auth'
 import { PublicRouting } from '../../routers/router.public'
-import {AuthContext, IJwtPayload, IUserContext} from '../../contexts/context.user'
+import {AuthContext, IUserContext} from '../../contexts/context.user'
+import { IJwtPayload } from 'constructum-interfaces'
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | undefined>()
@@ -16,7 +17,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsAuthenticated(
       localStorage.getItem('token') !== null &&
         localStorage.getItem('token') !== undefined &&
-        localStorage.getItem('token') !== '',
+        localStorage.getItem('token') !== '' &&
+        localStorage.getItem('token') !== '{}',
     )
     setUser(JSON.parse(localStorage.getItem('token') ?? '{}'))
   }, [])

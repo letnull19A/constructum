@@ -6,11 +6,14 @@ export interface ITextbox {
   placeholder?: string
   className?: string
   value?: string
+  defaultValue?: string
   label?: string
   disabled?: boolean
   forwardref?: LegacyRef<HTMLInputElement>
   dangerText?: string
   isNotCorrect?: boolean
+  min?: number
+  max?: number
   onChange?: React.ChangeEventHandler<HTMLInputElement> | undefined
 }
 
@@ -31,6 +34,7 @@ export class Textbox extends React.Component<ITextbox> {
           autoComplete="off"
           type={this.props.type}
           placeholder={this.props.placeholder}
+          defaultValue={this.props.defaultValue}
           value={this.props.value}
           className={`
             ${this.props.className} 

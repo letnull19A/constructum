@@ -1,0 +1,21 @@
+@import './../../scss/style.variables.scss';
+
+$card-width: 350px;
+
+.accounts-content {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 64px auto 1fr;
+
+    
+    .accounts-form {
+      grid-row: 2/3;
+      width: $card-width;
+      height: auto;
+  
+      .textbox:not(:last-child) {
+        margin-bottom: 12px;
+      }
+    }
+  }
+  
