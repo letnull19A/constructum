@@ -8,7 +8,7 @@ import { connect as redisConnect, disconnect } from './database/database.redis.j
 import cors from 'cors'
 
 logger.level = 'debug'
-logger.name = 'API'
+logger.name = 'AUTH'
 
 dotenv.config({ path: `./.env.${env.NODE_ENV}` })
 

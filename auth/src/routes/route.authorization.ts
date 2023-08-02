@@ -14,6 +14,16 @@ export const authRoute = express.Router()
 authRoute.post('/auth', isNotAuth, async (req, res) => {
   const { login, password } = req.body
 
+  if (login === undefined || login === '') {
+    res.status(400).send('login is undefined or empty')
+    return
+  }
+
+  if (password === undefined || password === '') {
+    res.status(400).send('password is undefined or empty')
+    return
+  }
+
   await mongoConnect()
   await redisConnect()
 

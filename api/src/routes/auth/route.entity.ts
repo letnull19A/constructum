@@ -10,7 +10,7 @@ export const entityRoute = express.Router()
 entityRoute.get('/:id/entities/:entity_id', async (req, res) => {
   const { id, entity_id } = req.params
 
-  await connect()
+  await connect() 
 
   await Project.find(
     { _id: new Types.ObjectId(id) },
