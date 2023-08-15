@@ -41,7 +41,7 @@ $card-width: calc(100% / $cards-in-row - $gap);
       justify-content: space-between;
 
       .card {
-        grid-template-rows: 10px 20px 10px 10px auto 10px;
+        grid-template-rows: 10px 20px 10px 10px auto 10px auto 10px;
       }
 
       .entity-card {
@@ -73,6 +73,10 @@ $card-width: calc(100% / $cards-in-row - $gap);
               line-height: 40px;
             }
           }
+        }
+
+        .card-section-footer {
+          grid-row: 7/8;
         }
       }
     }

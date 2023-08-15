@@ -7,6 +7,7 @@ import { isAuth } from '../middlewares/middleware.auth.js'
 import { refreshRoute } from './auth/route.refresh.js'
 import { userDataRoute } from './auth/route.user-data.js'
 import { entityRoute } from './auth/route.entity.js'
+import { fieldRoute } from './auth/route.field.js'
 import { isNotAuth } from '../middlewares/middleware.not-auth.js'
 
 const router = Router()
@@ -23,5 +24,6 @@ router.use('/logout', isAuth, logoutRoute)
 router.use('/user', isAuth, userDataRoute)
 router.use('/project', isAuth, projectRoute)
 router.use('/project', isAuth, entityRoute)
+router.use('/project', isAuth, fieldRoute)
 
 export default router

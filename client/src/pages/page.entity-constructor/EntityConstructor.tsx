@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react'
-import { Button, Content, Footer, Header, Menu, Textarea, Textbox } from '../../components'
+import { Button, Content, Footer, Header, Menu, Select, Textarea, Textbox } from '../../components'
 import { LayoutDefault } from '../../layouts/layout.default'
-import { IInterceptors, Method, useHttp } from '../../hooks/hook.use-http'
-import { IJwtSet, IProject } from 'constructum-interfaces'
-import { AxiosError } from 'axios'
+import { Method, useHttp } from '../../hooks/hook.use-http'
+import { IEntity, IFieldData, IJwtSet, IProjectData } from 'constructum-interfaces'
 import { useParams } from 'react-router-dom'
-import qs from 'qs'
 import './EntityConstructor.scss'
 import { useTitle } from '../../hooks/hook.use-title'
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid'
 
 interface IRowViewData {
-	name: String
-	type: String
+	isSelected: boolean
+	name: string
+	type: string
 	length: number
 	min?: number
 	max?: number
@@ -24,39 +23,27 @@ interface IRowViewData {
 export const EntityConstructor = () => {
 	useTitle('Конструктор сущности')
 
+	const dataTypes = ['string', 'integer', 'float', 'date', 'time', 'dateTime', 'timeStamp', 'char', 'uuid/guid']
+	const indexes = ['NONE', 'PrimaryKey', 'Unique', 'ForeignKey']
 	const [tableName, setTableName] = useState<string>()
-	const getFieldRequest = useHttp<Array<IProject>>()
+	const [rows, setRows] = useState<Array<IRowViewData>>()
+	const [removeRowsNumber, setRemoveRowsNumber] = useState<number>(0)
+	const getFieldRequest = useHttp<Array<IFieldData>>()
+	const getEntityRequest = useHttp<Array<IProjectData>>()
 	const userTokens = JSON.parse(localStorage.getItem('token') ?? '{}') as IJwtSet
 	const bearer = 'Bearer ' + userTokens.access
-	const { id, entity_id, field_id } = useParams()
-	const [rows, setRows] = useState<Array<IRowViewData>>()
-	const [selectedRows, setSelectedRows] = useState<Array<number>>()
+	const { id, entity_id } = useParams()
 
-	const interceptor: IInterceptors = {
-		onError: async (error: AxiosError) => {
-			const original = error.config
-
-			const data = qs.stringify({
-				refresh: userTokens.refresh
-			})
-
-			if (error.code === AxiosError.ERR_BAD_REQUEST) {
-				const response = await getFieldRequest.request({
-					url: 'http://localhost:3005/api/refresh',
-					method: Method.POST,
-					data: data
-				})
-
-				console.log(response?.data, response?.data.access)
-
-				localStorage.setItem(
-					'token',
-					JSON.stringify({ access: response?.data.access, refresh: response?.data.refresh })
-				)
-				getFieldRequest.request({ url: original?.url ?? '', method: original?.method ?? '' })
-			}
-
-			return await error
+	const toQueryObject = (row: IRowViewData) => {
+		return {
+			name: row.name,
+			type: row.type,
+			isNull: row.isNull,
+			indexes: [row.indexes],
+			description: row.description,
+			min: row.min,
+			max: row.max,
+			length: row.length
 		}
 	}
 
@@ -64,90 +51,179 @@ export const EntityConstructor = () => {
 		setRows((prev) => [
 			...prev,
 			{
+				isSelected: false,
 				name: '',
 				type: 'string',
-				length: 999,
+				length: 64,
 				isNull: false,
-				indexes: 'PrimaryKey'
+				indexes: 'NONE'
 			}
 		])
 	}
 
-	const turnForRemove = (index: number) => {
-		const isConsistInList = selectedRows?.find((o) => index === o)
+	const rowIsGUID = (row: IRowViewData) => row.type === 'uuid/guid'
 
-		console.log(isConsistInList)
+	const rowIsPrimaryKey = (row: IRowViewData) => row.indexes === indexes[1]
 
-		if (isConsistInList === undefined) {
-			console.log(index)
+	const rowIsNumber = (row: IRowViewData) => row.type === 'float' || row.type === 'integer' || row.type === 'number'
 
-			if (selectedRows?.length > 0) setSelectedRows((prev) => [...prev, index])
-			else setSelectedRows([index])
-			return
-		}
-
-		const origin = selectedRows
-
-		setSelectedRows(origin?.filter((p) => p !== index))
-	}
+	const rowIsChar = (row: IRowViewData) => row.type === 'char'
 
 	const removeRows = () => {
-		if (selectedRows !== undefined) {
-			
-			let originRows = rows
+		let originRows = rows
 
-			selectedRows.forEach((elm) => {
-				console.log(elm);
-				
-				originRows = originRows?.filter((_, index) => index !== elm)
-			})
+		originRows = originRows?.filter((element) => element.isSelected !== true)
 
-			setRows(prev => originRows)
-			setSelectedRows([])
-		}
+		setRows(originRows)
 	}
 
 	const updateRowName = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
 		let origin = rows
+
+		if (origin === undefined) return
+
 		origin[index].name = e.target.value
 
 		setRows([...origin])
 	}
 
+	const updateMinValue = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+		let origin = rows
+
+		if (origin === undefined) return
+
+		const value = parseInt(e.target.value)
+
+		origin[index].min = value > -1 && value < 9999 ? value : 0
+
+		setRows([...origin])
+	}
+
+	const updateMaxValue = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+		let origin = rows
+
+		if (origin === undefined) return
+
+		const value = parseInt(e.target.value)
+
+		const minValue = origin[index].min
+
+		origin[index].max = value > -1 && value < 9999 ? value : 0
+
+		if (minValue < origin[index].max) {
+			setRows([...origin])
+		}
+	}
+
+	const updateIndexes = (e: React.ChangeEvent<HTMLSelectElement>, index: number) => {
+		let origin = rows
+
+		if (origin === undefined) return
+
+		origin[index].indexes = e.target.value
+
+		setRows([...origin])
+	}
+
+	const updateTypeRow = (e: React.ChangeEvent<HTMLSelectElement>, index: number) => {
+		let origin = rows
+
+		if (origin === undefined) return
+
+		origin[index].type = e.target.value
+
+		setRows([...origin])
+	}
+
+	const updateSelection = (index: number) => {
+		let origin = rows
+
+		if (origin === undefined) return
+
+		origin[index].isSelected = !origin[index].isSelected
+
+		setRows([...origin])
+	}
+
+	const confirmChanges = () => {
+		if (rows === undefined) return
+
+		const readyData = rows.map((row) => toQueryObject(row))
+
+		getFieldRequest.requestWithInterceptors({
+			method: Method.POST,
+			url: `http://localhost:7161/api/project/${id}/entities/${entity_id}/fields`,
+			data: JSON.stringify(readyData),
+			headers: {
+				Authorization: bearer,
+				'Content-Type': 'application/json'
+			}
+		})
+	}
+
 	useEffect(() => {
-		getFieldRequest.requestWithInterceptors(
-			{
+		getFieldRequest.requestWithInterceptors({
+			method: Method.GET,
+			url: `http://localhost:7161/api/project/${id}/entities/${entity_id}/fields`,
+			headers: {
+				Authorization: bearer,
+				'Content-Type': 'application/x-www-form-urlencoded'
+			}
+		})
+
+		setTimeout(() => {
+			getEntityRequest.requestWithInterceptors({
 				method: Method.GET,
 				url: `http://localhost:7161/api/project/${id}/entities/${entity_id}`,
-				data: qs.stringify({}),
 				headers: {
 					Authorization: bearer,
 					'Content-Type': 'application/x-www-form-urlencoded'
 				}
-			},
-			interceptor
-		)
-
-		setRows([
-			{
-				name: 'id',
-				type: 'string',
-				length: 999,
-				isNull: false,
-				indexes: 'PrimaryKey'
-			}
-		])
+			})
+		}, 1000)
 	}, [])
 
 	useEffect(() => {
-		console.log('rows is updated!');
-	}, [rows])
+		if (getEntityRequest.response === null) return
+
+		setTableName(getEntityRequest.response[0].entities[0].name)
+	}, [getEntityRequest.response])
 
 	useEffect(() => {
-		setTableName(getFieldRequest.response?.[0].entities?.[0].name)
-	}, [getFieldRequest])
+		if (getFieldRequest.response !== undefined && getFieldRequest.response !== null) {
+			if (getFieldRequest.response.length === 0 || getFieldRequest.response.length === undefined) {
+				setRows([
+					{
+						isSelected: false,
+						name: 'id',
+						type: 'uuid/guid',
+						length: 32,
+						isNull: false,
+						indexes: 'PrimaryKey'
+					}
+				])
+			} else {
+				const originRows = getFieldRequest.response.map((element) => {
+					return {
+						isSelected: false,
+						name: element.field_name,
+						type: element.field_type,
+						length: element.field_length ?? 64,
+						isNull: element.isNull,
+						indexes: element.indexes[0],
+						description: element.description
+					}
+				})
 
-	const dataTypes = ['string', 'integer', 'float', 'date', 'time', 'dateTime', 'timeStamp', 'char']
+				setRows(originRows)
+			}
+		}
+	}, [getFieldRequest.response])
+
+	useEffect(() => {
+		setRemoveRowsNumber(rows?.filter((element) => element.isSelected === true).length || 0)
+		console.log('rows is updated!')
+	}, [rows])
 
 	return (
 		<LayoutDefault>
@@ -162,52 +238,68 @@ export const EntityConstructor = () => {
 							<th>#</th>
 							<th>Название</th>
 							<th>Тип</th>
-							<th>Длина</th>
-							<th>Мин.</th>
-							<th>Макс.</th>
+							<th width="100">Длина</th>
+							<th width="100">Мин.</th>
+							<th width="100">Макс.</th>
 							<th>NULL</th>
 							<th>Индексы</th>
 							<th>Описание</th>
 						</tr>
 					</thead>
 					<tbody>
-						{rows?.map((item, index) => (
+						{rows?.map((rowData, index) => (
 							<tr>
 								<td>
-									<input type="checkbox" onClick={() => turnForRemove(index)} />
+									<input
+										checked={rowData.isSelected}
+										key={uuidv4()}
+										type="checkbox"
+										onChange={() => updateSelection(index)}
+									/>
 								</td>
 								<td>
-									<Textbox onChange={(e) => updateRowName(e, index)} value={item.name.toString()} />
+									<Textbox
+										className="textbox-custom"
+										onChange={(e) => updateRowName(e, index)}
+										value={rowData.name.toString()}
+									/>
 								</td>
 								<td>
-									<select key={uuidv4()} defaultValue={item.type.toString()}>
-										<option>---</option>
-										{dataTypes.map((type) => (
-											<option>{type}</option>
-										))}
-									</select>
+									<Select items={dataTypes} onChange={(e) => updateTypeRow(e, index)} value={rowData.type.toString()} />
 								</td>
 								<td>
-									<Textbox type="number" min={0} max={100000} />
+									{!rowIsChar(rowData) && !rowIsNumber(rowData) && !rowIsGUID(rowData) && (
+										<Textbox key={uuidv4()} type="number" min={0} max={100000} value={rowData.length.toString()} />
+									)}
 								</td>
 								<td>
-									<Textbox type="number" min={0} max={100000} />
+									{rowIsNumber(rowData) && (
+										<Textbox
+											className="textbox-custom"
+											type="number"
+											min={0}
+											max={100000}
+											onChange={(e) => updateMinValue(e, index)}
+										/>
+									)}
 								</td>
 								<td>
-									<Textbox type="number" min={0} max={100000} />
+									{rowIsNumber(rowData) && (
+										<Textbox
+											className="textbox-custom"
+											type="number"
+											min={0}
+											max={100000}
+											onChange={(e) => updateMaxValue(e, index)}
+										/>
+									)}
+								</td>
+								<td>{!rowIsPrimaryKey(rowData) && <input type="checkbox" checked={rowData.isNull} />}</td>
+								<td>
+									<Select items={indexes} value={rowData.indexes} onChange={(e) => updateIndexes(e, index)} />
 								</td>
 								<td>
-									<input type="checkbox" />
-								</td>
-								<td>
-									<select>
-										<option>---</option>
-										<option>PrimaryKey</option>
-										<option>Foreign</option>
-									</select>
-								</td>
-								<td>
-									<Textarea className="field-description" />
+									<Textarea className="field-description textbox-custom" />
 								</td>
 							</tr>
 						))}
@@ -216,12 +308,13 @@ export const EntityConstructor = () => {
 				<div className="constructor-controls">
 					<Button
 						type="danger"
-						label={'Удалить (' + (selectedRows?.length !== undefined ? selectedRows?.length : 0) + ')'}
+						label={`Удалить (${removeRowsNumber !== undefined && removeRowsNumber >= 0 ? removeRowsNumber : 0})`}
 						onClick={() => {
 							removeRows()
 						}}
 					/>
-					<Button type="primary" label="Добавить поле" onClick={() => addRow()} />
+					<Button type="secondary" label="Добавить поле" onClick={() => addRow()} />
+					<Button type="primary" label="Применить" onClick={() => confirmChanges()} />
 				</div>
 			</Content>
 		</LayoutDefault>

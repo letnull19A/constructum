@@ -6,8 +6,10 @@ export interface IFieldData extends IMetaBase {
     _meta: IMetaData;
     field_name: string;
     field_type: string;
+    field_min?: number;
+    field_max?: number;
+    field_length?: number;
     isNull: boolean;
-    isPrimaryKey: boolean;
-    isForeignKey: boolean;
+    indexes: Array<string>;
     description: string;
 }

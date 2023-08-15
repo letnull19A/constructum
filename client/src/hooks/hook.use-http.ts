@@ -96,7 +96,7 @@ export const useHttp = <T>() => {
         if (error instanceof AxiosError && error.response?.status === 401 && error.config) {
           try {
             await request({
-              url: 'http://localhost:11261/api/refresh',
+              url: 'http://localhost:3005/api/refresh',
               method: Method.POST,
               data: qs.stringify({ refresh: tokens.refresh }),
               headers: {

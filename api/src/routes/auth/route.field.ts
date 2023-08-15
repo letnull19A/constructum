@@ -3,86 +3,148 @@ import { $log as logger } from '@tsed/logger'
 import Project from '../../schemas/scheme.project.js'
 import { Types } from 'mongoose'
 import { connect, disconnect } from '../../database/database.mongo.js'
-import { IEntity, IProject } from 'constructum-interfaces'
+import { IEntity, IFieldData, IProject } from 'constructum-interfaces'
 
-export const entityRoute = express.Router()
+export const fieldRoute = express.Router()
 
-entityRoute.get('/:id/entities/:entity_id/fields', async (req, res) => {
-  const { id, entity_id } = req.params
+fieldRoute.get('/:id/entities/:entity_id/fields', async (req, res) => {
+	const { id, entity_id } = req.params
 
-  await connect()
+	await connect()
 
-  await Project.find(
-    { _id: new Types.ObjectId(id) },
-    { entities: { $elemMatch: { _id: new Types.ObjectId(entity_id) }, fields: 1 } },
-  )
-    .then((result) => {
-      logger.debug(`project id: ${id}`)
+	await Project.findOne(
+		{ _id: new Types.ObjectId(id) },
+		{ entities: { $elemMatch: { _id: new Types.ObjectId(entity_id) } }, _id: 0 }
+	)
+		.then(async (result) => {
+			logger.debug(`project id: ${id}`)
 
-      res.status(200).send(result)
-    })
-    .catch((error) => {
-      logger.error(error)
-      res.status(400).send('Проект не найден!')
-    })
+			const entitiesResult = result?.entities
 
-  await disconnect()
+			if (entitiesResult === undefined) {
+				res.status(400).send()
+				await disconnect()
+				return
+			}
+
+			res.status(200).send(entitiesResult[0].fields)
+		})
+		.catch((error) => {
+			logger.error(error)
+			res.status(400).send('Проект не найден!')
+		})
+
+	await disconnect()
 })
 
-entityRoute.post('/:id/entities/:entity_id/fields', async (req, res) => {
-  const { id } = req.params
-  const { name } = req.body
+interface IQuery {
+	name: string
+	type: string
+	isNull: boolean
+	indexes: Array<string>
+	description: string
+	min: number
+	max: number
+	length: number
+}
 
-  await connect()
+fieldRoute.post('/:id/entities/:entity_id/fields', async (req, res) => {
+	try {
+		const { id, entity_id } = req.params
+		const data: Array<IQuery> = req.body
 
-  const project = await Project.findById(new Types.ObjectId(id))
+		await connect()
 
-  if (project === null) {
-    res.status(404).send('Project not found')
-    return
-  }
+		const target_project = await Project.findOne(
+			{
+				'_id': new Types.ObjectId(id),
+				'entities._id': new Types.ObjectId(entity_id)
+			}
+		)
 
-  const entityId = new Types.ObjectId()
+		logger.debug(target_project)
 
-  if (project.entities === undefined || project.entities === null) {
-    project.entities = new Array<IEntity>()
-  }
+		if (target_project === undefined || target_project === undefined) {
+			res.status(404).send('Project not found!')
+			return
+		}
 
-  const entity: IEntity = {
-    _id: entityId,
-    _meta: {
-      _id: entityId,
-      _version: {
-        major: 0,
-        minor: 0,
-        revision: 0,
-        build: 1,
-      },
-      _created: Date.now(),
-    },
-    name: name,
-    fields: [],
-  }
+		if (target_project?.entities === undefined) {
+			res.status(400).send('Project has no entities!')
+			return
+		}
 
-  project.entities.push({ ...entity })
+		const entityId = new Types.ObjectId(entity_id)
 
-  logger.debug(project)
+		const createField = (
+			name: string,
+			type: string,
+			isNull: boolean,
+			indexes: Array<string>,
+			description: string,
+			min: number,
+			max: number,
+			length: number
+		): IFieldData => {
+			return {
+				_id: entityId,
+				_meta: {
+					_id: entityId,
+					_version: {
+						major: 0,
+						minor: 0,
+						revision: 0,
+						build: 1
+					},
+					_created: Date.now()
+				},
+				field_name: name,
+				field_type: type,
+				field_min: min,
+				field_max: max,
+				field_length: length,
+				isNull: isNull,
+				indexes: indexes,
+				description: description
+			}
+		}
 
-  await project?.save()
+		const index = target_project.entities.findIndex((entity) => entity._id.toString() === entityId.toString())
 
-  await disconnect()
+		logger.debug(index)
 
-  logger.debug(`project id: ${id}`)
-})
+		target_project.entities[index].fields = new Array<IFieldData>()
 
-entityRoute.delete('/:id/entities/:entity_id/fields', (req, res) => {
-  const { id } = req.params
+		for (let i = 0; i < data.length; i++) {
+			target_project.entities[index].fields!.push(
+				createField(
+					data[i].name,
+					data[i].type,
+					data[i].isNull,
+					data[i].indexes,
+					data[i].description,
+					data[i].min,
+					data[i].max,
+					data[i].length
+				)
+			)
+		}
 
-  logger.debug(`project id: ${id}`)
-})
+		await Project.updateOne(
+			{
+				'_id': new Types.ObjectId(id),
+				'entities._id': new Types.ObjectId(entity_id)
+			},
+			target_project
+		)
 
-entityRoute.put('/:id/entities/:entity_id/fields', (req, res) => {
-  const { id } = req.params
+		await target_project.save()
 
-  logger.debug(`project id: ${id}`)
+		await disconnect()
+
+		res.status(200).send(target_project.entities[index].fields)
+	} catch (e) {
+		logger.error(e)
+		res.status(400).send('unknown error!')
+	}
 })

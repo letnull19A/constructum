@@ -64,7 +64,7 @@ entityRoute.post('/:id/entities', async (req, res) => {
   const entityId = new Types.ObjectId()
 
   if (project.entities === undefined || project.entities === null) {
-    project.entities = new Array<IEntity>()
+    project.entities = new Array<IEntity>() 
   }
 
   const entity: IEntity = {
@@ -87,7 +87,7 @@ entityRoute.post('/:id/entities', async (req, res) => {
 
   logger.debug(project)
 
-  await project?.save()
+  await project.save()
 
   await disconnect()
 

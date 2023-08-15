@@ -9,12 +9,12 @@ import cors from 'cors'
 
 logger.level = 'debug'
 logger.name = 'AUTH'
-
+ 
 dotenv.config({ path: `./.env.${env.NODE_ENV}` })
 
 const port = process.env.PORT | 3001
 
-const app = express()
+const app = express() 
 
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))

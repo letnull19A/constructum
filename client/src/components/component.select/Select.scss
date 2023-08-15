@@ -1,0 +1,18 @@
+.select-block {
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid rgba(146, 146, 146, 0.267);
+    background-color: rgb(247, 247, 247);
+    transition: 0.2s;
+    color: rgba(41, 41, 41, 0.932);
+
+    &:focus {
+      border: 2px solid rgba(143, 143, 143, 0.329);
+      box-shadow: 0 0 15px 0 rgba(114, 114, 114, 0.397);
+    }
+
+    option {
+        background-color: rgb(247, 247, 247);
+        padding: 10px;
+    }
+}

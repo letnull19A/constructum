@@ -1,26 +1,26 @@
 import express from 'express'
 import jwt from 'jsonwebtoken'
-import { connect, disconnect } from './../database/database.redis.js'
-import { endSesison, sessionIsAvalible, startSession } from './../services/service.session.js'
+import { connect, disconnect, client } from './../database/database.redis.js'
+import { endSessison, sessionIsAvalible, startSession } from './../services/service.session.js'
 import { generateJwtSet, isVerifyRefreshToken } from './../services/service.jwt.js'
 import path, { dirname } from 'path'
 import fs from 'fs'
 import { IJwtPayload } from 'constructum-interfaces'
-import { $log as logger } from '@tsed/logger'
+import { $log as logger } from '@tsed/logger' 
 
-export const refreshRoute = express.Router()
+export const refreshRoute = express.Router() 
 
 logger.name = 'REFRESH'
 
-refreshRoute.post('', async (req, res) => {
+refreshRoute.post('', async (req, res) => { 
   try {
     const { refresh } = req.body
 
     if ((await sessionIsAvalible(refresh)) && isVerifyRefreshToken({ refresh })) {
       const pathToKey = path.join(dirname('.'), './keys/key.secret.pub')
       const privateKey = fs.readFileSync(pathToKey).toString()
-
-      connect()
+      
+      await connect()
 
       const decoded = jwt.verify(refresh?.toString() ?? '', privateKey) as IJwtPayload
 
@@ -32,9 +32,9 @@ refreshRoute.post('', async (req, res) => {
         nickname: decoded.nickname,
       }
 
-      const jwtTokens = await generateJwtSet(payload)
+      const jwtTokens = generateJwtSet(payload)
 
-      await endSesison(refresh)
+      await endSessison(refresh)
 
       await startSession(jwtTokens.refresh.toString(), JSON.stringify(jwtTokens))
 

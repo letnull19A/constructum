@@ -4,7 +4,7 @@ import { LayoutDefault } from '../../layouts/layout.default'
 import './ViewProject.scss'
 import { useEffect, useState } from 'react'
 import { Method, useHttp } from '../../hooks/hook.use-http'
-import { IEntity, IProject } from 'constructum-interfaces'
+import { IProject } from 'constructum-interfaces'
 
 export const ViewProject = () => {
   const tokens = JSON.parse(localStorage.getItem('token') ?? '{}')
@@ -41,19 +41,23 @@ export const ViewProject = () => {
       <Content className="view-content">
         <div className="toolbar">
           <h2>{title}</h2>
-          <Button onClick={() => navigate(`/project/${id}/entities/add`)} label="Создать сущность" />
-          <Button label="Перейдти к схеме" />
-          <Button label="О проекте" />
-          <Button label="Собрать проект" />
+          <Button type='primary' onClick={() => navigate(`/project/${id}/entities/add`)} label="Создать сущность" />
+          <Button type='foreign' label="Перейдти к схеме" />
+          <Button type='warning' label="О проекте" />
+          <Button type='magic' label="Собрать проект" />
         </div>
         <div className="section">
           <h3>Сущности</h3>
           <div className="entites-list">
-            {response?.entities?.map((item, index) => (
+            {response?.entities?.map((item) => (
               <Card className="entity-card">
                 <CardHead className="entity-head">{item.name}</CardHead>
                 <CardContent className="entity-fields">
-                  <ul></ul>
+                  <ul>
+                  {item.fields?.map((field) => (
+                    <li>{field.field_name}</li>
+                  ))}
+                  </ul>
                 </CardContent>
                 <CardFooter>
                   <Button onClick={() => goToConstructor(item._id)} label="В конструктор" />
