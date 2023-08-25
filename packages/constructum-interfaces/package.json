@@ -1,13 +1,16 @@
 {
   "name": "constructum-interfaces",
-  "version": "0.0.2.6",
+  "version": "0.0.2.14",
   "description": "interfaces for constructum.io",
-  "main": "./dist/index.js",
-  "typings": "./@types/index.d.ts",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx eslint ./src",
+    "format": "npx eslint ./src --fix",
     "pkgi": "npm i",
-    "build": "npx tsc"
+    "clean-build": "rimraf ../@types/constructum-interfaces",
+    "link-pkg": "cp @types/package.json ../@types/constructum-interfaces",
+    "build": "rimraf build && npm run clean-build && tsc && npm run link-pkg"
   },
   "author": "letnull19a",
   "license": "ISC",
@@ -15,6 +18,7 @@
     "typescript": "^5.1.3"
   },
   "dependencies": {
-    "mongoose": "^7.3.1"
+    "mongoose": "^7.3.1",
+    "rimraf": "^5.0.1"
   }
 }

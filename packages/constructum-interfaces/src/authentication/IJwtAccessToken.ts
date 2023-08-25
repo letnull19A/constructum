@@ -1,3 +1,3 @@
 export interface IJwtAccessToken {
-  access: string
-}
+    access: string
+  }

@@ -1,5 +1,5 @@
 import { Schema, Types } from 'mongoose'
-import { IEntity } from '.'
+import { IEntity } from '..'
 
 export interface IProject {
   owner: Types.ObjectId

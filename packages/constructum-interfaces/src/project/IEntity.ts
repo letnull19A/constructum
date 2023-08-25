@@ -1,5 +1,5 @@
-import { IMetaData } from './IMetaData'
-import { IMetaBase } from './IMetaBase'
+import { IMetaData } from '../other/IMetaData'
+import { IMetaBase } from '../other/IMetaBase'
 import { IFieldData } from './IFieldData'
 import { Types } from 'mongoose'
 

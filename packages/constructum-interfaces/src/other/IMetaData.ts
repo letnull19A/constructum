@@ -1,5 +1,5 @@
 import { Types } from 'mongoose'
-import { IVersion } from './IVersion'
+import { IVersion } from '../project/IVersion'
 
 export interface IMetaData {
   _id: Types.ObjectId

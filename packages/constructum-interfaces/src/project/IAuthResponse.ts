@@ -1,5 +1,5 @@
-import { IJwtPayload } from './IJwtPayload.js'
-import { IJwtSet } from './IJwtSet.js'
+import { IJwtPayload } from '../authentication/IJwtPayload.js'
+import { IJwtSet } from '../authentication/IJwtSet.js'
 
 /**
  * @description Интерфейс ответа с сервера с access и refresh токенами
