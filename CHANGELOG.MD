@@ -6,9 +6,28 @@
 
 ### рефакторинг
 
+- в интерфейс ISynax добавлен метод normalizeType
+- в интерфейс ISynax добавлен метод normalizeName
+- перенос интерфейса IJwtAccessToken в authentication
+- перенос интерфейса IJwtPayload в authentication
+- перенос интерфейса IJwtRefreshToken в authentication
+- перенос интерфейса IJwtSet в authentication
+- перенос интерфейса ISyntax в compiler
+- перенос интерфейса IMetaBase в other
+- перенос интерфейса IMetaData в other
+- перенос интерфейса IProject в project
+- перенос интерфейса IEntity в project
+- перенос интерфейса IFieldData в project
+- перенос интерфейса IProjectCreate в project
+- перенос интерфейса IVersion в project
+- перенос интерфейса IProjectData в project
+- перенос интерфейса IAuthResponse в queries
+
 ### общие изменения
 
-дата изменения: 16.08.2023
+- автоматизирована компиляция пакетов
+
+дата изменения: 21.08.2023
 издатель: letnull19a
 
 ## v_0.0.1.snapshot.8

@@ -9,6 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/constructum-compiler": "file:../packages/@types/constructum-compiler",
+    "@types/constructum-interfaces": "file:../packages/@types/constructum-interfaces",
+    "constructum-compiler": "file:../packages/constructum-compiler",
+    "constructum-interfaces": "file:../packages/constructum-interfaces",
     "node-fetch": "^2.6.7"
   },
   "devDependencies": {

@@ -1,0 +1,12 @@
+{
+    "name": "@types/constructum-compiler",
+    "version": "0.0.1",
+    "description": "declarations files",
+    "main": "",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "letnull19a",
+    "license": "ISC",
+    "types": "./index.d.ts"
+  }

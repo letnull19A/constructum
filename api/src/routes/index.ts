@@ -9,6 +9,8 @@ import { userDataRoute } from './auth/route.user-data.js'
 import { entityRoute } from './auth/route.entity.js'
 import { fieldRoute } from './auth/route.field.js'
 import { isNotAuth } from '../middlewares/middleware.not-auth.js'
+import { compilerRoute } from './auth/route.compiler.js'
+import { projectCreateRoute } from './auth/route.project-create.js'
 
 const router = Router()
 
@@ -20,10 +22,22 @@ router.use('/registration', isNotAuth, registrationRoute)
  */
 router.use('/refresh', refreshRoute)
 
-router.use('/logout', isAuth, logoutRoute)
+router.use('/logout', isAuth, logoutRoute) 
 router.use('/user', isAuth, userDataRoute)
+
+// project/:id
 router.use('/project', isAuth, projectRoute)
+
+// project/:id/build/:syntax
+router.use('/project', isAuth, compilerRoute)
+
+// project/:id/entities
 router.use('/project', isAuth, entityRoute)
+
+// project/:id/entities/:entity_id/fields
 router.use('/project', isAuth, fieldRoute)
+
+// project/craete
+router.use('/project', isAuth, projectCreateRoute)
 
 export default router

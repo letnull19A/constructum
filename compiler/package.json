@@ -2,6 +2,7 @@
   "name": "compiler",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "ts-build": "rimraf ./build && npx tsc",
@@ -17,8 +18,10 @@
   "dependencies": {
     "@trpc/client": "^10.37.1",
     "@trpc/server": "^10.37.1",
+    "@types/constructum-compiler": "file:../packages/@types/constructum-compiler",
     "@types/constructum-interfaces": "file:../packages/@types/constructum-interfaces",
     "@types/node": "^20.5.0",
+    "constructum-compiler": "file:../packages/constructum-compiler",
     "constructum-interfaces": "file:../packages/constructum-interfaces",
     "dotenv": "^16.3.1",
     "mongoose": "^7.4.3",

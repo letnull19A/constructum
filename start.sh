@@ -1,8 +1,10 @@
 #!/bin/bash
 
-cd ./api 
+cd api 
 npm run dev &
-cd ./../auth 
+cd ../auth 
 npm run dev &
-cd ./../client
+cd ../client
 npm run dev &
+cd ../compiler
+npm run dev

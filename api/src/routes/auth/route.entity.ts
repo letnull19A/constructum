@@ -7,6 +7,9 @@ import { IEntity, IProject } from 'constructum-interfaces'
 
 export const entityRoute = express.Router()
 
+/**
+ * @todo move it!
+*/
 entityRoute.get('/:id/entities/:entity_id', async (req, res) => {
   const { id, entity_id } = req.params
 
