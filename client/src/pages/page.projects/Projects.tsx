@@ -8,6 +8,7 @@ import './Projects.scss'
 import { AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios'
 import qs from 'qs'
 import { IJwtSet } from 'constructum-interfaces'
+import configs from './../../configs/server.config.json'
 
 export const Projects = () => {
   useTitle('Мои проекты')
@@ -28,10 +29,10 @@ export const Projects = () => {
         const data = qs.stringify({
           refresh: userTokens.refresh,
         })
-
+ 
         if (error.code === AxiosError.ERR_BAD_REQUEST) {
           const response = await request({
-            url: 'http://localhost:3005/api/refresh',
+            url: `${configs.auth}/api/refresh`,
             method: Method.POST,
             data: data,
           })
@@ -58,7 +59,7 @@ export const Projects = () => {
     requestWithInterceptors(
       {
         method: Method.GET,
-        url: `http://localhost:7161/api/user/${userData.id}/projects`,
+        url: `${configs.api}/api/user/${userData.id}/projects`,
         headers: {
           Authorization: bearer,
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -95,7 +96,7 @@ export const Projects = () => {
                   </CardFooter>
                 </Card>
               ))
-            : null}
+            : <p>Не удалось загрузить проекты =(</p>}
         </div>
       </Content>
       <Footer />

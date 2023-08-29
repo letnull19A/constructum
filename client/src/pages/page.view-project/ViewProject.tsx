@@ -5,6 +5,7 @@ import './ViewProject.scss'
 import { useEffect, useState } from 'react'
 import { Method, useHttp } from '../../hooks/hook.use-http'
 import { IProject } from 'constructum-interfaces'
+import configs from './../../configs/server.config.json'
 
 export const ViewProject = () => {
   const tokens = JSON.parse(localStorage.getItem('token') ?? '{}')
@@ -17,7 +18,7 @@ export const ViewProject = () => {
   useEffect(() => {
     requestWithInterceptors({
       method: Method.GET,
-      url: `http://localhost:7161/api/project/${id}`,
+      url: `${configs.api}/api/project/${id}`,
       headers: {
         Authorization: bearer,
         'Content-Type': 'application/x-www-form-urlencoded',
