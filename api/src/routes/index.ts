@@ -29,7 +29,7 @@ router.use('/user', isAuth, userDataRoute)
 router.use('/project', isAuth, projectRoute)
 
 // project/:id/build/:syntax
-// router.use('/project', isAuth, compilerRoute)
+router.use('/project', isAuth, compilerRoute)
 
 // project/:id/entities
 router.use('/project', isAuth, entityRoute)

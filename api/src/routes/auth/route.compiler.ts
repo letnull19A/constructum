@@ -24,6 +24,7 @@ compilerRoute.post('/:id/build/:syntax', async (req, res) => {
   //  const result = await trpc.makeProject.query({ name: 'letnull19a' })
 
     //res.status(200).send(`${result}`)
+    res.status(200)
 })
 
 compilerRoute.get('/:id/build/:syntax', (req, res) => {
