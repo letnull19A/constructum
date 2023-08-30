@@ -3,7 +3,7 @@ import { Header, Menu, Footer, Canvas, Content } from '../components'
 import { LayoutDefault } from '../layouts/layout.default'
 import { Projects } from '../pages/page.projects/Projects'
 import { AddProject } from '../pages/page.add-project/AddProject'
-import { Account, AddEntity, EntityConstructor, ViewProject } from '../pages'
+import { Account, AddEntity, BuildedProject, EntityConstructor, ViewProject } from '../pages'
 
 export const RequireAuth = ({ children }: { children: JSX.Element }) => {
   const location = useLocation()
@@ -82,6 +82,14 @@ export const AuthRouting = () => {
         element={
           <RequireAuth>
             <EntityConstructor />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="project/:id/:syntax/build"
+        element={
+          <RequireAuth>
+              <BuildedProject />
           </RequireAuth>
         }
       />

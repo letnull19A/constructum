@@ -6,28 +6,28 @@
 
 	background-color: $current_color;
 	color: contrast-color($current_color, black, white);
-  transition: .3s;
-  border: none;
+	transition: 0.3s;
+	border: none;
 
 	&:hover {
 		background-color: lighten($current_color, 10);
-    box-shadow: 0px 0px 29px 5px lighten($current_color, 30);
+		box-shadow: 0px 0px 29px 5px lighten($current_color, 30);
 	}
 }
 
 @mixin generateOutlines($type) {
-  $current_color: map-get($theme, $type);
+	$current_color: map-get($theme, $type);
 
 	background-color: white;
 	color: $current_color;
-  border: 2px solid $current_color;
-  transition: .3s;
-  
+	border: 2px solid $current_color;
+	transition: 0.3s;
+
 	&:hover {
-    background-color: white;
+		background-color: white;
 		border-color: lighten($current_color, 10);
 		color: lighten($current_color, 10);
-    box-shadow: none;
+		box-shadow: none;
 	}
 }
 

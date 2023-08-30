@@ -2,7 +2,7 @@ FROM node:alpine
 
 EXPOSE 7301
 
-COPY . .
+COPY . ./app/client
 
 RUN ["npm", "i"]
 RUN ["npm", "run", "build"]

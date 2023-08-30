@@ -1,0 +1,39 @@
+@import './../../scss/style.variables.scss';
+
+.card.entity-card {
+
+    grid-template-rows: 10px 40px 10px 10px;
+
+    .card-section-title {
+        display: inherit;
+        grid-column: 1/4;
+        grid-row: 1/3;
+        grid-template-columns: 10px 1fr 10px;
+        color: #fff;
+        background-color: map-get($theme, 'primary');
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        align-items: center;
+
+        .card-head {
+            grid-column: 2/3;
+        }
+    }
+
+    code.code-block {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 14px;
+
+        .type {
+            color: map-get($theme, 'magic')
+        }
+
+        .modify {
+            color: blue;
+        }
+
+        .sealed {
+            color: grey;
+        }
+    }
+}
