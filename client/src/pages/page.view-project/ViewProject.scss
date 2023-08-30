@@ -61,7 +61,7 @@ $card-width: calc(100% / $cards-in-row - $gap);
           align-items: center;
           border-radius: 8px 8px 0 0;
           text-align: center;
-          background-color: aquamarine;
+          background-color: map-get($theme, 'primary');
           height: 100%;
         }
 
