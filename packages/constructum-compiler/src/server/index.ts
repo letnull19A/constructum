@@ -1,7 +1,7 @@
 import { router, publicProcedure } from './trpc.router'
 import { TRPCError } from '@trpc/server'
 
-const appRouter = router({
+export const appRouter = router({
     build: publicProcedure
         .input((val: unknown) => {
 
@@ -16,9 +16,7 @@ const appRouter = router({
 
             const { input } = opts
 
-            console.log(input)
-
-            return ''
+            return input
         })
 })
 

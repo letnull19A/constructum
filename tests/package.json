@@ -10,8 +10,10 @@
   "license": "ISC",
   "dependencies": {
     "@types/constructum-compiler": "file:../packages/@types/constructum-compiler",
+    "@types/constructum-dbs": "file:../packages/@types/constructum-dbs",
     "@types/constructum-interfaces": "file:../packages/@types/constructum-interfaces",
     "constructum-compiler": "file:../packages/constructum-compiler",
+    "constructum-dbs": "file:../packages/constructum-dbs",
     "constructum-interfaces": "file:../packages/constructum-interfaces",
     "node-fetch": "^2.6.7"
   },

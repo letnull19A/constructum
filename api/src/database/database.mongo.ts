@@ -8,7 +8,7 @@ logger.name = 'MONGO'
 
 export const connect = async (): MongoConnection => {
 	try {
-		logger.info(`(connect) connections now: ${mongoose.connections.length}`)
+		logger.info(`connections now: ${mongoose.connections.length}`)
 
 		return await mongoose.connect(env.MONGO_CONNECTION as string)
 	} catch (e) {
@@ -18,7 +18,7 @@ export const connect = async (): MongoConnection => {
 
 export const disconnect = async () => {
   try {
-		logger.info(`(connect) connections now: ${mongoose.connections.length}`)
+		logger.info(`connections now: ${mongoose.connections.length}`)
 
     await mongoose.connection.close()
 	} catch (e) {

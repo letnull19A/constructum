@@ -23,8 +23,6 @@ app.use(bodyParser.json())
 app.use('/api', router)
 
 app.listen(port, () => {
-  console.clear()
-
   mongoConnect()
     .then(() => {
       logger.info('mongodb connected')
@@ -32,7 +30,6 @@ app.listen(port, () => {
     .catch((err) => {
       logger.error(err)
     })
-    .finally(() => mongoDisconnect())
 
   redisConnect()
     .then(() => {
@@ -41,7 +38,6 @@ app.listen(port, () => {
     .catch((err) => {
       logger.error(err)
     })
-    .finally(() => redisDisconnect())
 
   logger.info(`server started on port: ${port}`)
   logger.info(`server started with mode: ${env.NODE_ENV}`)

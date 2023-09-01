@@ -17,6 +17,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@types/constructum-dbs": "file:../packages/@types/constructum-interfaces",
     "@types/constructum-interfaces": "file:../packages/@types/constructum-interfaces",
     "@types/qs": "^6.9.7",
     "@types/react-router-dom": "^5.3.3",

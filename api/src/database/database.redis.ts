@@ -11,7 +11,7 @@ export const connect = async () => {
     client.on('error', (err) => logger.error(err))
 
     if (!client.isOpen) {
-      logger.info(`connected now ${client.info}`)
+      logger.info(`connected now`)
       await client.connect()
     }
   } catch (error) {

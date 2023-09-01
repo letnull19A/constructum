@@ -1,82 +1,28 @@
-import { createHTTPServer } from '@trpc/server/adapters/standalone' 
-import { compilerRouter } from './trpc/router.compiler.js'
+import { createHTTPServer } from '@trpc/server/adapters/standalone'
+import { appRouter } from 'constructum-compiler'
+import { $log as logger } from '@tsed/logger'
+import dotenv from 'dotenv'
+import { env } from 'process'
+
+logger.name = 'COMPILER'
 
 const main = async () => {
-	// const mockProject: IProject = {
-	// 	owner: new Types.ObjectId(),
-	// 	name: 'test',
-	// 	description: 'test',
-	// 	members: [],
-	// 	access: 'PRIVATE',
-	// 	entities: [
-	// 		{
-	// 			_id: new Types.ObjectId(),
-	// 			_meta: {
-	// 				_id: new Types.ObjectId(),
-	// 				_version: {
-	// 					major: 0,
-	// 					minor: 0,
-	// 					revision: 0,
-	// 					build: 1
-	// 				},
-	// 				_created: Date.now()
-	// 			},
-	// 			name: 'users',
-	// 			fields: [
-	// 				{
-	// 					_id: new Types.ObjectId(),
-	// 					_meta: {
-	// 						_id: new Types.ObjectId(),
-	// 						_version: {
-	// 							major: 0,
-	// 							minor: 0,
-	// 							revision: 0,
-	// 							build: 1
-	// 						},
-	// 						_created: Date.now()
-	// 					},
-	// 					field_name: 'id',
-	// 					field_type: 'uuid',
-	// 					isNull: false,
-	// 					indexes: ['PrimaryKey'],
-	// 					description: 'id'
-	// 				},
-    //                 {
-	// 					_id: new Types.ObjectId(),
-	// 					_meta: {
-	// 						_id: new Types.ObjectId(),
-	// 						_version: {
-	// 							major: 0,
-	// 							minor: 0,
-	// 							revision: 0,
-	// 							build: 1
-	// 						},
-	// 						_created: Date.now()
-	// 					},
-	// 					field_name: 'name',
-	// 					field_type: 'string',
-	// 					isNull: false,
-	// 					indexes: [],
-	// 					description: 'id'
-	// 				}
-	// 			]
-	// 		}
-	// 	]
-	// }
 
-	// const e: EF = new EF(mockProject)
+	logger.info('compiler is starting...')
 
-	// e.build()
-
-	// const r: SQL = new SQL(mockProject)
-
-	// r.build()
+	dotenv.config({ path: `./.env.${env.NODE_ENV}` })
 
 	const server = createHTTPServer({ 
-		router: compilerRouter
-	}) 
- 
-	server.listen(2004)
+		router: appRouter
+	})
+
+	logger.info('successful initialization')
+
+	logger.info(`compiler run in ${env.NODE_ENV} mode`)
+
+	const port = server.listen(env.PORT, env.HOST)
+
+	logger.info(`compiler listen ${env.HOST}:${env.PORT}`)
 }
 
-main()
+main().catch(logger.error)

@@ -1,19 +1,9 @@
-// import { createTRPCProxyClient, httpBatchLink } from '@trpc/client'
-// import { CompilerRouter } from 'constructum-compiler'
+import { trpcClient } from 'constructum-compiler'
 import express from 'express'
-import { $log as logger } from '@tsed/logger'
 
 export const compilerRoute = express.Router()
 
-//const trpc = createTRPCProxyClient<CompilerRouter>({
-//    links: [
-//        httpBatchLink({
-//            url: 'http://127.0.0.1:2004' 
-//        })
-//    ]
-//})
-
-compilerRoute.post('/:id/build/:syntax', async (req, res) => {
+compilerRoute.post('/:id/:syntax/build', async (req, res) => {
 
     const { id, syntax } = req.params 
 
@@ -21,10 +11,9 @@ compilerRoute.post('/:id/build/:syntax', async (req, res) => {
         return res.status(400).send('bad input data!')
     }
 
-  //  const result = await trpc.makeProject.query({ name: 'letnull19a' })
+    const response = await trpcClient('localhost', 5490).build.query(JSON.stringify({ name: 'Alex' }))
 
-    //res.status(200).send(`${result}`)
-    res.status(200)
+    res.status(200).send(response)
 })
 
 compilerRoute.get('/:id/build/:syntax', (req, res) => {

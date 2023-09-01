@@ -1,7 +1,7 @@
 {
-    "name": "@types/constructum-compiler",
+    "name": "@types/constructum-dbs",
     "version": "0.0.1",
-    "description": "declarations files",
+    "description": "database services",
     "main": "",
     "author": "letnull19a",
     "license": "ISC",

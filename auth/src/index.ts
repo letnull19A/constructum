@@ -29,8 +29,6 @@ redisConnect()
 	})
 
 app.listen(port, () => {
-	console.clear()
-
 	logger.info(`auth-server started on port: ${port}`)
 	logger.info(`auth-server started with mode: ${env.NODE_ENV}`)
 	logger.info(`redis started on port: ${env.REDIS_CONNECTION}`)

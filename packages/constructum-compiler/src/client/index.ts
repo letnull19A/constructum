@@ -1,10 +1,10 @@
 import { createTRPCProxyClient, httpBatchLink } from '@trpc/client'
 import type { AppRouter } from '../server'
 
-export const trpcClient = createTRPCProxyClient<AppRouter>({
+export const trpcClient = (host: string, port: number) => createTRPCProxyClient<AppRouter>({
     links: [
         httpBatchLink({
-            url: 'http://127.0.0.1:4590'
+            url: `http://${host}:${port}`
         })
     ]
 })

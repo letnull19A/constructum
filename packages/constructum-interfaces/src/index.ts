@@ -1,6 +1,7 @@
 export { IJwtPayload } from './authentication/IJwtPayload'
 export { IJwtSet } from './authentication/IJwtSet'
 export { IAuthResponse } from './queries/IAuthResponse'
+export { IBuildProjectRequest } from './queries/IBuildProjectRequest'
 export { IJwtAccessToken } from './authentication/IJwtAccessToken'
 export { IJwtRefreshToken } from './authentication/IJwtRefreshToken'
 export { IProjectCreate } from './project/IProjectCreate'

@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "ts-build": "rimraf ./build && npx tsc",
-    "dev": "npx nodemon",
+    "dev": "cross-env NODE_ENV=development npx nodemon",
     "start": "rimraf ./build && npm run ts-build && node build/index.js",
     "lint": "npx eslint ./src",
     "format": "npx eslint ./src --fix",
@@ -18,11 +18,14 @@
   "dependencies": {
     "@trpc/client": "^10.37.1",
     "@trpc/server": "^10.37.1",
+    "@tsed/logger": "^6.6.2",
     "@types/constructum-compiler": "file:../packages/@types/constructum-compiler",
+    "@types/constructum-dbs": "file:../packages/@types/constructum-interfaces",
     "@types/constructum-interfaces": "file:../packages/@types/constructum-interfaces",
     "@types/node": "^20.5.0",
     "constructum-compiler": "file:../packages/constructum-compiler",
     "constructum-interfaces": "file:../packages/constructum-interfaces",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "mongoose": "^7.4.3",
     "rimraf": "^5.0.1",

@@ -1,4 +1,4 @@
-declare const appRouter: import("@trpc/server").CreateRouterInner<import("@trpc/server").RootConfig<{
+export declare const appRouter: import("@trpc/server").CreateRouterInner<import("@trpc/server").RootConfig<{
     ctx: object;
     meta: object;
     errorShape: import("@trpc/server").DefaultErrorShape;
@@ -20,4 +20,3 @@ declare const appRouter: import("@trpc/server").CreateRouterInner<import("@trpc/
     }, string>;
 }>;
 export type AppRouter = typeof appRouter;
-export {};
