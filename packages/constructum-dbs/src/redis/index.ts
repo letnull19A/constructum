@@ -1,6 +1,9 @@
-import { RedisClientType, createClient } from "redis"
+import { RedisClientType, createClient } from 'redis'
 
-export class RedisService {
+/**
+ * @description обёртка для редиса
+*/
+export class RedisDBWrapper {
 	private readonly _client: RedisClientType
 
 	public get readyClient(): RedisClientType {
@@ -13,8 +16,8 @@ export class RedisService {
 
 	async connect(onError?: (error: any) => void, onSuccess?: () => void): Promise<void> {
 		try {
-      await this._client.connect()
-            onSuccess?.()
+			await this._client.connect()
+			onSuccess?.()
 		} catch (error) {
 			onError?.(error)
 		}
@@ -22,8 +25,8 @@ export class RedisService {
 
 	async disconnect(onError?: (error: any) => void, onSuccess?: () => void): Promise<void> {
 		try {
-      await this._client.quit()
-            onSuccess?.()
+			await this._client.quit()
+			onSuccess?.()
 		} catch (error) {
 			onError?.(error)
 		}

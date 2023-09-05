@@ -1,5 +1,8 @@
-import { RedisClientType } from "redis";
-export declare class RedisService {
+import { RedisClientType } from 'redis';
+/**
+ * @description обёртка для редиса
+*/
+export declare class RedisDBWrapper {
     private readonly _client;
     get readyClient(): RedisClientType;
     constructor(connectionString: string);

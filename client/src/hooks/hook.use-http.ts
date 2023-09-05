@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 import qs from 'qs'
 import { useState } from 'react'
+import configs from './../configs/server.config.json'
 
 /**
  * @description Перечисление с методами отправки запросов
@@ -96,7 +97,7 @@ export const useHttp = <T>() => {
         if (error instanceof AxiosError && error.response?.status === 401 && error.config) {
           try {
             await request({
-              url: 'http://localhost:3005/api/refresh',
+              url: `${configs.auth}/api/refresh`,
               method: Method.POST,
               data: qs.stringify({ refresh: tokens.refresh }),
               headers: {
