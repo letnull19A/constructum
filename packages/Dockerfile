@@ -4,10 +4,10 @@ COPY . ./app/packages
 
 WORKDIR /app/packages
 
-WORKDIR constructum-interfaces
+WORKDIR /app/packages/constructum-interfaces
 RUN ["npm", "i"]
 RUN ["npm", "run", "build"]
 
-WORKDIR ../constructum-compiler
+WORKDIR /app/packages/constructum-compiler
 RUN ["npm", "i"]
 RUN ["npm", "run", "build"]
