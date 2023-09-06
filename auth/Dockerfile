@@ -4,11 +4,7 @@ ENV NODE_ENV="production"
 
 EXPOSE 11261
 
-WORKDIR /app/auth
-COPY ["/auth", "."]
-
-WORKDIR /app/packages
-COPY ["/packages", "."]
+COPY . /app/auth
 
 WORKDIR /app/auth
 RUN ["npm", "i", "-g", "typescript@next"]
