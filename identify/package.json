@@ -1,0 +1,11 @@
+{
+  "name": "identify",
+  "version": "1.0.0",
+  "description": "identify user after autherization",
+  "main": "build/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "xarlein",
+  "license": "ISC"
+}

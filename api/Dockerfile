@@ -4,8 +4,7 @@ ENV NODE_ENV="production"
 
 EXPOSE 7301
 
-WORKDIR /app/api
-COPY ["/api", "."]
+COPY . ./app/api
 
 WORKDIR /app/api
 RUN ["npm", "i", "-g", "typescript@next"]
