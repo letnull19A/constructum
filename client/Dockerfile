@@ -1,9 +1,10 @@
 FROM node:alpine
 
-EXPOSE 7301
+EXPOSE 7301 
 
 COPY . ./app/client
 
+WORKDIR /app/client
 RUN ["npm", "i"]
 RUN ["npm", "run", "build"]
 

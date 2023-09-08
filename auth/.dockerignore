@@ -1,4 +1,6 @@
-node_modules
-.vscode
-.idea
-build
+node_modules/**
+.vscode/**
+.idea/**
+build/**
+dist/**
+.vite/**

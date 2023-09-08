@@ -2,11 +2,17 @@ version: '3.9'
 name: 'constructum'
 
 services:
+
+  packages:
+    image: constructum-packages
+
   mongo:
     image: mongo:latest
     restart: always
     ports:
       - '27001:27019'
+    depends_on:
+      - packages
     networks:
       network:
         ipv4_address: 7.5.0.40
@@ -16,9 +22,24 @@ services:
     restart: always
     ports:
       - '6379:6379'
+    depends_on:
+      - packages
     networks:
       network:
         ipv4_address: 7.5.0.20
+
+  auth:
+    image: constructum-auth:latest
+    restart: always
+    ports:
+      - '6789:6789'
+    depends_on:
+      - packages
+      - mongo
+      - redis
+    networks:
+      network:
+        ipv4_address: 7.5.0.50
 
   api:
     image: constructum-api:latest
@@ -28,22 +49,24 @@ services:
     environment:
       - PORT=7001
     depends_on:
+      - packages
       - mongo
       - redis
     networks:
       network:
         ipv4_address: 7.5.0.10
 
-  frontend:
-    image: constructum-frontend:latest
-    restart: always
-    ports:
-      - '4173:4173'
-    depends_on:
-      - api
-    networks:
-      network:
-        ipv4_address: 7.5.0.60
+#  frontend:
+#    image: constructum-frontend:latest
+#    restart: always
+#    ports:
+#      - '4173:4173'
+#    depends_on:
+#      - packages
+#      - api
+#    networks:
+#      network:
+#        ipv4_address: 7.5.0.60
 
 volumes:
   mongodb:
