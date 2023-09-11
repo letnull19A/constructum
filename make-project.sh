@@ -1,3 +1,5 @@
+#!/bin/bash
+
 clear
 
 echo building libraries...
@@ -17,11 +19,11 @@ npm link
 
 echo update packages [api]
 cd ../../api
-npm i ../packages/constructum-interfaces ../packages/@types/constructum-interfaces ../packages/constructum-compiler ../packages/@types/constructum-compiler
+npm i ../packages/constructum-interfaces ../packages/@types/constructum-interfaces ../packages/constructum-compiler ../packages/@types/constructum-compiler ../packages/constructum-dbs ../packages/@types/constructum-dbs
 
 echo update packages [auth]
 cd ../auth
-npm i ../packages/constructum-interfaces ../packages/@types/constructum-interfaces
+npm i ../packages/constructum-interfaces ../packages/@types/constructum-interfaces ../packages/constructum-dbs ../packages/@types/constructum-dbs
 
 echo update packages [client]
 cd ../client

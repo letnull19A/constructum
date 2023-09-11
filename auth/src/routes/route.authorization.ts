@@ -1,19 +1,26 @@
 import express from 'express'
 import User, { IUser } from './../schemas/scheme.user.js'
-import { connect as mongoConnect, disconnect as mongoDisconnect } from './../database/database.mongo.js'
-import { connect as redisConnect, disconnect as redisDisconnect } from './../database/database.redis.js'
 import { generateJwtSet } from './../services/index.js'
 import { comparePassword } from './../services/service.salt.js'
-import { startSession } from './../services/service.session.js'
+import { Session } from './../services/service.session.js'
 import { isNotAuth } from './../middlewares/middleware.not-auth.js'
 import { $log as logger } from '@tsed/logger'
 import { IJwtPayload, IAuthResponse } from 'constructum-interfaces'
+import { RedisDBWrapper, MongoDBWrapper } from 'constructum-dbs'
 
 export const authRoute = express.Router()
+
+const redis = new RedisDBWrapper(process.env.REDIS_URL)
+const mongo = new MongoDBWrapper(process.env.MONGO_CONNECTION)
+
+const session = new Session(redis)
 
 authRoute.post('/auth', isNotAuth, async (req, res) => {
   const { login, password } = req.body
 
+  logger.debug('new auth query')
+
+  // validation layer
   if (login === undefined || login === '') {
     res.status(400).send('login is undefined or empty')
     return
@@ -24,20 +31,24 @@ authRoute.post('/auth', isNotAuth, async (req, res) => {
     return
   }
 
-  await mongoConnect()
-  await redisConnect()
+  // layer logics
+  await mongo.connect()
+  await redis.connect()
 
+  /** 
+   * @todo: move to identify-microservice
+  */
   User.findOne({ login: login })
     .then(async (data) => {
       if (data?.password === null || data?.password === undefined) {
-        res.status(404).send('Пользователь не найден')
+        res.status(404).send('passwords is not defined')
         return
       }
 
       const comparedPassword = await comparePassword(password.toString(), data?.password)
 
       if (!comparedPassword) {
-        res.status(404).send('Пользователь не найден')
+        res.status(404).send('user not found')
         return
       }
 
@@ -51,11 +62,12 @@ authRoute.post('/auth', isNotAuth, async (req, res) => {
         email: email as string,
       }
 
-      const jwtTokens = await generateJwtSet(payload)
+      const jwtTokens = generateJwtSet(payload)
 
-      await startSession(jwtTokens.refresh.toString(), JSON.stringify(jwtTokens))
-      await redisDisconnect()
-      await mongoDisconnect()
+      await session.start(jwtTokens.refresh.toString(), JSON.stringify(jwtTokens))
+
+      await redis.disconnect()
+      await mongo.disconnect()
 
       const response: IAuthResponse = {
         tokens: jwtTokens,
@@ -65,6 +77,7 @@ authRoute.post('/auth', isNotAuth, async (req, res) => {
       res.status(200).send(response)
     })
     .catch((err) => {
+      res.status(500).send(err)
       logger.error(err)
     })
 })

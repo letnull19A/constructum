@@ -3,34 +3,56 @@ import dotenv from 'dotenv'
 import { $log as logger } from '@tsed/logger'
 import router from './routes/index.js'
 import bodyParser from 'body-parser'
-import { env } from 'process'
-import { connect as redisConnect, disconnect } from './database/database.redis.js'
 import cors from 'cors'
+import { RedisDBWrapper } from 'constructum-dbs'
 
 logger.level = 'debug'
 logger.name = 'AUTH'
- 
-dotenv.config({ path: `./.env.${env.NODE_ENV}` })
 
-const port = process.env.PORT | 3001
+if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
+	dotenv.config({ path: `./.env.${process.env.NODE_ENV}` })
+} else {
+	dotenv.config({ path: './.env' })
+}
 
-const app = express() 
+const port = process.env.PORT | 8989
 
-app.use(cors())
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use('/api', router)
+if (process.env.REDIS_URL === undefined || process.env.REDIS_URL === '') {
+	throw Error('REDIS_URL parameter is not defined')
+}
 
-redisConnect()
-	.then(() => {
-		logger.info('redis connected')
+const main = async () => {
+	const redis = new RedisDBWrapper(process.env.REDIS_URL)
+
+	const app = express()
+
+	if (process.env.NODE_ENV === 'development') {
+		app.use(cors())
+		logger.info('cors is enabled')
+	}
+	app.use(bodyParser.urlencoded({ extended: true }))
+	app.use('/api', router)
+
+	redis.connect({
+		onSuccess: () => logger.info('redis connected'),
+		onError: (error: any) => logger.error(error)
 	})
-	.catch((err) => {
-		logger.error(err)
+
+	redis.readyClient.set('key', 'value')
+
+	logger.debug(await redis.readyClient.get('key'))
+
+	redis.disconnect({
+		onSuccess: () => logger.info('redis disconnected'),
+		onError: (error: any) => logger.error(error)
 	})
 
-app.listen(port, () => {
-	logger.info(`auth-server started on port: ${port}`)
-	logger.info(`auth-server started with mode: ${env.NODE_ENV}`)
-	logger.info(`redis started on port: ${env.REDIS_CONNECTION}`)
-	logger.info(`redis data: ${env.REDIS_HOST}:${env.REDIS_PORT}`)
-})
+	app.listen(port, () => {
+		logger.info(`auth-server started on port: ${port}`)
+		logger.info(`auth-server started with mode: ${process.env.NODE_ENV}`)
+		logger.info(`listen redis: ${process.env.REDIS_URL}`)
+		logger.info(`listen mongo: ${process.env.MONGO_CONNECTION}`)
+	})
+}
+
+main().catch(logger.error)

@@ -8,6 +8,7 @@ export const isAuth = async (req: Request, res: Response, next: NextFunction) =>
 	try {
 		const authorizationHeader = req.headers['authorization']
 		const resultValidation = isValid(authorizationHeader)
+		
 		const bearerToken: IJwtAccessToken = {
 			access: authorizationHeader?.split(' ')[1] ?? ''
 		}
