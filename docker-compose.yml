@@ -1,78 +1,82 @@
-version: '3.9'
+version: '3'
 name: 'constructum'
 
 services:
-
-  packages:
-    image: constructum-packages
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - '6379:6379'
+    networks:
+      cnetwork:
+        ipv4_address: 7.5.0.10
 
   mongo:
     image: mongo:latest
     restart: always
     ports:
       - '27001:27019'
-    depends_on:
-      - packages
     networks:
-      network:
-        ipv4_address: 7.5.0.40
-
-  redis:
-    image: redis:latest
-    restart: always
-    ports:
-      - '6379:6379'
-    depends_on:
-      - packages
-    networks:
-      network:
+      cnetwork:
         ipv4_address: 7.5.0.20
 
   auth:
     image: constructum-auth:latest
     restart: always
-    ports:
-      - '6789:6789'
     depends_on:
-      - packages
       - mongo
       - redis
     networks:
-      network:
-        ipv4_address: 7.5.0.50
+      cnetwork:
+        ipv4_address: 7.5.0.30
+    ports:
+      - '3005:8080'
 
-  api:
-    image: constructum-api:latest
-    restart: always
-    ports:
-      - '7001:7001'
-    environment:
-      - PORT=7001
-    depends_on:
-      - packages
-      - mongo
-      - redis
-    networks:
-      network:
-        ipv4_address: 7.5.0.10
+  # api:
+  #   image: constructum-api:latest
+  #   restart: always
+  #   environment:
+  #     - PORT=7001
+  #   depends_on:
+  #     - mongo
+  #     - redis
+  #     - compiler
+  #   networks:
+  #     cnetwork:
+  #       ipv4_address: 7.5.0.40
+  #   ports:
+  #     - '7001:7001'
+
+  # compiler:
+  #   image: constructum-compiler:latest
+  #   restart: always
+  #   environment:
+  #     - PORT=12245
+  #     - NODE_ENV=production
+  #   depends_on:
+  #     - auth
+  #   networks:
+  #     cnetwork:
+  #       ipv4_address: 7.5.0.50
+  #   ports:
+  #     - '12245:12245'
 
 #  frontend:
 #    image: constructum-frontend:latest
 #    restart: always
-#    ports:
-#      - '4173:4173'
 #    depends_on:
-#      - packages
 #      - api
 #    networks:
-#      network:
-#        ipv4_address: 7.5.0.60
+#      cnetwork:
+#         ipv4_address: 7.5.0.60
+#    ports:
+#      - '4173:4173'
 
 volumes:
   mongodb:
 
 networks:
-  network:
+  cnetwork:
     driver: bridge
     ipam:
       config:

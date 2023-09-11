@@ -1,4 +1,5 @@
 import { RedisClientType, createClient } from 'redis'
+import { DbResponse } from '../types'
 
 /**
  * @description обёртка для редиса
@@ -14,21 +15,21 @@ export class RedisDBWrapper {
 		this._client = createClient({ url: connectionString })
 	}
 
-	async connect(onError?: (error: any) => void, onSuccess?: () => void): Promise<void> {
+	async connect(response?: DbResponse): Promise<void> {
 		try {
 			await this._client.connect()
-			onSuccess?.()
+			response?.onSuccess?.()
 		} catch (error) {
-			onError?.(error)
+			response?.onError?.(error)
 		}
 	}
 
-	async disconnect(onError?: (error: any) => void, onSuccess?: () => void): Promise<void> {
+	async disconnect(response?: DbResponse): Promise<void> {
 		try {
 			await this._client.quit()
-			onSuccess?.()
+			response?.onSuccess?.()
 		} catch (error) {
-			onError?.(error)
+			response?.onError?.(error)
 		}
 	}
 }

@@ -1,12 +1,13 @@
-FROM node:alpine
+FROM node:16.17.0-bullseye-slim
 
 ENV NODE_ENV="production"
 
-EXPOSE 11261
+EXPOSE 3005
 
-COPY . /app/compiler
+COPY ./auth /app/auth
+COPY ./packages ./app/packages
 
-WORKDIR /app/compiler
+WORKDIR /app/auth
 RUN ["npm", "i", "-g", "typescript@next"]
 RUN ["npm", "i", "-g", "rimraf"]
 RUN ["npm", "i"]

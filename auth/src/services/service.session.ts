@@ -1,45 +1,47 @@
-import { client, connect, disconnect, RedisService } from '../database/database.redis.js'
 import { $log as logger } from '@tsed/logger'
+import { RedisDBWrapper } from 'constructum-dbs'
 
 logger.name = 'SERVICE_SESSION'
 
-export const startSession = async (key: string | undefined, payload: string) => {
-	if (key === undefined) {
-		throw new Error('Ключ не определён')
+export class Session {
+
+	private readonly _redisClient: RedisDBWrapper
+
+	public constructor(redisClient: RedisDBWrapper) {
+		this._redisClient = redisClient
 	}
 
-	const redis = new RedisService()
+	public start = async (key: string, payload: string) => {
+		if (key === undefined) {
+			throw new Error('Ключ не определён')
+		}
 
-	await redis.connect()
-	await redis.readyClient.set(key, payload)
-	await redis.disconnect()
-
-	// await connect()
-	// await client.set(key, payload)
-	// await disconnect()
-}
-
-export const endSessison = async (key: string) => {
-
-	const redis = new RedisService()
-
-	await redis.connect()
-	await redis.readyClient.del(key)
-	await redis.disconnect()
-}
-
-export const sessionIsAvalible = async (key: string): Promise<boolean> => {
-	try {
-		await connect()
-
-		const jwtToken = await client.get(key)
-
-		await disconnect()
-
-		return jwtToken !== null && jwtToken !== undefined && jwtToken !== ''
-	} catch (e) {
-		logger.error(e)
+		await this._redisClient.connect()
+		await this._redisClient.readyClient.set(key, payload)
+		await this._redisClient.disconnect()
 	}
 
-	return false
+	public end = async (key: string) => {
+
+
+		await this._redisClient.connect()
+		await this._redisClient.readyClient.del(key)
+		await this._redisClient.disconnect()
+	}
+
+	public isAvalible = async (key: string): Promise<boolean> => {
+		try {
+			await this._redisClient.connect()
+
+			const jwtToken = await this._redisClient.readyClient.get(key)
+
+			await this._redisClient.disconnect()
+
+			return jwtToken !== null && jwtToken !== undefined && jwtToken !== ''
+		} catch (e) {
+			logger.error(e)
+		}
+
+		return false
+	}
 }

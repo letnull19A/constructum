@@ -1,10 +1,7 @@
 import mongoose, { Mongoose } from 'mongoose'
+import { DbResponse } from '../types'
 
 export type MongoConnection = Promise<Mongoose | undefined>
-export type DBsResponse = {
-    onSuccess: () => void, 
-    onError: () => void
-}
 
 /**
  * @description Обёртка для mongoose
@@ -17,22 +14,22 @@ export class MongoDBWrapper {
         this._connectionString = connectionString
     }
 
-    public async connect(resp: DBsResponse): Promise<MongoConnection> {
+    public async connect(resp?: DbResponse): Promise<MongoConnection> {
         try {
-            resp.onSuccess?.()
+            resp?.onSuccess?.()
             return await mongoose.connect(this._connectionString)
         } catch (e) {
-            resp.onError?.()
+            resp?.onError?.(e)
             return undefined
         }
     }
 
-    public async disconnect(resp: DBsResponse): Promise<void> {
+    public async disconnect(resp?: DbResponse): Promise<void> {
         try {
-            resp.onSuccess?.()
+            resp?.onSuccess?.()
             await mongoose.disconnect()
         } catch (e) {
-            resp.onError?.()
+            resp?.onError?.(e)
         }
     }
 
