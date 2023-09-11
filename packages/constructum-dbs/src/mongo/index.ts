@@ -14,7 +14,7 @@ export class MongoDBWrapper {
         this._connectionString = connectionString
     }
 
-    public async connect(resp?: DbResponse): Promise<MongoConnection> {
+    public async connect(resp?: DbResponse): MongoConnection {
         try {
             resp?.onSuccess?.()
             return await mongoose.connect(this._connectionString)

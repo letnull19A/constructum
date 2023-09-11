@@ -32,34 +32,34 @@ services:
     ports:
       - '3005:8080'
 
-  # api:
-  #   image: constructum-api:latest
-  #   restart: always
-  #   environment:
-  #     - PORT=7001
-  #   depends_on:
-  #     - mongo
-  #     - redis
-  #     - compiler
-  #   networks:
-  #     cnetwork:
-  #       ipv4_address: 7.5.0.40
-  #   ports:
-  #     - '7001:7001'
+  api:
+    image: constructum-api:latest
+    restart: always
+    environment:
+      - PORT=7001
+    depends_on:
+      - mongo
+      - redis
+      - compiler
+    networks:
+      cnetwork:
+        ipv4_address: 7.5.0.40
+    ports:
+      - '7001:7001'
 
-  # compiler:
-  #   image: constructum-compiler:latest
-  #   restart: always
-  #   environment:
-  #     - PORT=12245
-  #     - NODE_ENV=production
-  #   depends_on:
-  #     - auth
-  #   networks:
-  #     cnetwork:
-  #       ipv4_address: 7.5.0.50
-  #   ports:
-  #     - '12245:12245'
+  compiler:
+    image: constructum-compiler:latest
+    restart: always
+    environment:
+      - PORT=12245
+      - NODE_ENV=production
+    depends_on:
+      - auth
+    networks:
+      cnetwork:
+        ipv4_address: 7.5.0.50
+    ports:
+      - '12245:12245'
 
 #  frontend:
 #    image: constructum-frontend:latest

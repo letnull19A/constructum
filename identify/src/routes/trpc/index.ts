@@ -8,6 +8,9 @@ const trpc = initTRPC.create()
 const router = trpc.router({
 	ping: trpc.procedure.input(z.string()).query(({ input }) => {
 		return trpcController.ping(input)
+	}),
+	identify: trpc.procedure.input(z.string()).query(({ input }) => {
+		return trpcController.identify(input)
 	})
 })
 
