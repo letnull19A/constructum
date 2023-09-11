@@ -1,9 +1,0 @@
-{
-    "name": "@types/constructum-dbs",
-    "version": "0.0.1",
-    "description": "database services",
-    "main": "",
-    "author": "letnull19a",
-    "license": "ISC",
-    "types": "./index.d.ts"
-}
