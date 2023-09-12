@@ -61,6 +61,15 @@ services:
     ports:
       - '12245:12245'
 
+  identify:
+    image: constructum-identify:latest
+    restart: always
+    depends_on:
+      - mongo
+    networks:
+      cnetwork:
+        ipv4_address: 7.5.0.60
+
 #  frontend:
 #    image: constructum-frontend:latest
 #    restart: always

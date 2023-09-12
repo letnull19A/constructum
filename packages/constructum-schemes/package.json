@@ -4,11 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "npx eslint ./src",
+    "format": "npx eslint ./src --fix",
+    "pkgi": "npm i",
+    "clean-build": "rimraf ../@types/constructum-schemes",
+    "link-pkg": "cp @types/package.json ../@types/constructum-schemes",
+    "build": "rimraf build && npm run clean-build && tsc && npm run link-pkg"
   },
   "author": "xarlein",
   "license": "ISC",
   "dependencies": {
-    "mongoose": "^7.5.0"
+    "@types/constructum-interfaces": "file:../@types/constructum-interfaces",
+    "constructum-interfaces": "file:../constructum-interfaces",
+    "mongoose": "^7.5.0",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.2.2"
   }
 }

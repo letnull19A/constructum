@@ -7,6 +7,6 @@ export type MongoConnection = Promise<Mongoose | undefined>;
 export declare class MongoDBWrapper {
     private readonly _connectionString;
     constructor(connectionString: string);
-    connect(resp?: DbResponse): Promise<MongoConnection>;
+    connect(resp?: DbResponse): MongoConnection;
     disconnect(resp?: DbResponse): Promise<void>;
 }

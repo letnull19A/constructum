@@ -52,6 +52,7 @@ const main = async () => {
 		logger.info(`auth-server started with mode: ${process.env.NODE_ENV}`)
 		logger.info(`listen redis: ${process.env.REDIS_URL}`)
 		logger.info(`listen mongo: ${process.env.MONGO_CONNECTION}`)
+		logger.info(`identify server: ${process.env.IDENTIFY_SERVER}`)
 	})
 }
 

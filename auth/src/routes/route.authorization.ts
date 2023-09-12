@@ -7,12 +7,50 @@ import { isNotAuth } from './../middlewares/middleware.not-auth.js'
 import { $log as logger } from '@tsed/logger'
 import { IJwtPayload, IAuthResponse } from 'constructum-interfaces'
 import { RedisDBWrapper, MongoDBWrapper } from 'constructum-dbs'
+import { createTRPCProxyClient, httpBatchLink } from '@trpc/client'
+import { z } from 'zod'
+import { initTRPC } from '@trpc/server'
 
 export const authRoute = express.Router()
 
+
+
+
+const trpcController = {
+
+	pingPong: (message: string) => {
+	},
+
+	identity: async (login: string): Promise<boolean> => {
+		return true
+	}
+}
+
+const trpc = initTRPC.create()
+
+const router = trpc.router({
+	pingPong: trpc.procedure.input(z.string()).query(({ input }) => {
+		return trpcController.pingPong(input)
+	}),
+	identify: trpc.procedure.input(z.string()).query(({ input }) => {
+		return trpcController.identity(input)
+	})
+})
+
+type AppRouter = typeof router
+
+
+
+
+
+
+
+
+
+
+
 const redis = new RedisDBWrapper(process.env.REDIS_URL)
 const mongo = new MongoDBWrapper(process.env.MONGO_CONNECTION)
-
 const session = new Session(redis)
 
 authRoute.post('/auth', isNotAuth, async (req, res) => {
@@ -34,6 +72,20 @@ authRoute.post('/auth', isNotAuth, async (req, res) => {
   // layer logics
   await mongo.connect()
   await redis.connect()
+
+  const identifyClient = createTRPCProxyClient<AppRouter>({
+    links: [
+      httpBatchLink({
+        url: process.env.IDENTIFY_SERVER
+      })
+    ]
+  })
+
+  // const isIdentified = await identifyClient.identify.query(login)
+
+  const ping = await identifyClient.pingPong.query('Hello')
+
+  logger.debug(`echo ping: ${ping}`)
 
   /** 
    * @todo: move to identify-microservice

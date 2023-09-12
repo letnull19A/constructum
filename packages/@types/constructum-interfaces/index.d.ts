@@ -13,3 +13,4 @@ export { IVersion } from './project/IVersion';
 export { IProjectData } from './project/IProjectData';
 export { IProject } from './project/IProject';
 export { ISyntax } from './compiler/ISyntax';
+export { IUser } from './contacts/IUser';

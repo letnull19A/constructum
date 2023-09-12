@@ -17,6 +17,11 @@ cd ../constructum-dbs
 npm run build
 npm link
 
+cd ../constructum-schemes
+npm i ../constructum-interfaces ../@types/constructum-interfaces
+npm run build
+npm link
+
 echo update packages [api]
 cd ../../api
 npm i ../packages/constructum-interfaces ../packages/@types/constructum-interfaces ../packages/constructum-compiler ../packages/@types/constructum-compiler ../packages/constructum-dbs ../packages/@types/constructum-dbs
@@ -36,5 +41,10 @@ npm i ../packages/constructum-interfaces ../packages/@types/constructum-interfac
 echo update packages [tests]
 cd ../tests
 npm i ../packages/constructum-compiler ../packages/@types/constructum-compiler ../packages/constructum-dbs ../packages/@types/constructum-dbs
+
+echo update packages [identify]
+cd ../tests
+npm i ../packages/constructum-schemes ../packages/@types/constructum-schemes ../packages/constructum-dbs ../packages/@types/constructum-dbs
+
 
 echo build successful!

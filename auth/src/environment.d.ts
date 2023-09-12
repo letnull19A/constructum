@@ -4,6 +4,7 @@ declare global {
       PORT: number
       REDIS_URL: string
       MONGO_CONNECTION: string
+      IDENTIFY_SERVER: string
     }
   }
 }
