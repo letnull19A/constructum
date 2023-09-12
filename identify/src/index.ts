@@ -42,6 +42,8 @@ const main = async () => {
     const server = createHTTPServer({
         router: appRouter
     })
+
+    server.listen(3689)
 }
 
 main().catch(logger.error)
