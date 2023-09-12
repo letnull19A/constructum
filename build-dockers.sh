@@ -8,3 +8,6 @@ docker image save constructum-auth | gzip > constructum-auth.gz
 
 docker image build -f compiler.Dockerfile -t constructum-compiler .
 docker image save constructum-compiler | gzip > constructum-compiler.gz
+
+docker image build -f identify.Dockerfile -t constructum-identify .
+docker image save constructum-identify | gzip > constructum-identify.gz
