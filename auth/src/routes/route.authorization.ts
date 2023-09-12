@@ -8,46 +8,9 @@ import { $log as logger } from '@tsed/logger'
 import { IJwtPayload, IAuthResponse } from 'constructum-interfaces'
 import { RedisDBWrapper, MongoDBWrapper } from 'constructum-dbs'
 import { createTRPCProxyClient, httpBatchLink } from '@trpc/client'
-import { z } from 'zod'
-import { initTRPC } from '@trpc/server'
+import { trpcClient } from 'constructum-identify'
 
 export const authRoute = express.Router()
-
-
-
-
-const trpcController = {
-
-	pingPong: (message: string) => {
-	},
-
-	identity: async (login: string): Promise<boolean> => {
-		return true
-	}
-}
-
-const trpc = initTRPC.create()
-
-const router = trpc.router({
-	pingPong: trpc.procedure.input(z.string()).query(({ input }) => {
-		return trpcController.pingPong(input)
-	}),
-	identify: trpc.procedure.input(z.string()).query(({ input }) => {
-		return trpcController.identity(input)
-	})
-})
-
-type AppRouter = typeof router
-
-
-
-
-
-
-
-
-
-
 
 const redis = new RedisDBWrapper(process.env.REDIS_URL)
 const mongo = new MongoDBWrapper(process.env.MONGO_CONNECTION)
@@ -73,17 +36,13 @@ authRoute.post('/auth', isNotAuth, async (req, res) => {
   await mongo.connect()
   await redis.connect()
 
-  const identifyClient = createTRPCProxyClient<AppRouter>({
-    links: [
-      httpBatchLink({
-        url: process.env.IDENTIFY_SERVER
-      })
-    ]
-  })
+  const identifyClient = trpcClient('localhost', 3689)
+
+  const ping = identifyClient.ping.query('test')
 
   // const isIdentified = await identifyClient.identify.query(login)
 
-  const ping = await identifyClient.pingPong.query('Hello')
+  //const ping = await identifyClient.pingPong.query('Hello')
 
   logger.debug(`echo ping: ${ping}`)
 

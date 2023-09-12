@@ -1,16 +1,9 @@
 import dotenv from 'dotenv'
 import process from 'process'
-// import express from 'express'
 import { $log as logger } from '@tsed/logger'
-import { router } from './routes/trpc'
 import { MongoDBWrapper } from 'constructum-dbs'
 import { createHTTPServer } from '@trpc/server/adapters/standalone'
-
-/**
- * @todo сделай отдельный модуль под идентификацию пльзователя
-*/
-
-export { AppRouter } from './routes/trpc'
+import { appRouter } from 'constructum-identify'
 
 logger.level = 'debug'
 logger.name = 'IDENTIFY'
@@ -29,7 +22,6 @@ const main = async () => {
 
     const mongo = new MongoDBWrapper(process.env.MONGO_CONNECTION)
     const port = process.env.PORT
-    // const app = express()
     
     logger.info('starting server')
     
@@ -48,18 +40,8 @@ const main = async () => {
     })
 
     const server = createHTTPServer({
-        router: router
+        router: appRouter
     })
-
-    server.listen(port)
-
-    // app.use('api/identity', trpcRouter)
-    // logger.info('tRPC router is active!')
-    
-    // app.listen(port, () => {
-    //     logger.info(`server started on: ${port}`)
-    //     logger.info(`server run in ${process.env.NODE_ENV} mode`)
-    // })
 }
 
 main().catch(logger.error)
