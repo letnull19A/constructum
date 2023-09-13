@@ -20,10 +20,7 @@
     "@types/constructum-identify": "file:../packages/@types/constructum-identify",
     "@types/express": "^4.17.17",
     "constructum-dbs": "file:../packages/constructum-dbs",
-<<<<<<< HEAD
-=======
     "constructum-identify": "file:../packages/constructum-identify",
->>>>>>> 23c8eec491bcd65d76af482570e4e601d0a6df74
     "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
