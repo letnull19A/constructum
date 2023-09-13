@@ -1,5 +1,6 @@
 import dotenv from 'dotenv'
 import process from 'process'
+<<<<<<< HEAD
 // import express from 'express'
 import { $log as logger } from '@tsed/logger'
 import { router } from './routes/trpc'
@@ -11,6 +12,12 @@ import { createHTTPServer } from '@trpc/server/adapters/standalone'
 */
 
 export { AppRouter } from './routes/trpc'
+=======
+import { $log as logger } from '@tsed/logger'
+import { MongoDBWrapper } from 'constructum-dbs'
+import { createHTTPServer } from '@trpc/server/adapters/standalone'
+import { appRouter } from 'constructum-identify'
+>>>>>>> 23c8eec491bcd65d76af482570e4e601d0a6df74
 
 logger.level = 'debug'
 logger.name = 'IDENTIFY'
@@ -29,7 +36,10 @@ const main = async () => {
 
     const mongo = new MongoDBWrapper(process.env.MONGO_CONNECTION)
     const port = process.env.PORT
+<<<<<<< HEAD
     // const app = express()
+=======
+>>>>>>> 23c8eec491bcd65d76af482570e4e601d0a6df74
     
     logger.info('starting server')
     
@@ -48,6 +58,7 @@ const main = async () => {
     })
 
     const server = createHTTPServer({
+<<<<<<< HEAD
         router: router
     })
 
@@ -60,6 +71,12 @@ const main = async () => {
     //     logger.info(`server started on: ${port}`)
     //     logger.info(`server run in ${process.env.NODE_ENV} mode`)
     // })
+=======
+        router: appRouter
+    })
+
+    server.listen(3689)
+>>>>>>> 23c8eec491bcd65d76af482570e4e601d0a6df74
 }
 
 main().catch(logger.error)

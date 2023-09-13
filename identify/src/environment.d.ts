@@ -3,7 +3,6 @@ declare global {
     interface ProcessEnv {
       PORT: number
       MONGO_CONNECTION: string
-      AUTH_SOCKET: string
     }
   }
 }
