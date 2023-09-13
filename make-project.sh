@@ -22,6 +22,11 @@ npm i ../constructum-interfaces ../@types/constructum-interfaces
 npm run build
 npm link
 
+cd ../constructum-identify
+npm i ../constructum-dbs ../@types/constructum-dbs ../constructum-schemes ../@types/constructum-schemes
+npm run build
+npm link
+
 echo update packages [api]
 cd ../../api
 npm i ../packages/constructum-interfaces ../packages/@types/constructum-interfaces ../packages/constructum-compiler ../packages/@types/constructum-compiler ../packages/constructum-dbs ../packages/@types/constructum-dbs

@@ -1,0 +1,28 @@
+{
+	"name": "constructum-identify",
+	"version": "1.0.0",
+	"description": "identify client-server side. Consist tRPC implementation",
+	"main": "./build/index.js",
+	"types": "./build/index.d.ts",
+	"scripts": {
+		"lint": "npx eslint ./src",
+		"format": "npx eslint ./src --fix",
+		"pkgi": "npm i",
+		"clean-build": "rimraf ../@types/constructum-identify",
+		"link-pkg": "cp @types/package.json ../@types/constructum-identify",
+		"build": "rimraf build && npm run clean-build && tsc && npm run link-pkg"
+	},
+	"author": "xarlein",
+	"license": "ISC",
+	"dependencies": {
+		"@trpc/client": "^10.38.2",
+		"@trpc/server": "^10.38.2",
+		"@types/constructum-dbs": "file:../@types/constructum-dbs",
+		"@types/constructum-schemes": "file:../@types/constructum-schemes",
+		"constructum-dbs": "file:../constructum-dbs",
+		"constructum-schemes": "file:../constructum-schemes",
+		"rimraf": "^5.0.1",
+		"typescript": "^5.2.2",
+		"zod": "^3.22.2"
+	}
+}

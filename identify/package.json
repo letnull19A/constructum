@@ -8,8 +8,9 @@
     "dev": "cross-env NODE_ENV=development npx nodemon",
     "start": "rimraf ./build && npm run ts-build && cross-env NODE_ENV=production node build/index.js",
     "lint": "npx eslint ./src",
+    "format": "npx eslint ./src --fix",
     "pkgi": "npm i",
-    "format": "npx eslint ./src --fix"
+    "pkgup": "npm update"
   },
   "author": "xarlein",
   "license": "ISC",
@@ -25,6 +26,8 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "mongoose": "^7.5.0",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.2.2",
     "zod": "^3.22.2"
   }
 }

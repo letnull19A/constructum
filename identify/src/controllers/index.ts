@@ -1,4 +1,5 @@
 import { MongoDBWrapper } from "constructum-dbs"
+import { User } from 'constructum-schemes'
 
 /**
  * @description main tRPC controllers
@@ -20,6 +21,8 @@ export const trpcController = {
 		const mongo = new MongoDBWrapper(process.env.MONGO_CONNECTION)
 
 		const client = await mongo.connect()
+
+		// User.findOne({})
 
 		mongo.disconnect()
 

@@ -4,3 +4,4 @@ build
 **/*.tar
 *.gz
 **/*.gz
+./packages/@types

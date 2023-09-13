@@ -40,6 +40,13 @@ authRoute.post('/auth', isNotAuth, async (req, res) => {
 
   const ping = identifyClient.ping.query('test')
 
+<<<<<<< HEAD
+=======
+  // const isIdentified = await identifyClient.identify.query(login)
+
+  //const ping = await identifyClient.pingPong.query('Hello')
+
+>>>>>>> 23c8eec491bcd65d76af482570e4e601d0a6df74
   logger.debug(`echo ping: ${ping}`)
 
   /** 
