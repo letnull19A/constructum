@@ -31,7 +31,9 @@ export class EF implements ISyntax {
 	}
 
 	public linkDirectories(): Array<string> {
-		return ['System.ComponentModel.DataAnnotations', 'System.ComponentModel.DataAnnotations.Schema']
+		return [
+			'System.ComponentModel.DataAnnotations', 
+			'System.ComponentModel.DataAnnotations.Schema']
 	}
 
 	public get normalizedProjectName(): string {

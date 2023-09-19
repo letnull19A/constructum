@@ -4,6 +4,7 @@ export class SQL implements ISyntax {
 	private readonly _originProject: IProject
 
 	private _buildText: string
+	private _normalizedProjectName: string
 
 	constructor(project: IProject) {
 		this._originProject = project
@@ -11,11 +12,12 @@ export class SQL implements ISyntax {
 	}
 
 	normalizeFieldName(fieldName: string): string {
-		return ''
+		return fieldName
 	}
 
 	normalizeProjectName(): string {
-		return ''
+		this._normalizedProjectName = this._originProject.name
+		return this._normalizedProjectName
 	}
 
 	linkDirectories(): string[] {
@@ -27,7 +29,7 @@ export class SQL implements ISyntax {
 	}
 
 	get normalizedProjectName(): string {
-		return ''
+		return this._normalizedProjectName
 	}
 
 	public normalizeType(type: string): string {

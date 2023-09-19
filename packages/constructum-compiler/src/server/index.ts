@@ -17,6 +17,8 @@ export const appRouter = router({
             const { input } = opts
             const data = input as IBuildProjectRequest
 
+            const project = JSON.parse(data.projectData) as IProject
+
             if (syntax.indexOf(data.syntaxName) === -1) {
                 const error: TRPCError = {
                     name: `cannot find syntax`,
@@ -27,17 +29,25 @@ export const appRouter = router({
                 return error
             }
 
+            if (project === undefined) {
+                const error: TRPCError = {
+                    name: 'cannot load project content',
+                    code: 'BAD_REQUEST',
+                    message: 'project data is not valid or undefined'
+                }
+            }
+
             let buildText = ''
 
             switch(data.syntaxName) {
                 case syntax[0]:
-                    const ef = new EF(JSON.parse(data.projectData) as IProject)
+                    const ef = new EF(project)
                     ef.build()
 
                     return ef.buildText
                     break
                 case syntax[1]:
-                    const sql = new SQL(JSON.parse(data.projectData) as IProject)
+                    const sql = new SQL(project)
                     sql.build()
 
                     return sql.buildText
