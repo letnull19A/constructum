@@ -22,7 +22,7 @@ const main = async () => {
 	dotenv.config({ path: `./.env.${process.env.NODE_ENV}` })
 
 	const server = createHTTPServer({ 
-		router: appRouter
+		router: appRouter 
 	})
 
 	logger.info('successful initialization')

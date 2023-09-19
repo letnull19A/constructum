@@ -64,8 +64,7 @@ export const Projects = () => {
           Authorization: bearer,
           'Content-Type': 'application/x-www-form-urlencoded',
         },
-      },
-      interceptor,
+      }
     )
   }, [])
 

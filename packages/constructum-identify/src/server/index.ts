@@ -1,7 +1,6 @@
-import { MongoDBWrapper } from 'constructum-dbs'
 import { router, publicProcedure } from './trpc.router'
-import z, { unknown } from 'zod'
-import { User, userSchema } from 'constructum-schemes'
+import z from 'zod'
+import { userSchema } from 'constructum-schemes'
 import { TRPCError } from '@trpc/server'
 import { $log as logger } from '@tsed/logger'
 import mongoose from 'mongoose'
@@ -44,7 +43,7 @@ export const appRouter = router({
 
 			const y = await mongoose.connect(input.mongoConnection)
 
-			const U = y.model('User', userSchema)
+			const U = y.models.User || y.model('User', userSchema)
 
 			const i = await U.findOne({ login: input.userLogin })
 				.then(async (data: any) => {

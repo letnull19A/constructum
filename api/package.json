@@ -13,6 +13,7 @@
     "ts-build": "rimraf ./build && npx tsc",
     "dev": "cross-env NODE_ENV=development npx nodemon",
     "start": "rimraf ./build && npm run ts-build && cross-env NODE_ENV=production node build/index.js",
+    "start-dev": "rimraf ./build && npm run ts-build && node build/index.js",
     "lint": "npx eslint ./src",
     "format": "npx eslint ./src --fix",
     "pkgi": "npm i",

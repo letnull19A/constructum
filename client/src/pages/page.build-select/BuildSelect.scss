@@ -1,0 +1,17 @@
+@import './../../scss/style.variables.scss';
+
+.content-buildSelect {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: 45px auto;
+    gap: $gap;
+    
+    .card-list {
+        display: grid;
+        grid-row: 2;
+        grid-column: 1/7;
+        grid-template-rows: repeat(3, 1fr);
+        grid-template-columns: repeat(6, 1fr);
+        gap: $gap;
+    }
+}

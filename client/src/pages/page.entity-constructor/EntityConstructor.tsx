@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { Button, Content, Footer, Header, Menu, Select, Textarea, Textbox } from '../../components'
 import { LayoutDefault } from '../../layouts/layout.default'
 import { Method, useHttp } from '../../hooks/hook.use-http'
-import { IEntity, IFieldData, IJwtSet, IProjectData } from 'constructum-interfaces'
-import { useParams } from 'react-router-dom'
+import { IFieldData, IJwtSet, IProjectData } from 'constructum-interfaces'
+import { useNavigate, useParams } from 'react-router-dom'
 import './EntityConstructor.scss'
 import { useTitle } from '../../hooks/hook.use-title'
 import { v4 as uuidv4 } from 'uuid'
@@ -33,6 +33,7 @@ export const EntityConstructor = () => {
 	const userTokens = JSON.parse(localStorage.getItem('token') ?? '{}') as IJwtSet
 	const bearer = 'Bearer ' + userTokens.access
 	const { id, entity_id } = useParams()
+	const navigate = useNavigate()
 
 	const toQueryObject = (row: IRowViewData) => {
 		return {
@@ -230,7 +231,8 @@ export const EntityConstructor = () => {
 			<Header />
 			<Menu />
 			<Footer />
-			<Content className="content-constructor">
+			<Content className="content-constructor"> 
+				<Button outline className='button-back' type="secondary" label="Назад" onClick={() => navigate(-1)} />
 				<h2 className="title">Конструктор сущности: {tableName}</h2>
 				<table className="constructor-table">
 					<thead>
@@ -238,9 +240,9 @@ export const EntityConstructor = () => {
 							<th>#</th>
 							<th>Название</th>
 							<th>Тип</th>
-							<th width="100">Длина</th>
-							<th width="100">Мин.</th>
-							<th width="100">Макс.</th>
+							<th width="120">Длина</th>
+							<th width="120">Мин.</th>
+							<th width="120">Макс.</th>
 							<th>NULL</th>
 							<th>Индексы</th>
 							<th>Описание</th>

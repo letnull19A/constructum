@@ -4,6 +4,7 @@ import { LayoutDefault } from '../layouts/layout.default'
 import { Projects } from '../pages/page.projects/Projects'
 import { AddProject } from '../pages/page.add-project/AddProject'
 import { Account, AddEntity, BuildedProject, EntityConstructor, ViewProject } from '../pages'
+import { BuildSelect } from '../pages/page.build-select/BuildSelect'
 
 export const RequireAuth = ({ children }: { children: JSX.Element }) => {
   const location = useLocation()
@@ -86,10 +87,18 @@ export const AuthRouting = () => {
         }
       />
       <Route
-        path="project/:id/:syntax/build"
+        path="project/:id/build/:syntax"
         element={
           <RequireAuth>
               <BuildedProject />
+          </RequireAuth>
+        }
+      />
+      <Route 
+        path='project/:id/build'
+        element={
+          <RequireAuth>
+            <BuildSelect/>
           </RequireAuth>
         }
       />

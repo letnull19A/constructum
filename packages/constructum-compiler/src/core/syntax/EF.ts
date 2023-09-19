@@ -55,6 +55,7 @@ export class EF implements ISyntax {
 				return 'bool'
 			case 'uuid':
 			case 'guid':
+			case 'uuid/guid':
 				return 'Guid'
 			default:
 				'object'
@@ -74,9 +75,9 @@ export class EF implements ISyntax {
 			return
 		}
 
-		for (let i = 0; i < entities.length; i++) {
-			let codeDistText = ''
+		let codeDistText = ''
 
+		for (let i = 0; i < entities.length; i++) {
 			const entity = entities[i]
 
 			const className = entity.name.charAt(0).toUpperCase() + entity.name.slice(1)
@@ -110,5 +111,7 @@ export class EF implements ISyntax {
 				codeDistText += '}'
 			}
 		}
+
+		this._buildText = codeDistText
 	}
 }
