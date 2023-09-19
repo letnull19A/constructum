@@ -9,10 +9,16 @@ export declare const trpcClient: (host: string, port: number) => {
             }>;
             _meta: object;
             _ctx_out: object;
-            _input_in: string;
-            _input_out: string;
+            _input_in: {
+                syntaxName: string;
+                projectData: string;
+            };
+            _input_out: {
+                syntaxName: string;
+                projectData: string;
+            };
             _output_in: typeof import("@trpc/server").unsetMarker;
             _output_out: typeof import("@trpc/server").unsetMarker;
-        }, string>>;
+        }, string | import("@trpc/server").TRPCError>>;
     };
 };

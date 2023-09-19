@@ -1,8 +1,6 @@
 import { IProject, ISyntax } from 'constructum-interfaces';
 export declare class SQL implements ISyntax {
     private readonly _originProject;
-    private readonly buildPath;
-    private readonly deafultPath;
     private _buildText;
     constructor(project: IProject);
     normalizeFieldName(fieldName: string): string;
