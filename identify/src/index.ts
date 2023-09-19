@@ -18,32 +18,35 @@ if (process.env.MONGO_CONNECTION === '' || process.env.MONGO_CONNECTION === unde
     throw Error('env parameter MONGO_CONNECTION is empty or undefined')
 }
 
-const main = async () => {
+const main = async () => { 
 
     const mongo = new MongoDBWrapper(process.env.MONGO_CONNECTION)
-    const port = process.env.PORT
+    const port = process.env.PORT 
     
     logger.info('starting server')
+    logger.info(`server started in ${process.env.NODE_ENV} mode`)
     
-    mongo.connect({
+    await mongo.connect({
         onSuccess: () => {
             logger.info('mongodb connected')
         },
-        onError: (error) => {
+        onError: (error: any) => {
             logger.error(error)
         }
     })
 
     mongo.disconnect({
         onSuccess: () => logger.info('mongo disconnected'),
-        onError: (error) => logger.error(error)
+        onError: (error: any) => logger.error(error)
     })
 
     const server = createHTTPServer({
         router: appRouter
     })
 
-    server.listen(3689)
+    logger.info(`tRPC server listen now port: ${port}`) 
+
+    server.listen(port)
 }
 
 main().catch(logger.error)

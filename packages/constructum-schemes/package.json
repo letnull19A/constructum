@@ -2,7 +2,8 @@
   "name": "constructum-schemes",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./build/index.js",
+	"types": "./build/index.d.ts",
   "scripts": {
     "lint": "npx eslint ./src",
     "format": "npx eslint ./src --fix",
@@ -16,7 +17,7 @@
   "dependencies": {
     "@types/constructum-interfaces": "file:../@types/constructum-interfaces",
     "constructum-interfaces": "file:../constructum-interfaces",
-    "mongoose": "^7.5.0",
+    "mongoose": "^7.2.1",
     "rimraf": "^5.0.1",
     "typescript": "^5.2.2"
   }

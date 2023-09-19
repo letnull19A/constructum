@@ -1,38 +1,33 @@
 import { IProject, ISyntax } from 'constructum-interfaces'
-import path from 'path'
-import * as fs from 'fs'
 
 export class SQL implements ISyntax {
 	private readonly _originProject: IProject
-	private readonly buildPath: string
-	private readonly deafultPath: string = path.join(__dirname, '../', '../', 'builds', '/')
 
 	private _buildText: string
 
 	constructor(project: IProject) {
 		this._originProject = project
 		this._buildText = ''
-		this.buildPath = path.join(this.deafultPath, project.name.charAt(0).toUpperCase() + project.name.slice(1))
 	}
 
 	normalizeFieldName(fieldName: string): string {
-		throw new Error('Method not implemented.')
+		return ''
 	}
-	
+
 	normalizeProjectName(): string {
-		throw new Error('Method not implemented.')
+		return ''
 	}
-	
+
 	linkDirectories(): string[] {
-		throw new Error('Method not implemented.')
+		return new Array()
 	}
-	
+
 	normalizeDirectories(directories: string[]): string {
-		throw new Error('Method not implemented.')
+		return ''
 	}
-	
+
 	get normalizedProjectName(): string {
-		throw new Error('Method not implemented.')
+		return ''
 	}
 
 	public normalizeType(type: string): string {
@@ -47,6 +42,7 @@ export class SQL implements ISyntax {
 				return 'bool'
 			case 'uuid':
 			case 'guid':
+			case 'uuid/guid':
 				return 'varchar(36)'
 			default:
 				'object'
@@ -60,64 +56,44 @@ export class SQL implements ISyntax {
 	}
 
 	build(): void {
-		const originName = this._originProject.name
-		const name = originName.charAt(0).toUpperCase() + originName.slice(1)
 		const entities = this._originProject.entities
 
+		if (entities === undefined || entities.length === 0) {
+			return
+		}
+
 		let primaryKey: string = ''
+		let codeDistText = ''
 
-		try {
-			console.log(`
-Building ${name}...
-PATH: ${this.buildPath}
-DEFAULT_PATH: ${this.deafultPath}`)
+		for (let i = 0; i < entities.length; i++) {
+			const entity = entities[i]
 
-			if (!fs.existsSync(this.deafultPath)) {
-				fs.mkdirSync(this.deafultPath)
-			}
+			if (entity.fields !== undefined && entity.fields.length !== 0) {
+				codeDistText += `CREATE TABLE ${entity.name} (\n`
 
-			if (!fs.existsSync(this.buildPath)) {
-				fs.mkdirSync(this.buildPath)
-			}
+				for (let j = 0; j < entity.fields.length; j++) {
+					const field = entity.fields[j]
 
-			if (entities === undefined || entities.length === 0) {
-				return
-			}
-
-			for (let i = 0; i < entities.length; i++) {
-				let codeDistText = ''
-
-				const entity = entities[i]
-
-				if (entity.fields !== undefined && entity.fields.length !== 0) {
-					codeDistText += `CREATE TABLE ${entity.name} (\n`
-
-					for (let j = 0; j < entity.fields.length; j++) {
-						const field = entity.fields[j]
-
-						if (field.indexes.includes('PrimaryKey')) {
-							primaryKey = `\tPRIMARY KEY (${field.field_name})`
-						}
-
-						codeDistText +=
-							'\t' +
-							this.normalizeName(field.field_name) +
-							' ' +
-							this.normalizeType(field.field_type) +
-							' ' +
-							(field.isNull ? '' : 'NOT NULL') +
-							',\n'
+					if (field.indexes.includes('PrimaryKey')) {
+						primaryKey = `\tPRIMARY KEY (${field.field_name})`
 					}
 
-					codeDistText += primaryKey
-					codeDistText += '\n);'
-
-					fs.writeFileSync(this.buildPath + '/' + entity.name + '.sql', codeDistText)
+					codeDistText +=
+						'\t' +
+						this.normalizeName(field.field_name) +
+						' ' +
+						this.normalizeType(field.field_type) +
+						' ' +
+						(field.isNull ? '' : 'NOT NULL') +
+						',\n'
 				}
+
+				codeDistText += primaryKey
+				codeDistText += '\n);'
 			}
-		} catch (e) {
-			console.error(e)
 		}
+
+		this._buildText = codeDistText
 	}
 
 	get buildText(): string {

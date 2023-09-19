@@ -6,6 +6,8 @@ declare global {
       REDIS_URL: string
       REDIS_PORT: number
       REDIS_HOST: string
+      COMPILER_TRPC_HOST: string
+      COMPILER_TRPC_PORT: number
     }
   }
 }

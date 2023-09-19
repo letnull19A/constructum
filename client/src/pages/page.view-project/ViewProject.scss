@@ -7,12 +7,13 @@ $card-width: calc(100% / $cards-in-row - $gap);
   display: grid;
   gap: 10px;
   grid-template-columns: 100%;
-  grid-template-rows: 40px;
+  grid-template-rows: 55px;
 
   .toolbar {
     display: grid;
     gap: 10px;
-    grid-template-columns: auto 150px 150px 100px 140px;
+    grid-template-columns: 150px auto 150px 150px 100px 140px;
+    align-items: center;
 
     h2 {
       word-wrap: none;
@@ -21,7 +22,7 @@ $card-width: calc(100% / $cards-in-row - $gap);
     }
 
     .button::nth-child(1) {
-      grid-column: 3;
+      grid-column: 1;
     }
 
     .button::nth-child(2) {

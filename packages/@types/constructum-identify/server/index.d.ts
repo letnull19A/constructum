@@ -37,9 +37,6 @@ export declare const appRouter: import("@trpc/server").CreateRouterInner<import(
         };
         _output_in: typeof import("@trpc/server").unsetMarker;
         _output_out: typeof import("@trpc/server").unsetMarker;
-    }, {
-        mongoConnection: string;
-        userLogin: string;
-    }>;
+    }, any>;
 }>;
 export type AppRouter = typeof appRouter;

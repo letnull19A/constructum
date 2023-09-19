@@ -6,6 +6,7 @@ export interface IButtonProp {
 	outline?: boolean
 	label?: string | JSX.Element
 	style?: React.CSSProperties | undefined
+	className?: string
 	onClick?: () => void
 }
 
@@ -25,7 +26,7 @@ export class Button extends React.Component<IButtonProp> {
 		return (
 			<button
 				style={this.props.style}
-				className={this.#type + ' ' + this.#outline + ' button'}
+				className={this.#type + ' ' + this.#outline + ' button ' + this.props.className}
 				onClick={this.props.onClick}
 			>
 				{this.props.label}
