@@ -1,0 +1,24 @@
+{
+  "name": "constructum-schemes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "scripts": {
+    "lint": "npx eslint ./src",
+    "format": "npx eslint ./src --fix",
+    "pkgi": "npm i",
+    "clean-build": "rimraf ../@types/constructum-schemes",
+    "link-pkg": "cp @types/package.json ../@types/constructum-schemes",
+    "build": "rimraf build && npm run clean-build && tsc && npm run link-pkg"
+  },
+  "author": "xarlein",
+  "license": "ISC",
+  "dependencies": {
+    "@types/constructum-interfaces": "file:../@types/constructum-interfaces",
+    "constructum-interfaces": "file:../constructum-interfaces",
+    "mongoose": "^7.2.1",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.2.2"
+  }
+}

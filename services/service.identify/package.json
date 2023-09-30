@@ -1,0 +1,36 @@
+{
+  "name": "identify",
+  "version": "1.0.0",
+  "description": "identify user after autherization",
+  "main": "build/index.js",
+  "scripts": {
+    "ts-build": "rimraf ./build && npx tsc",
+    "dev": "cross-env NODE_ENV=development npx nodemon",
+    "start": "rimraf ./build && npm run ts-build && cross-env NODE_ENV=production node build/index.js",
+    "start-dev": "rimraf ./build && npm run ts-build && node build/index.js",
+    "lint": "npx eslint ./src",
+    "format": "npx eslint ./src --fix",
+    "pkgi": "npm i",
+    "pkgup": "npm update"
+  },
+  "author": "xarlein",
+  "license": "ISC",
+  "dependencies": {
+    "@trpc/server": "^10.38.1",
+    "@tsed/logger": "^6.6.2",
+    "@types/constructum-dbs": "file:../../packages/@types/constructum-dbs",
+    "@types/constructum-identify": "file:../../packages/@types/constructum-identify",
+    "@types/constructum-schemes": "file:../../packages/@types/constructum-schemes",
+    "@types/express": "^4.17.17",
+    "constructum-dbs": "file:../../packages/constructum-dbs",
+    "constructum-identify": "file:../../packages/constructum-identify",
+    "constructum-schemes": "file:../../packages/constructum-schemes",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^7.5.1",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.2.2",
+    "zod": "^3.22.2"
+  }
+}

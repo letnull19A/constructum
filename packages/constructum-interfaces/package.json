@@ -1,6 +1,6 @@
 {
   "name": "constructum-interfaces",
-  "version": "0.0.2.14",
+  "version": "1.0.17",
   "description": "interfaces for constructum.io",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",

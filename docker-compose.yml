@@ -1,0 +1,93 @@
+version: '3'
+name: 'constructum'
+
+services:
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - '6379:6379'
+    networks:
+      cnetwork:
+        ipv4_address: 7.5.0.10
+
+  mongo:
+    image: mongo:latest
+    restart: always
+    ports:
+      - '27001:27019'
+    networks:
+      cnetwork:
+        ipv4_address: 7.5.0.20
+
+  auth:
+    image: constructum-auth:latest
+    restart: always
+    depends_on:
+      - mongo
+      - redis
+    networks:
+      cnetwork:
+        ipv4_address: 7.5.0.30
+    ports:
+      - '3005:8080'
+
+  api:
+    image: constructum-api:latest
+    restart: always
+    environment:
+      - PORT=7001
+    depends_on:
+      - mongo
+      - redis
+      - compiler
+    networks:
+      cnetwork:
+        ipv4_address: 7.5.0.40
+    ports:
+      - '7001:7001'
+
+  compiler:
+    image: constructum-compiler:latest
+    restart: always
+    environment:
+      - PORT=12245
+      - NODE_ENV=production
+    depends_on:
+      - auth
+    networks:
+      cnetwork:
+        ipv4_address: 7.5.0.50
+    ports:
+      - '12245:12245'
+
+  identify:
+    image: constructum-identify:latest
+    restart: always
+    depends_on:
+      - mongo
+    networks:
+      cnetwork:
+        ipv4_address: 7.5.0.60
+
+#  frontend:
+#    image: constructum-frontend:latest
+#    restart: always
+#    depends_on:
+#      - api
+#    networks:
+#      cnetwork:
+#         ipv4_address: 7.5.0.60
+#    ports:
+#      - '4173:4173'
+
+volumes:
+  mongodb:
+
+networks:
+  cnetwork:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 7.5.0.0/16
+          gateway: 7.5.0.1

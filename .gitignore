@@ -1,2 +1,9 @@
 node_modules
 build
+*.tar
+**/*.tar
+*.gz
+**/*.gz
+./packages/@types/**
+**/build/**
+**/dist/**

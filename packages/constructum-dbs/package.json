@@ -1,0 +1,23 @@
+{
+  "name": "constructum-dbs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "scripts": {
+    "lint": "npx eslint ./src",
+    "format": "npx eslint ./src --fix",
+    "pkgi": "npm i",
+    "clean-build": "rimraf ../@types/constructum-dbs",
+    "link-pkg": "cp @types/package.json ../@types/constructum-dbs",
+    "build": "rimraf build && npm run clean-build && tsc && npm run link-pkg"
+  },
+  "author": "letnull19a",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^7.2.1",
+    "redis": "^4.6.8",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.2.2"
+  }
+}

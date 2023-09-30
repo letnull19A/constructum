@@ -1,0 +1,85 @@
+@import './../../scss/style.variables.scss';
+
+$cards-in-row: 5;
+$card-width: calc(100% / $cards-in-row - $gap);
+
+.view-content {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 100%;
+  grid-template-rows: 55px;
+
+  .toolbar {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 150px auto 150px 150px 100px 140px;
+    align-items: center;
+
+    h2 {
+      word-wrap: none;
+      word-break: keep-all;
+      overflow: hidden;
+    }
+
+    .button::nth-child(1) {
+      grid-column: 1;
+    }
+
+    .button::nth-child(2) {
+      grid-column: 2;
+    }
+  }
+
+  .section {
+    display: grid;
+    grid-template-rows: 40px auto;
+
+    .entites-list {
+      display: grid;
+      grid-template-columns: repeat($cards-in-row, $card-width);
+      grid-auto-rows: 20px;
+      row-gap: $gap;
+      justify-content: space-between;
+
+      .card {
+        grid-template-rows: 10px 20px 10px 10px auto 10px auto 10px;
+      }
+
+      .entity-card {
+        height: fit-content;
+
+        .card-section-title {
+          grid-column: 1/4;
+          grid-row: 1/4;
+        }
+
+        .card-section-content {
+          grid-row: 5/6;
+        }
+
+        .entity-head {
+          display: grid;
+          align-items: center;
+          border-radius: 8px 8px 0 0;
+          text-align: center;
+          background-color: map-get($theme, 'primary');
+          height: 100%;
+        }
+
+        .entity-fields {
+          ul {
+            list-style: none;
+
+            li {
+              line-height: 40px;
+            }
+          }
+        }
+
+        .card-section-footer {
+          grid-row: 7/8;
+        }
+      }
+    }
+  }
+}

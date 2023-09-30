@@ -1,0 +1,23 @@
+{
+  "name": "constructum-data-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "scripts": {
+    "lint": "npx eslint ./src",
+    "format": "npx eslint ./src --fix",
+    "pkgi": "npm i",
+    "clean-build": "rimraf ../@types/constructum-data-generator",
+    "link-pkg": "cp @types/package.json ../@types/constructum-data-generator",
+    "build": "rimraf build && npm run clean-build && tsc && npm run link-pkg"
+  },
+  "author": "EneRGet1K",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "mongodb": "^6.1.0"
+  }
+}

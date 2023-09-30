@@ -1,0 +1,6 @@
+{
+  "watch": ["src"],
+  "ext": ".ts,.js,.env.*",
+  "exec": "npm run start-dev",
+  "delay": 2500
+}

@@ -1,3 +1,5 @@
+import { IBuildProjectResponse } from "../queries/IBuildProjectResponse"
+
 export interface ISyntax {
     
     /**
@@ -35,6 +37,13 @@ export interface ISyntax {
     */
     build(): void
 
-    get buildText(): string
+    /**
+     * @description respone array of structured virtual files
+    */
+    get buildText(): Array<IBuildProjectResponse>
+
+    /**
+     * @description return normal project name
+    */
     get normalizedProjectName(): string
 }
