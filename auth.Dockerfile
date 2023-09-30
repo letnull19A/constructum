@@ -4,7 +4,7 @@ ENV NODE_ENV="production"
 
 EXPOSE 3005
 
-COPY ./auth /app/auth
+COPY ./services/service.auth /app/auth
 COPY ./packages ./app/packages
 
 WORKDIR /app/auth

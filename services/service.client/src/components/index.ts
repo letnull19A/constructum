@@ -12,3 +12,4 @@ export { Card, CardContent, CardFooter, CardHead, CardImage } from './component.
 export { Textarea } from './component.textarea/Textarea'
 export { Select } from './component.select/Select'
 export { ExplorerHierarhy } from './component.explorerHierarhy/ExplorerHierarchy'
+export { Tag } from './component.tag/Tag'

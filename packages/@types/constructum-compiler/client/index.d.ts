@@ -19,6 +19,6 @@ export declare const trpcClient: (host: string, port: number) => {
             };
             _output_in: typeof import("@trpc/server").unsetMarker;
             _output_out: typeof import("@trpc/server").unsetMarker;
-        }, string | import("@trpc/server").TRPCError>>;
+        }, string | import("constructum-interfaces/queries/IBuildProjectResponse").IBuildProjectResponse[] | import("@trpc/server").TRPCError>>;
     };
 };

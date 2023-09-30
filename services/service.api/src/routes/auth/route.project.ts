@@ -3,6 +3,7 @@ import { connect, disconnect } from '../../database/database.mongo.js'
 import Project from '../../schemas/scheme.project.js'
 import { Types } from 'mongoose'
 import { $log as logger } from '@tsed/logger'
+import { MongoClient, ObjectId } from 'mongodb'
 
 export const projectRoute = express.Router()
 
@@ -11,18 +12,25 @@ projectRoute.get('/:id', async (req, res) => {
 
   if (id === null || id === undefined || id === '') res.status(400).send('Не корректные данные проекта!')
 
-  await connect()
+  try {
+		const client = new MongoClient(process.env.MONGO_CONNECTION)
 
-  await Project.findOne({ _id: new Types.ObjectId(id) })
-    .then((project) => {
-      res.send(project)
-    })
-    .catch((error) => {
-      logger.error(error)
-      res.status(500).send('Неожиданная ошибка!')
-    })
+		await client.connect()
 
-  await disconnect()
+		client.on('open', () => logger.debug('mongoDB client connected to DB'))
+
+		const db = client.db('test')
+
+		const projects = db.collection('projects')
+    
+		const project = await projects.findOne({ _id: new ObjectId(id) })
+
+		client.close()
+
+		res.status(200).send(project)
+	} catch (error) {
+		logger.error(error)
+	}
 })
 
 projectRoute.put('/:id', (req, res) => {

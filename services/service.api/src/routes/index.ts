@@ -31,11 +31,11 @@ router.use('/project', isAuth, projectRoute)
 // project/:id/build/:syntax
 router.use('/project', isAuth, compilerRoute)
 
-// project/:id/entities
-router.use('/project', isAuth, entityRoute)
-
 // project/:id/entities/:entity_id/fields
 router.use('/project', isAuth, fieldRoute)
+
+// project/:id/entities
+router.use('/project', isAuth, entityRoute)
 
 // project/craete
 router.use('/project', isAuth, projectCreateRoute)

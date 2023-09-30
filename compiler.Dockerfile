@@ -2,7 +2,7 @@ FROM node:alpine
 
 EXPOSE 11261
 
-COPY ./compiler /app/compiler
+COPY ./services/service.compiler /app/compiler
 COPY ./packages ./app/packages
 
 WORKDIR /app/compiler

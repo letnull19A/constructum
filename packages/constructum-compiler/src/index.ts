@@ -9,5 +9,5 @@ export { appRouter } from './server/index.js'
 export const build = async (syntaxModel: ISyntax): Promise<string> => {
     syntaxModel.build()
 
-    return syntaxModel.buildText
+    return JSON.stringify(syntaxModel.buildText)
 }

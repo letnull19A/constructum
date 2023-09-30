@@ -24,7 +24,5 @@ userDataRoute.get('/:uid/projects', async (req, res) => {
   } catch (error) {
     logger.error('PROJ ' + error)
     res.status(500).send('Что-то пошло не так')
-  } finally {
-    // await mongoDisconnect()
   }
 })

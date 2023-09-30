@@ -1,8 +1,21 @@
 @import './../../scss/style.variables.scss';
 
+.files-content {
+    display: grid;
+    gap: $gap * 2;
+    height: 100%;
+    grid-template-rows: auto;
+}
+
 .card.entity-card {
 
     grid-template-rows: 10px 40px 10px 10px;
+    height: auto;
+
+    &:hover {
+        transition: 0;
+        scale: 1;
+    }
 
     .card-section-title {
         display: inherit;

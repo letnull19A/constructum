@@ -4,7 +4,8 @@ declare global {
       PORT: number
       REDIS_URL: string
       MONGO_CONNECTION: string
-      IDENTIFY_SERVER: string
+      IDENTIFY_SERVER: string 
+      CORS_ENABLED: boolean
     }
   }
 }

@@ -1,13 +1,14 @@
 import { IProject, ISyntax } from 'constructum-interfaces'
+import { IBuildProjectResponse } from 'constructum-interfaces/queries/IBuildProjectResponse'
 
 export class EF implements ISyntax {
-	private _buildText: string
+	private _buildText: Array<IBuildProjectResponse>
 	private _normalizedProjectName: string
 	private _originProject: IProject
 
 	constructor(project: IProject) {
 		this._originProject = project
-		this._buildText = ''
+		this._buildText = []
 		this._normalizedProjectName = ''
 	}
 
@@ -40,7 +41,7 @@ export class EF implements ISyntax {
 		return this._normalizedProjectName
 	}
 
-	public get buildText(): string {
+	public get buildText(): Array<IBuildProjectResponse> {
 		return this._buildText
 	}
 
@@ -77,15 +78,16 @@ export class EF implements ISyntax {
 			return
 		}
 
-		let codeDistText = ''
+		let codeDistText = new Array<IBuildProjectResponse>
 
 		for (let i = 0; i < entities.length; i++) {
 			const entity = entities[i]
-
 			const className = entity.name.charAt(0).toUpperCase() + entity.name.slice(1)
 
+			let programText = ''
+
 			if (entity.fields !== undefined && entity.fields.length !== 0) {
-				codeDistText +=
+				programText +=
 					'using System.ComponentModel.DataAnnotations;\n' +
 					'using System.ComponentModel.DataAnnotations.Schema;\n\n' +
 					`[Table(\'${entity.name}\')]\n` +
@@ -97,12 +99,12 @@ export class EF implements ISyntax {
 					const field = entity.fields[j]
 
 					if (field.indexes.includes('PrimaryKey')) {
-						codeDistText += '\t[Key]\n'
+						programText += '\t[Key]\n'
 					}
 
-					codeDistText += `\t[Column(\'${field.field_name}\')]\n`
+					programText += `\t[Column(\'${field.field_name}\')]\n`
 
-					codeDistText +=
+					programText +=
 						'\tpublic ' +
 						this.normalizeType(field.field_type) +
 						' ' +
@@ -110,8 +112,14 @@ export class EF implements ISyntax {
 						' { get; set; }\n\n'
 				}
 
-				codeDistText += '}'
+				programText += '}'
 			}
+
+			codeDistText.push({
+				virtualFileName: `${className}.cs`,
+				virtualFileContent: programText
+			})
+
 		}
 
 		this._buildText = codeDistText

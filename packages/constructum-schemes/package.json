@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "./build/index.js",
-	"types": "./build/index.d.ts",
+  "types": "./build/index.d.ts",
   "scripts": {
     "lint": "npx eslint ./src",
     "format": "npx eslint ./src --fix",

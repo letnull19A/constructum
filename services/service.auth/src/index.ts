@@ -26,8 +26,14 @@ const main = async () => {
 
 	const app = express()
 
-	if (process.env.NODE_ENV === 'development') {
-		app.use(cors())
+	if (process.env.CORS_ENABLED) {
+
+		const corsOptions = {
+			origin: '*',
+			optionsSuccessStatus: 200
+		}
+
+		app.use(cors(corsOptions))
 		logger.info('cors is enabled')
 	}
 	app.use(bodyParser.urlencoded({ extended: true }))

@@ -4,7 +4,7 @@ ENV NODE_ENV="production"
 
 EXPOSE 7301
 
-COPY ./api ./app/api
+COPY ./services/service.api ./app/api
 COPY ./packages ./app/packages
 
 WORKDIR /app/api

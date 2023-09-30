@@ -3,8 +3,8 @@ FROM node
 EXPOSE 3689
 
 COPY ./packages ./app/packages 
-COPY ./auth ./app/auth
-COPY ./identify ./app/identify
+COPY ./services/service.auth ./app/auth
+COPY ./services/service.identify ./app/identify
 
 WORKDIR /app/identify
 RUN ["npm", "i", "-g", "typescript@next"]

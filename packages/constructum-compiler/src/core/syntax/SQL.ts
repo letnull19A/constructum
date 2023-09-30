@@ -1,14 +1,16 @@
 import { IProject, ISyntax } from 'constructum-interfaces'
+import { IBuildProjectResponse } from 'constructum-interfaces/queries/IBuildProjectResponse'
 
 export class SQL implements ISyntax {
 	private readonly _originProject: IProject
 
-	private _buildText: string
+	private _buildText: Array<IBuildProjectResponse>
 	private _normalizedProjectName: string
 
 	constructor(project: IProject) {
+		this._normalizedProjectName = ''
 		this._originProject = project
-		this._buildText = ''
+		this._buildText = []
 	}
 
 	normalizeFieldName(fieldName: string): string {
@@ -95,10 +97,13 @@ export class SQL implements ISyntax {
 			}
 		}
 
-		this._buildText = codeDistText
+		this._buildText.push({
+			virtualFileName: `${this.normalizeProjectName()}.sql`,
+			virtualFileContent: codeDistText
+		})
 	}
 
-	get buildText(): string {
+	get buildText(): Array<IBuildProjectResponse> {
 		return this._buildText
 	}
 }

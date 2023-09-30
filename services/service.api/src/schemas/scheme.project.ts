@@ -6,7 +6,7 @@ export enum Access {
   Private = 'PRIVATE',
 }
 
-const projectSchema = new Schema<IProject>({
+export const projectSchema = new Schema<IProject>({
   owner: { type: Schema.Types.ObjectId, ref: 'User' },
   name: { type: String, required: [true, 'Название проекта не введено'] },
   description: { type: String },

@@ -1,31 +1,42 @@
 @import './../../scss/style.variables.scss';
 
+$padding-left: 50px;
+$margin-left-header-container: calc($padding-left / 2);
+
 header.header {
   width: 100%;
   height: $header-height;
-  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.315);
-  background-color: #f5f5f5;
+  background-color: #ffffff00;
   display: grid;
-  grid-template-columns: $gap $menu-width - $gap * 3 $gap * 2 2fr $gap 0.3fr $gap;
+  grid-template-columns: $gap $menu-width $gap 2fr $padding-left $gap 0.3fr $gap;
   grid-template-rows: 10px 44px 10px;
   align-items: center;
 
-  .header-title {
-    grid-column: 2/3;
-    grid-row: 2/3;
+  .header-account {
+    grid-row: 1/4;
+    grid-column: 5/9;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border-bottom-left-radius: 40px;
+    box-shadow: 0px 0 15px 3px #00000042;
 
-    span {
-      font-size: 1.9rem;
-      height: 44px;
-      color: map-get($theme, 'primary');
+    .header-account-container {
+      width: calc(100% - 2 * $gap - $margin-left-header-container);
+      margin-left: ($gap + $margin-left-header-container);
+      display: flex;
+      justify-content: space-between;
     }
   }
+}
 
-  .header-account {
-    grid-row: 2/3;
-    grid-column: 6/7;
-    height: 22px;
-    display: flex;
-    justify-content: space-between;
+@media screen and (max-width: 1370px) {
+  header.header {
+    grid-template-columns: $gap $menu-width - $gap $gap 2fr $gap 0.5fr $gap;
+
+    .header-title {
+      grid-column: 1/3;
+    }
   }
 }

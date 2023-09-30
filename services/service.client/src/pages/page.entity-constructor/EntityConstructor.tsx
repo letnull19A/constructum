@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button, Content, Footer, Header, Menu, Select, Textarea, Textbox } from '../../components'
+import { Button, Content, Footer, Header, Menu, Select, Tag, Textarea, Textbox } from '../../components'
 import { LayoutDefault } from '../../layouts/layout.default'
 import { Method, useHttp } from '../../hooks/hook.use-http'
 import { IFieldData, IJwtSet, IProjectData } from 'constructum-interfaces'
@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import './EntityConstructor.scss'
 import { useTitle } from '../../hooks/hook.use-title'
 import { v4 as uuidv4 } from 'uuid'
+import { useBearer } from '../../hooks'
 
 interface IRowViewData {
 	isSelected: boolean
@@ -16,7 +17,7 @@ interface IRowViewData {
 	min?: number
 	max?: number
 	isNull: boolean
-	indexes: string
+	indexes: string[]
 	description?: string
 }
 
@@ -30,8 +31,7 @@ export const EntityConstructor = () => {
 	const [removeRowsNumber, setRemoveRowsNumber] = useState<number>(0)
 	const getFieldRequest = useHttp<Array<IFieldData>>()
 	const getEntityRequest = useHttp<Array<IProjectData>>()
-	const userTokens = JSON.parse(localStorage.getItem('token') ?? '{}') as IJwtSet
-	const bearer = 'Bearer ' + userTokens.access
+	const { bearer } = useBearer()
 	const { id, entity_id } = useParams()
 	const navigate = useNavigate()
 
@@ -40,7 +40,7 @@ export const EntityConstructor = () => {
 			name: row.name,
 			type: row.type,
 			isNull: row.isNull,
-			indexes: [row.indexes],
+			indexes: row.indexes,
 			description: row.description,
 			min: row.min,
 			max: row.max,
@@ -50,6 +50,7 @@ export const EntityConstructor = () => {
 
 	const addRow = () => {
 		setRows((prev) => [
+			// @ts-ignore
 			...prev,
 			{
 				isSelected: false,
@@ -64,7 +65,7 @@ export const EntityConstructor = () => {
 
 	const rowIsGUID = (row: IRowViewData) => row.type === 'uuid/guid'
 
-	const rowIsPrimaryKey = (row: IRowViewData) => row.indexes === indexes[1]
+	const rowIsPrimaryKey = (row: IRowViewData) => row.indexes[0] === indexes[1]
 
 	const rowIsNumber = (row: IRowViewData) => row.type === 'float' || row.type === 'integer' || row.type === 'number'
 
@@ -95,7 +96,11 @@ export const EntityConstructor = () => {
 
 		const value = parseInt(e.target.value)
 
-		origin[index].min = value > -1 && value < 9999 ? value : 0
+		let maxValue = origin[index].max
+
+		if (maxValue === undefined) maxValue = 0
+
+		if (value < maxValue) origin[index].min = value
 
 		setRows([...origin])
 	}
@@ -107,21 +112,23 @@ export const EntityConstructor = () => {
 
 		const value = parseInt(e.target.value)
 
-		const minValue = origin[index].min
+		let minValue = origin[index].min
 
-		origin[index].max = value > -1 && value < 9999 ? value : 0
+		if (minValue === undefined) minValue = 0
 
-		if (minValue < origin[index].max) {
-			setRows([...origin])
-		}
+		if (value > minValue) origin[index].max = value
+
+		setRows([...origin])
 	}
 
-	const updateIndexes = (e: React.ChangeEvent<HTMLSelectElement>, index: number) => {
+	const updateIndexes = (array: Array<string>, index: number) => {
 		let origin = rows
 
 		if (origin === undefined) return
 
-		origin[index].indexes = e.target.value
+		console.log(array)
+
+		origin[index].indexes = array
 
 		setRows([...origin])
 	}
@@ -132,6 +139,26 @@ export const EntityConstructor = () => {
 		if (origin === undefined) return
 
 		origin[index].type = e.target.value
+
+		setRows([...origin])
+	}
+
+	const updateLength = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+		let origin = rows
+
+		if (origin === undefined) return
+
+		origin[index].length = Number.parseInt(e.target.value)
+
+		setRows([...origin])
+	}
+
+	const updateIsNull = (index: number) => {
+		let origin = rows
+
+		if (origin === undefined) return
+
+		origin[index].isNull = !origin[index].isNull
 
 		setRows([...origin])
 	}
@@ -151,6 +178,8 @@ export const EntityConstructor = () => {
 
 		const readyData = rows.map((row) => toQueryObject(row))
 
+		if (bearer === null) return
+
 		getFieldRequest.requestWithInterceptors({
 			method: Method.POST,
 			url: `http://localhost:7161/api/project/${id}/entities/${entity_id}/fields`,
@@ -163,16 +192,18 @@ export const EntityConstructor = () => {
 	}
 
 	useEffect(() => {
-		getFieldRequest.requestWithInterceptors({
-			method: Method.GET,
-			url: `http://localhost:7161/api/project/${id}/entities/${entity_id}/fields`,
-			headers: {
-				Authorization: bearer,
-				'Content-Type': 'application/x-www-form-urlencoded'
-			}
-		})
+		setTableName('загрузка...')
 
-		setTimeout(() => {
+		if (bearer !== '') {
+			getFieldRequest.requestWithInterceptors({
+				method: Method.GET,
+				url: `http://localhost:7161/api/project/${id}/entities/${entity_id}/fields`,
+				headers: {
+					Authorization: bearer,
+					'Content-Type': 'application/x-www-form-urlencoded'
+				}
+			})
+
 			getEntityRequest.requestWithInterceptors({
 				method: Method.GET,
 				url: `http://localhost:7161/api/project/${id}/entities/${entity_id}`,
@@ -181,13 +212,14 @@ export const EntityConstructor = () => {
 					'Content-Type': 'application/x-www-form-urlencoded'
 				}
 			})
-		}, 1000)
-	}, [])
+		}
+	}, [bearer])
 
 	useEffect(() => {
-		if (getEntityRequest.response === null) return
-
-		setTableName(getEntityRequest.response[0].entities[0].name)
+		if (getEntityRequest.response !== undefined && getEntityRequest.response !== null) {
+			console.log(getEntityRequest.response.entities)
+			setTableName(getEntityRequest.response[0]?.entities[0].name)
+		}
 	}, [getEntityRequest.response])
 
 	useEffect(() => {
@@ -200,7 +232,7 @@ export const EntityConstructor = () => {
 						type: 'uuid/guid',
 						length: 32,
 						isNull: false,
-						indexes: 'PrimaryKey'
+						indexes: ['PrimaryKey']
 					}
 				])
 			} else {
@@ -210,8 +242,10 @@ export const EntityConstructor = () => {
 						name: element.field_name,
 						type: element.field_type,
 						length: element.field_length ?? 64,
+						min: element.field_min,
+						max: element.field_max,
 						isNull: element.isNull,
-						indexes: element.indexes[0],
+						indexes: element.indexes,
 						description: element.description
 					}
 				})
@@ -223,7 +257,6 @@ export const EntityConstructor = () => {
 
 	useEffect(() => {
 		setRemoveRowsNumber(rows?.filter((element) => element.isSelected === true).length || 0)
-		console.log('rows is updated!')
 	}, [rows])
 
 	return (
@@ -231,8 +264,8 @@ export const EntityConstructor = () => {
 			<Header />
 			<Menu />
 			<Footer />
-			<Content className="content-constructor"> 
-				<Button outline className='button-back' type="secondary" label="Назад" onClick={() => navigate(-1)} />
+			<Content className="content-constructor">
+				<Button outline className="button-back" type="secondary" label="Назад" onClick={() => navigate(-1)} />
 				<h2 className="title">Конструктор сущности: {tableName}</h2>
 				<table className="constructor-table">
 					<thead>
@@ -271,7 +304,13 @@ export const EntityConstructor = () => {
 								</td>
 								<td>
 									{!rowIsChar(rowData) && !rowIsNumber(rowData) && !rowIsGUID(rowData) && (
-										<Textbox key={uuidv4()} type="number" min={0} max={100000} value={rowData.length.toString()} />
+										<Textbox
+											onChange={(e) => updateLength(e, index)}
+											type="number"
+											min={0}
+											max={100000}
+											value={rowData.length.toString()}
+										/>
 									)}
 								</td>
 								<td>
@@ -279,6 +318,7 @@ export const EntityConstructor = () => {
 										<Textbox
 											className="textbox-custom"
 											type="number"
+											value={rowData.min?.toString()}
 											min={0}
 											max={100000}
 											onChange={(e) => updateMinValue(e, index)}
@@ -290,15 +330,25 @@ export const EntityConstructor = () => {
 										<Textbox
 											className="textbox-custom"
 											type="number"
+											value={rowData.max?.toString()}
 											min={0}
 											max={100000}
 											onChange={(e) => updateMaxValue(e, index)}
 										/>
 									)}
 								</td>
-								<td>{!rowIsPrimaryKey(rowData) && <input type="checkbox" checked={rowData.isNull} />}</td>
 								<td>
-									<Select items={indexes} value={rowData.indexes} onChange={(e) => updateIndexes(e, index)} />
+									{!rowIsPrimaryKey(rowData) && (
+										<input type="checkbox" onChange={() => updateIsNull(index)} checked={rowData.isNull} />
+									)}
+								</td>
+								<td>
+									<Tag
+										onChange={(arr) => updateIndexes(arr, index)}
+										elements={rowData.indexes}
+										handleElementType="select"
+										handleElementContent={['NONE', 'PrimaryKey', 'ForeignKey', 'Unique']}
+									/>
 								</td>
 								<td>
 									<Textarea className="field-description textbox-custom" />

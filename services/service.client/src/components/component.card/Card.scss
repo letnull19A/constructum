@@ -1,4 +1,5 @@
 .card {
+  position: relative;
   width: 100%;
   height: 100%;
   background-color: #fff;
@@ -7,6 +8,13 @@
   grid-template-rows: 10px auto 10px 0.2fr 10px auto 10px 0.2fr 10px;
   grid-auto-rows: max-content;
   border-radius: 8px;
+  box-shadow: 0 3px 10px 0px #4b4b4b7a;
+  transition: .3s;
+
+  &:hover {
+    box-shadow: 0 20px 10px 0px #4b4b4b7a;
+    scale: 1.025;
+  }
 
   &-section-image {
     grid-row: 1/3;

@@ -4,6 +4,7 @@ import Project from '../../schemas/scheme.project.js'
 import { Types } from 'mongoose'
 import { connect, disconnect } from '../../database/database.mongo.js'
 import { IEntity, IProject } from 'constructum-interfaces'
+import { MongoClient, ObjectId } from 'mongodb'
 
 export const entityRoute = express.Router()
 
@@ -13,23 +14,35 @@ export const entityRoute = express.Router()
 entityRoute.get('/:id/entities/:entity_id', async (req, res) => {
   const { id, entity_id } = req.params
 
-  await connect() 
+  try {
+		const client = new MongoClient(process.env.MONGO_CONNECTION)
 
-  await Project.find(
-    { _id: new Types.ObjectId(id) },
-    { entities: { $elemMatch: { _id: new Types.ObjectId(entity_id) } } },
-  )
-    .then((result) => {
-      logger.debug(`project id: ${id}`)
+		await client.connect()
 
-      res.status(200).send(result)
-    })
-    .catch((error) => {
-      logger.error(error)
-      res.status(400).send('Проект не найден!')
-    })
+		client.on('open', () => logger.debug('mongoDB client connected to DB'))
 
-  await disconnect()
+		const db = client.db('test')
+
+		const projects = db.collection('projects')
+    
+		const project = await projects.findOne(
+      { 
+        _id: new ObjectId(id),
+        entities: {
+          $elemMatch: { 
+            _id: new Types.ObjectId(entity_id) 
+          }
+        } 
+      } 
+    )
+
+		client.close()
+
+		res.status(200).send(project)
+	} catch (error) {
+    res.status(500).send(error)
+		logger.error(error)
+	}
 })
 
 entityRoute.get('/:id/entities', async (req, res) => {
