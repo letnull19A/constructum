@@ -1,6 +1,6 @@
 {
-    "name": "@types/constructum-interfaces",
-    "version": "0.0.1",
+    "name": "@types/constructum-schemes",
+    "version": "1.0.1",
     "description": "declarations files",
     "main": "",
     "scripts": {

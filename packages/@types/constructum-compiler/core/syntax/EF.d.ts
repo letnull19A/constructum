@@ -1,4 +1,5 @@
 import { IProject, ISyntax } from 'constructum-interfaces';
+import { IBuildProjectResponse } from 'constructum-interfaces/queries/IBuildProjectResponse';
 export declare class EF implements ISyntax {
     private _buildText;
     private _normalizedProjectName;
@@ -8,7 +9,7 @@ export declare class EF implements ISyntax {
     normalizeProjectName(): string;
     linkDirectories(): Array<string>;
     get normalizedProjectName(): string;
-    get buildText(): string;
+    get buildText(): Array<IBuildProjectResponse>;
     normalizeType(typeName: string): string;
     normalizeFieldName(name: string): string;
     build(): void;

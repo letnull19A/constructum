@@ -1,3 +1,4 @@
+import { IBuildProjectResponse } from "../queries/IBuildProjectResponse";
 export interface ISyntax {
     /**
      * @example user_name -> UserName (C#)
@@ -28,6 +29,12 @@ export interface ISyntax {
      * @description build project to finally version - text
     */
     build(): void;
-    get buildText(): string;
+    /**
+     * @description respone array of structured virtual files
+    */
+    get buildText(): Array<IBuildProjectResponse>;
+    /**
+     * @description return normal project name
+    */
     get normalizedProjectName(): string;
 }
