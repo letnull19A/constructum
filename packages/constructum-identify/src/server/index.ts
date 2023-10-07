@@ -6,16 +6,14 @@ import { $log as logger } from '@tsed/logger'
 import mongoose from 'mongoose'
 
 export const appRouter = router({
-	ping: publicProcedure.input(z.string()).query(async (opts) => {
+	ping: publicProcedure.query(async () => {
 		logger.info(`accepted new query: ping`)
-		return opts.input
+		return 'pong'
 	}),
 	identity: publicProcedure
 		.input(z.object({ mongoConnection: z.string(), userLogin: z.string() }))
 		.query(async (opts) => {
 			const { input } = opts
-
-			let response = {}
 
 			logger.info(`accepted new query: identity`)
 

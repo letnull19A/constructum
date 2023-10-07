@@ -5,7 +5,6 @@ import { LayoutDefault } from '../../layouts/layout.default'
 import { Method, useHttp } from '../../hooks/hook.use-http'
 import { useEffect, useState } from 'react'
 import './Projects.scss'
-import configs from './../../configs/server.config.json'
 import { useBearer } from '../../hooks'
 import { IProject } from 'constructum-interfaces'
 
@@ -23,7 +22,7 @@ export const Projects = () => {
 		if (bearer !== '') {
 			getAllProjects.requestWithInterceptors({
 				method: Method.GET,
-				url: `${configs.api}/api/user/${userData.id}/projects`,
+				url: `${import.meta.env.VITE_API_URL}/api/user/${userData.id}/projects`,
 				headers: {
 					Authorization: bearer,
 					'Content-Type': 'application/x-www-form-urlencoded'

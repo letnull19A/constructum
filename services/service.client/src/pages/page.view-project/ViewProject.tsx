@@ -5,7 +5,6 @@ import './ViewProject.scss'
 import { useEffect, useState } from 'react'
 import { Method, useHttp } from '../../hooks/hook.use-http'
 import { IProject } from 'constructum-interfaces'
-import configs from './../../configs/server.config.json'
 import { useBearer } from '../../hooks'
 
 export const ViewProject = () => {
@@ -18,7 +17,7 @@ export const ViewProject = () => {
 	useEffect(() => {
 		getEntities.requestWithInterceptors({
 			method: Method.GET,
-			url: `${configs.api}/api/project/${id}`,
+			url: `${import.meta.env.VITE_API_URL}/api/project/${id}`,
 			headers: {
 				Authorization: bearer,
 				'Content-Type': 'application/x-www-form-urlencoded'

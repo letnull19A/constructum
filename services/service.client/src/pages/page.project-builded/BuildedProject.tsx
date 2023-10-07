@@ -4,7 +4,6 @@ import { useHttp } from '../../hooks/hook.use-http'
 import { useTitle } from '../../hooks/hook.use-title'
 import { LayoutExplorer } from '../../layouts/layout.explorer'
 import './BuildedProject.scss'
-import configs from '../../configs/server.config.json'
 import { useParams } from 'react-router-dom'
 import { IBuildProjectResponse } from 'constructum-interfaces/queries/IBuildProjectResponse'
 import { v4 as uuidv4 } from 'uuid'
@@ -20,7 +19,7 @@ export const BuildedProject = () => {
 
 	useEffect(() => {
 		buildQuery.requestWithInterceptors({
-			url: `${configs.api}/api/project/${id}/${syntax}/build`,
+			url: `${import.meta.env.VITE_API_URL}/api/project/${id}/${syntax}/build`,
 			method: 'post',
 			headers: {
 				Authorization: bearer,
@@ -31,7 +30,8 @@ export const BuildedProject = () => {
 
 	useEffect(() => {
 		console.log(buildQuery.response)
-
+		
+		// @ts-ignore
 		setFiles(buildQuery.response)
 	}, [buildQuery.response])
 

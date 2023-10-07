@@ -1,13 +1,22 @@
-FROM node:alpine
+FROM node:16.17.0-bullseye-slim
 
-EXPOSE 11261
+WORKDIR /services/service.compiler
+COPY ./services/service.compiler/package.json .
+COPY ./services/service.compiler/tsconfig.json .
+COPY ./services/service.compiler/.env.production .
 
-COPY ./services/service.compiler /app/compiler
-COPY ./packages ./app/packages
+WORKDIR /services/service.compiler/src
+COPY ./services/service.compiler/src .
 
-WORKDIR /app/compiler
+WORKDIR /packages
+COPY ./packages .
+
+WORKDIR /services/service.compiler
+ENV NODE_ENV="production"
 RUN ["npm", "i", "-g", "typescript@next"]
+RUN ["npm", "i", "-g", "cross-env"]
 RUN ["npm", "i", "-g", "rimraf"]
 RUN ["npm", "i"]
+RUN ["tsc"]
 
 ENTRYPOINT ["npm", "run", "start"]

@@ -27,7 +27,7 @@ const server = async () => {
 	}
 
 	if (Number.isNaN(process.env.COMPILER_TRPC_PORT) || process.env.COMPILER_TRPC_PORT === undefined) {
-		throw Error('compiler tRPC port is NaN or undefined')
+		throw Error('compiler tRPC port is not a number or undefined')
 	}
 
 	const mongo = new MongoDBWrapper(process.env.MONGO_CONNECTION)
@@ -35,7 +35,7 @@ const server = async () => {
 
 	const app = express()
 
-	if (process.env.NODE_ENV === 'development') {
+	if (process.env.NODE_ENV === 'development' || process.env.ENABLED_CORS) {
 		app.use(cors())
 		logger.info('cors is enabled')
 	}

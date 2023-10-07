@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 name: 'constructum'
 
 services:
@@ -19,24 +19,35 @@ services:
     networks:
       cnetwork:
         ipv4_address: 7.5.0.20
+    volumes:
+      - mongodb:/var/lib/mongodb
 
   auth:
     image: constructum-auth:latest
     restart: always
+    container_name: auth
     depends_on:
       - mongo
       - redis
+    environment:
+      - PORT=11197
+      - ENABLED_CORS=false
+      - REDIS_URL=redis://redis
+      - IDENTIFY_HOST="7.5.0.60"
+      - IDENTIFY_PORT=3498
     networks:
       cnetwork:
         ipv4_address: 7.5.0.30
     ports:
-      - '3005:8080'
+      - '11197:11197'
 
   api:
     image: constructum-api:latest
     restart: always
     environment:
-      - PORT=7001
+      - PORT=7161
+      - ENABLED_CORS=false
+      - REDIS_URL=redis://redis
     depends_on:
       - mongo
       - redis
@@ -45,7 +56,7 @@ services:
       cnetwork:
         ipv4_address: 7.5.0.40
     ports:
-      - '7001:7001'
+      - '7161:7161'
 
   compiler:
     image: constructum-compiler:latest
@@ -70,16 +81,21 @@ services:
       cnetwork:
         ipv4_address: 7.5.0.60
 
-#  frontend:
-#    image: constructum-frontend:latest
-#    restart: always
-#    depends_on:
-#      - api
-#    networks:
-#      cnetwork:
-#         ipv4_address: 7.5.0.60
-#    ports:
-#      - '4173:4173'
+  web-server:
+    image: constructum-client:latest
+    restart: always
+    depends_on:
+      - api
+      - auth
+    ports:
+      - 8080:8080
+      - 80:80
+    volumes:
+      - "./nginx/nginx.conf://etc/nginx/nginx.conf:ro"
+      - "./services/service.client://usr/share/nginx/html:ro"
+    networks:
+      cnetwork:
+        ipv4_address: 7.5.0.90
 
 volumes:
   mongodb:

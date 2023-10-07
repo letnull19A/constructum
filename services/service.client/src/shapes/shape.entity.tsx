@@ -1,8 +1,7 @@
-import { Rect, Text, Group, Circle } from 'react-konva'
+import { Rect, Text, Group } from 'react-konva'
 import { Field } from './shape.field'
 import { KonvaEventObject } from 'konva/lib/Node'
 import { useEffect, useState } from 'react'
-import { Button } from '../components'
 
 export type FieldData = {
 	name: string

@@ -1,14 +1,11 @@
 import express from 'express'
-import User, { IUser } from './../schemas/scheme.user.js'
 import { generateJwtSet } from './../services/index.js'
 import { comparePassword } from './../services/service.salt.js'
 import { Session } from './../services/service.session.js'
 import { isNotAuth } from './../middlewares/middleware.not-auth.js'
-import { $log as logger } from '@tsed/logger'
 import { IJwtPayload, IAuthResponse } from 'constructum-interfaces'
 import { RedisDBWrapper } from 'constructum-dbs'
 import { trpcClient } from 'constructum-identify'
-import mongoose, { Mongoose } from 'mongoose'
 
 export const authRoute = express.Router()
 
@@ -30,7 +27,7 @@ authRoute.post('/auth', isNotAuth, async (req, res) => {
 
 	await redis.connect()
 
-	const identifyClient = trpcClient('localhost', 3498)
+	const identifyClient = trpcClient(process.env.IDENTIFY_HOST, process.env.IDENTIFY_PORT)
 
 	const identify = await identifyClient.identity.query({
 		mongoConnection: process.env.MONGO_CONNECTION,

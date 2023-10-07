@@ -9,7 +9,6 @@ import { useUserContext } from '../../hooks/hook.user-context'
 import { IAuthResponse, IJwtPayload } from 'constructum-interfaces'
 import qs from 'qs'
 import { Link } from 'react-router-dom'
-import configs from '../../configs/server.config.json'
 
 export const Login = () => {
 	useTitle('Войти')
@@ -29,7 +28,7 @@ export const Login = () => {
 
 			request({
 				method: Method.POST,
-				url: `${configs.auth}/api/auth`,
+				url: `${import.meta.env.VITE_AUTH_URL}/api/auth`,
 				headers: {
 					Authorization: 'Bearer 0'
 				},

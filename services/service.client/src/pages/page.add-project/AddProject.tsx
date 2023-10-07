@@ -2,16 +2,14 @@ import { useEffect, useRef } from 'react'
 import { Button, Content, Footer, Form, Header, Textarea, Textbox } from '../../components'
 import { useTitle } from '../../hooks/hook.use-title'
 import { LayoutFlat } from '../../layouts/layout.flat'
-import { Method, useHttp, IInterceptors } from '../../hooks/hook.use-http'
+import { Method, useHttp } from '../../hooks/hook.use-http'
 import { useNavigate } from 'react-router-dom'
 import { IJwtPayload, IJwtSet, IProjectCreate } from 'constructum-interfaces'
-import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
-import qs from 'qs'
 
 export const AddProject = () => {
   useTitle('Создание нового проекта')
 
-  const { requestWithInterceptors, request, statusCode, error } = useHttp()
+  const { requestWithInterceptors, statusCode, error } = useHttp()
 
   const nameFieldRef = useRef<HTMLInputElement>(null)
   const surnameFieldRef = useRef<HTMLTextAreaElement>(null)
@@ -28,47 +26,15 @@ export const AddProject = () => {
         description: surnameFieldRef.current.value,
       }
 
-      const interceptor: IInterceptors = {
-        onError: async (error: AxiosError) => {
-          const original = error.config
-
-          const data = qs.stringify({
-            refresh: userTokens.refresh,
-          })
-
-          if (error.code === AxiosError.ERR_BAD_REQUEST) {
-            const response = await request({
-              url: 'http://localhost:3005/api/refresh',
-              method: Method.POST,
-              data: data,
-            })
-
-            console.log(response)
-
-            //localStorage.setItem('token', response)
-            // request({ url: original?.url ?? '', method: Method.POST })
-          }
-
-          return await error
-        },
-        onRequest: (config: InternalAxiosRequestConfig) => {
-          return config
-        },
-        onResponse: (response: AxiosResponse) => {
-          return response
-        },
-      }
-
       requestWithInterceptors(
         {
           method: Method.POST,
-          url: 'http://localhost:7161/api/project',
+          url: `${import.meta.env.VITE_API_URL}/api/project`,
           headers: {
             Authorization: `Bearer ${userTokens.access}`,
           },
           data: data,
         },
-        interceptor,
       )
     }
   }

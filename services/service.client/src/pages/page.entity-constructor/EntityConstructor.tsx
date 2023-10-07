@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Button, Content, Footer, Header, Menu, Select, Tag, Textarea, Textbox } from '../../components'
 import { LayoutDefault } from '../../layouts/layout.default'
 import { Method, useHttp } from '../../hooks/hook.use-http'
-import { IFieldData, IJwtSet, IProjectData } from 'constructum-interfaces'
+import { IFieldData, IProjectData } from 'constructum-interfaces'
 import { useNavigate, useParams } from 'react-router-dom'
 import './EntityConstructor.scss'
 import { useTitle } from '../../hooks/hook.use-title'
@@ -182,7 +182,7 @@ export const EntityConstructor = () => {
 
 		getFieldRequest.requestWithInterceptors({
 			method: Method.POST,
-			url: `http://localhost:7161/api/project/${id}/entities/${entity_id}/fields`,
+			url: `${import.meta.env.VITE_API_URL}/api/project/${id}/entities/${entity_id}/fields`,
 			data: JSON.stringify(readyData),
 			headers: {
 				Authorization: bearer,
@@ -197,7 +197,7 @@ export const EntityConstructor = () => {
 		if (bearer !== '') {
 			getFieldRequest.requestWithInterceptors({
 				method: Method.GET,
-				url: `http://localhost:7161/api/project/${id}/entities/${entity_id}/fields`,
+				url: `${import.meta.env.VITE_API_URL}/api/project/${id}/entities/${entity_id}/fields`,
 				headers: {
 					Authorization: bearer,
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -206,7 +206,7 @@ export const EntityConstructor = () => {
 
 			getEntityRequest.requestWithInterceptors({
 				method: Method.GET,
-				url: `http://localhost:7161/api/project/${id}/entities/${entity_id}`,
+				url: `${import.meta.env.VITE_API_URL}/api/project/${id}/entities/${entity_id}`,
 				headers: {
 					Authorization: bearer,
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -217,7 +217,6 @@ export const EntityConstructor = () => {
 
 	useEffect(() => {
 		if (getEntityRequest.response !== undefined && getEntityRequest.response !== null) {
-			console.log(getEntityRequest.response.entities)
 			setTableName(getEntityRequest.response[0]?.entities[0].name)
 		}
 	}, [getEntityRequest.response])
@@ -273,9 +272,9 @@ export const EntityConstructor = () => {
 							<th>#</th>
 							<th>Название</th>
 							<th>Тип</th>
-							<th width="120">Длина</th>
-							<th width="120">Мин.</th>
-							<th width="120">Макс.</th>
+							<th style={{ width: 120 }}>Длина</th>
+							<th style={{ width: 120 }}>Мин.</th>
+							<th style={{ width: 120 }}>Макс.</th>
 							<th>NULL</th>
 							<th>Индексы</th>
 							<th>Описание</th>

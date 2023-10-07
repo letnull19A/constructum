@@ -8,6 +8,7 @@ declare global {
       REDIS_HOST: string
       COMPILER_TRPC_HOST: string
       COMPILER_TRPC_PORT: number
+      ENABLED_CORS: boolean
     }
   }
 }
