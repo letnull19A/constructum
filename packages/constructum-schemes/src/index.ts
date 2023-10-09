@@ -1,4 +1,4 @@
 import User, { userSchema } from './scheme.user'
-import Project, { Access } from './scheme.project'
+import Project, { Access, projectSchema } from './scheme.project'
 
-export { User, Project, Access, userSchema }
+export { User, Project, Access, userSchema, projectSchema }

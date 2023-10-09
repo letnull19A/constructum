@@ -4,16 +4,38 @@
 
 - микросервис идентификации пользователя
 - пакет constructum-schemas
+- пакет constructum-data-generator
 
 ### фиксы
 
+- подключение к mongoDB частично рабоатет на нативном драйвере
+- интерсепторы в клиенте
+- обновление токена сброса
+
 ### рефакторинг
+
+- сервис api перенесён в папку services
+- сервис auth перенесён в папку services
+- сервис identify перенесён в папку services
+- сервис client перенесён в папку services
+- сервис compiler перенесён в папку services
+- сервис live-view перенесён в папку services
+- сервис api переименован в service.api
+- сервис auth переименован в service.auth
+- сервис identify переименован в service.identify
+- сервис client переименован в service.client
+- сервис compiler переименован в service.compiler
+- сервис live-view переименован в service.live-view
+- build-dockers.sh переименован в script.build-dockers.sh
+- make-project.sh переименован в script.make-project.sh
+- start.sh переименован в scripts.start.sh
 
 ### общие изменения
 
 - перемещение dockerfile микросервисов в корень
+- подключение клиента к компилятору
 
-дата изменения: 08.09.2023
+дата изменения: 20.09.2023
 издатель: letnull19a
 
 ## v_0.0.1.snapshot.9
