@@ -1,13 +1,13 @@
 @import './../scss/style.variables.scss';
 
-$menu-height: calc(100vh - $header-height - $gap - $footer-height);
+$menu-height: calc(100vh - $gap - $footer-height);
 $full-menu-width: calc($menu-width + $gap * 2);
 
 .layout-default {
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: $gap $menu-width $gap $gap 1fr 1fr 1fr 1fr $gap;
+  grid-template-columns: $gap $menu-width $gap $gap * 3 1fr 1fr 1fr 1fr $gap;
   grid-template-rows:
     $header-height
     $gap
@@ -16,20 +16,23 @@ $full-menu-width: calc($menu-width + $gap * 2);
     $gap;
 
   .layout-header {
-    width: 100%;
+    display: grid;
+    width: calc(100% - ($gap * 2) - $menu-width);
+    margin-left: $menu-width + ($gap * 2);
     height: $header-height;
     z-index: 9;
-    grid-column: 1/10;
+    grid-column: 3/10;
     grid-row: 1/2;
     position: fixed;
   }
 
   .layout-menu {
+    display: grid;
     z-index: 8;
     grid-column: 1/4;
-    grid-row: 2/4;
+    grid-row: 1/4;
+    z-index: 6;
     position: fixed;
-    top: $header-height;
     width: $full-menu-width;
     height: $menu-height;
   }
@@ -43,8 +46,20 @@ $full-menu-width: calc($menu-width + $gap * 2);
     grid-column: 1/4;
     grid-row: 4/6;
     position: fixed;
+    z-index: 7;
     top: calc(100vh - $footer-height - $gap);
     height: $footer-height + $gap;
     width: $full-menu-width;
+  }
+}
+
+@media screen and (max-width: 1370px) {
+  .layout-default {
+    grid-template-columns: $gap $menu-width-laptop $gap $gap 1fr 1fr 1fr 1fr $gap;
+    
+    .layout-menu,
+    .layout-footer {
+      width: calc($menu-width-laptop + $gap * 2);
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { CardHeading, CardImage } from 'react-bootstrap-icons'
+import { CardImage } from 'react-bootstrap-icons'
 import { Button, Card, CardFooter, CardHead, Content, Footer, Header, Menu } from '../../components'
 import { useTitle } from '../../hooks/hook.use-title'
 import { LayoutDefault } from '../../layouts/layout.default'
@@ -27,41 +27,6 @@ export const BuildSelect = () => {
 						<CardHead>EF Core</CardHead>
 						<CardFooter>
 							<Button onClick={() => navigate(`/project/${id}/build/ef`)} label="Собрать с EF Core" />
-						</CardFooter>
-					</Card>
-					<Card>
-						<CardImage />
-						<CardHead>MySQL</CardHead>
-						<CardFooter>
-							<Button onClick={() => navigate(`/project/${id}/build/mysql`)} label="Собрать с MySQL" />
-						</CardFooter>
-					</Card>
-					<Card>
-						<CardImage />
-						<CardHead>PostgreSQL</CardHead>
-						<CardFooter>
-							<Button onClick={() => navigate(`/project/${id}/build/postgresql`)} label="Собрать с PostgreSQL" />
-						</CardFooter>
-					</Card>
-					<Card>
-						<CardImage />
-						<CardHead>MSSQL</CardHead>
-						<CardFooter>
-							<Button onClick={() => navigate(`/project/${id}/build/mssql`)} label="Собрать с MSSQL" />
-						</CardFooter>
-					</Card>
-					<Card>
-						<CardImage />
-						<CardHead>Mongoose</CardHead>
-						<CardFooter>
-							<Button onClick={() => navigate(`/project/${id}/build/mongoose`)} label="Собрать с Mongoose" />
-						</CardFooter>
-					</Card>
-					<Card>
-						<CardImage />
-						<CardHead>Prisma</CardHead>
-						<CardFooter>
-							<Button onClick={() => navigate(`/project/${id}/build/prisma`)} label="Собрать с Prisma" />
 						</CardFooter>
 					</Card>
 				</div>

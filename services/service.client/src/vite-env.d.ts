@@ -1,5 +1,5 @@
 /// <reference types="vite/client" />
 interface ImportMetaEnv {
-    readonly VITE_ENABLE_AUTHERIZATION: boolean
-    readonly VITE_ENABLE_AUTHENTICATION: boolean
+    readonly VITE_API_URL: string
+    readonly VITE_AUTH_URL: string
 }

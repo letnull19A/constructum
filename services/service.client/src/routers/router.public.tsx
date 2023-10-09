@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
-import { Accounts, Login, Registration } from '../pages'
+import { Accounts, Login, Registration, UI } from '../pages'
 import { Main } from '../pages/page.main/Main'
 
 export const RequirePublic = ({ children }: { children: JSX.Element }) => {
@@ -43,6 +43,14 @@ export const PublicRouting = () => {
         element={
           <RequirePublic>
             <Accounts />
+          </RequirePublic>
+        }
+      />
+      <Route
+        path='/ui' 
+        element={
+          <RequirePublic>
+            <UI/>
           </RequirePublic>
         }
       />

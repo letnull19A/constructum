@@ -16,10 +16,8 @@ export const Header = () => {
 
   return (
     <header className="header">
-      <div className="header-title">
-        <span>constructum</span>
-      </div>
       <div className="header-account">
+        <div className="header-account-container">
         {!isAuthenticated && (
           <>
             <Link to="/login">Войти</Link>
@@ -34,6 +32,7 @@ export const Header = () => {
             <Link to="/account">{parsedData.nickname}</Link>
           </>
         )}
+        </div>
       </div>
     </header>
   )

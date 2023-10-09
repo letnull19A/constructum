@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 name: 'constructum'
 
 services:
@@ -6,7 +6,7 @@ services:
     image: redis:latest
     restart: always
     ports:
-      - '6379:6379'
+      - 6379:6379
     networks:
       cnetwork:
         ipv4_address: 7.5.0.10
@@ -15,28 +15,43 @@ services:
     image: mongo:latest
     restart: always
     ports:
-      - '27001:27019'
+      - 27017:27017
     networks:
       cnetwork:
         ipv4_address: 7.5.0.20
+    volumes:
+      - mongodb:/data/db
 
   auth:
     image: constructum-auth:latest
     restart: always
+    container_name: auth
     depends_on:
       - mongo
       - redis
+      - identify
+    environment:
+      - PORT=11197
+      - ENABLED_CORS=false
+      - REDIS_URL=redis://redis
+      - MONGO_CONNECTION=mongodb://mongo
+      - VERIFICATION_ATTEMPTS_OF_PING_TRPC=10
+      - IDENTIFY_ADDRESS=http://identify:3498
     networks:
       cnetwork:
         ipv4_address: 7.5.0.30
     ports:
-      - '3005:8080'
+      - 11197:11197
 
   api:
     image: constructum-api:latest
     restart: always
     environment:
-      - PORT=7001
+      - PORT=7161
+      - ENABLED_CORS=false
+      - REDIS_URL=redis://redis
+      - MONGO_CONNECTION=mongodb://mongo
+      - COMPILER_TRPC_ADDRESS=http://compiler:12245
     depends_on:
       - mongo
       - redis
@@ -45,7 +60,7 @@ services:
       cnetwork:
         ipv4_address: 7.5.0.40
     ports:
-      - '7001:7001'
+      - 7161:7161
 
   compiler:
     image: constructum-compiler:latest
@@ -59,27 +74,37 @@ services:
       cnetwork:
         ipv4_address: 7.5.0.50
     ports:
-      - '12245:12245'
+      - 12245:12245
 
   identify:
     image: constructum-identify:latest
     restart: always
+    environment:
+      - PORT=3498
+      - MONGO_CONNECTION=mongodb://mongo
+    ports:
+      - 3498:3498
     depends_on:
       - mongo
     networks:
       cnetwork:
         ipv4_address: 7.5.0.60
 
-#  frontend:
-#    image: constructum-frontend:latest
-#    restart: always
-#    depends_on:
-#      - api
-#    networks:
-#      cnetwork:
-#         ipv4_address: 7.5.0.60
-#    ports:
-#      - '4173:4173'
+  web-server:
+    image: constructum-client:latest
+    restart: always
+    depends_on:
+      - api
+      - auth
+    ports:
+      - 8080:8080
+      - 80:80
+    volumes:
+      - "./nginx/nginx.conf://etc/nginx/nginx.conf:ro"
+      - "./services/service.client://usr/share/nginx/html:ro"
+    networks:
+      cnetwork:
+        ipv4_address: 7.5.0.90
 
 volumes:
   mongodb:

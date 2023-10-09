@@ -16,19 +16,9 @@ export const LayoutFlat = ({ children }: IContents) => {
 
   children?.forEach((child) => {
     if (isValidElement(child) && typeof child?.type === 'function') {
-      switch (child.type.name) {
-        case 'Header':
-          headerElement = child
-          break
-        case 'Content':
-          contentElement = child
-          break
-        case 'Footer':
-          footerElement = child
-          break
-        default:
-          break
-      }
+      headerElement = children[0]
+      contentElement = children[1]
+      footerElement = children[2]
     }
   })
 

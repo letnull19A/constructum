@@ -1,0 +1,26 @@
+.tag {
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    border: 1px solid #ccc;
+    min-height: 35px;
+    min-width: 10px;
+    max-width: 200px;
+    width: 100%;
+    padding: 5px;
+    background-color: #ffffff;
+    gap: 10px;
+
+    &-element {
+        padding: 5px 15px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+
+        i.remove-icon {
+            margin-left: 10px;
+            color: red;
+            cursor: pointer;
+        }
+    }
+}

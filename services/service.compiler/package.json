@@ -7,12 +7,11 @@
   "scripts": {
     "ts-build": "rimraf ./build && npx tsc",
     "dev": "cross-env NODE_ENV=development npx nodemon",
-    "start": "rimraf ./build && npm run ts-build && cross-env NODE_ENV=production node build/index.js",
+    "start": "cross-env NODE_ENV=production node build/index.js",
     "start-dev": "rimraf ./build && npm run ts-build && node build/index.js",
     "lint": "npx eslint ./src",
-    "format": "npx eslint ./src --fix",
     "pkgi": "npm i",
-    "pkgup": "npm update"
+    "format": "npx eslint ./src --fix"
   },
   "author": "",
   "license": "ISC",
@@ -20,20 +19,20 @@
     "@trpc/client": "^10.37.1",
     "@trpc/server": "^10.37.1",
     "@tsed/logger": "^6.6.2",
-    "@types/constructum-compiler": "file:../packages/@types/constructum-compiler",
+    "@types/constructum-compiler": "file:../../packages/@types/constructum-compiler",
     "@types/constructum-dbs": "file:../packages/@types/constructum-interfaces",
-    "@types/constructum-interfaces": "file:../packages/@types/constructum-interfaces",
+    "@types/constructum-interfaces": "file:../../packages/@types/constructum-interfaces",
     "@types/node": "^20.5.0",
-    "constructum-compiler": "file:../packages/constructum-compiler",
-    "constructum-interfaces": "file:../packages/constructum-interfaces",
+    "constructum-compiler": "file:../../packages/constructum-compiler",
+    "constructum-interfaces": "file:../../packages/constructum-interfaces",
     "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "mongoose": "^7.4.3",
     "rimraf": "^5.0.1",
-    "typescript": "^5.1.6",
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "typescript": "^5.1.6"
   }
 }

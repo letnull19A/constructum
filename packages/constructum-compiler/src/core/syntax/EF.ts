@@ -90,7 +90,7 @@ export class EF implements ISyntax {
 				programText +=
 					'using System.ComponentModel.DataAnnotations;\n' +
 					'using System.ComponentModel.DataAnnotations.Schema;\n\n' +
-					`[Table(\'${entity.name}\')]\n` +
+					`[Table(\"${entity.name}\")]\n` +
 					'public sealed class ' +
 					className +
 					'\n{\n'
@@ -102,7 +102,7 @@ export class EF implements ISyntax {
 						programText += '\t[Key]\n'
 					}
 
-					programText += `\t[Column(\'${field.field_name}\')]\n`
+					programText += `\t[Column(\"${field.field_name}\")]\n`
 
 					programText +=
 						'\tpublic ' +

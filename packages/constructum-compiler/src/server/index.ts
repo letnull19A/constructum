@@ -3,10 +3,15 @@ import { router, publicProcedure } from './trpc.router'
 import { IBuildProjectRequest, IProject } from 'constructum-interfaces'
 import z from 'zod'
 import { EF, SQL } from '..'
+import { $log as logger } from '@tsed/logger'
 
 const syntax = ['ef', 'sql']
 
 export const appRouter = router({
+    ping: publicProcedure.input(z.string()).query(async () => {
+        logger.info(`accepted new query: ping`)
+        return 'pong'
+    }),
     build: publicProcedure
         .input(z.object({
             syntaxName: z.string(), 

@@ -6,16 +6,15 @@ import { $log as logger } from '@tsed/logger'
 import mongoose from 'mongoose'
 
 export const appRouter = router({
-	ping: publicProcedure.input(z.string()).query(async (opts) => {
-		logger.info(`accepted new query: ping`)
-		return opts.input
+	ping: publicProcedure
+		.input(z.string())
+		.query(async () => {
+		return 'pong'
 	}),
 	identity: publicProcedure
 		.input(z.object({ mongoConnection: z.string(), userLogin: z.string() }))
 		.query(async (opts) => {
 			const { input } = opts
-
-			let response = {}
 
 			logger.info(`accepted new query: identity`)
 
@@ -48,6 +47,8 @@ export const appRouter = router({
 			const i = await U.findOne({ login: input.userLogin })
 				.then(async (data: any) => {
 
+					logger.debug(data)
+
 					await mongoose.disconnect()
 
 					return data
@@ -63,6 +64,8 @@ export const appRouter = router({
 
 					return error
 				})
+
+			logger.debug(i)
 
 			return i
 		})

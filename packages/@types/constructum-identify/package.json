@@ -1,0 +1,9 @@
+{
+    "name": "@types/constructum-identify",
+    "version": "2.0.0",
+    "description": "identify tRPC",
+    "main": "",
+    "author": "xarlein",
+    "license": "ISC",
+    "types": "./index.d.ts"
+}

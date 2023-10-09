@@ -1,14 +1,21 @@
-FROM node
+FROM node:20-bullseye-slim
 
-EXPOSE 3689
+WORKDIR /services/service.identify
+COPY ./services/service.identify/package.json .
+COPY ./services/service.identify/tsconfig.json .
+COPY ./services/service.identify/.env.production .
 
-COPY ./packages ./app/packages 
-COPY ./auth ./app/auth
-COPY ./identify ./app/identify
+WORKDIR /services/service.identify/src
+COPY ./services/service.identify/src .
 
-WORKDIR /app/identify
+WORKDIR /packages
+COPY ./packages .
+
+WORKDIR /services/service.identify
+ENV NODE_ENV="production"
 RUN ["npm", "i", "-g", "typescript@next"]
 RUN ["npm", "i", "-g", "rimraf"]
 RUN ["npm", "i"]
+RUN ["tsc"]
 
 ENTRYPOINT ["npm", "run", "start"]

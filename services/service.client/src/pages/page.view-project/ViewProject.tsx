@@ -5,32 +5,31 @@ import './ViewProject.scss'
 import { useEffect, useState } from 'react'
 import { Method, useHttp } from '../../hooks/hook.use-http'
 import { IProject } from 'constructum-interfaces'
-import configs from './../../configs/server.config.json'
+import { useBearer } from '../../hooks'
 
 export const ViewProject = () => {
-	const tokens = JSON.parse(localStorage.getItem('token') ?? '{}')
 	const navigate = useNavigate()
 	const { id } = useParams()
-	const { requestWithInterceptors, response } = useHttp<IProject>()
-	const bearer = 'Bearer ' + tokens.access
+	const getEntities = useHttp<IProject>()
+	const { bearer } = useBearer()
 	const [title, setTitle] = useState<string>('')
 
 	useEffect(() => {
-		requestWithInterceptors({
+		getEntities.requestWithInterceptors({
 			method: Method.GET,
-			url: `${configs.api}/api/project/${id}`,
+			url: `${import.meta.env.VITE_API_URL}/api/project/${id}`,
 			headers: {
 				Authorization: bearer,
 				'Content-Type': 'application/x-www-form-urlencoded'
 			}
 		})
-	}, [])
+	}, [bearer])
 
 	useEffect(() => {
-		if (response !== undefined && response !== null) {
-			setTitle(response.name)
+		if (getEntities.response !== undefined && getEntities.response !== null) {
+			setTitle(getEntities.response.name)
 		}
-	}, [response])
+	}, [getEntities.response])
 
 	const goToConstructor = (entity_id: any) => {
 		navigate(`/project/${id}/entities/${entity_id}/constructor`)
@@ -51,7 +50,7 @@ export const ViewProject = () => {
 				<div className="section">
 					<h3>Сущности</h3>
 					<div className="entites-list">
-						{response?.entities?.map((item) => (
+						{getEntities.response?.entities?.map((item) => (
 							<Card className="entity-card">
 								<CardHead className="entity-head">{item.name}</CardHead>
 								<CardContent className="entity-fields">
@@ -62,7 +61,7 @@ export const ViewProject = () => {
 									</ul>
 								</CardContent>
 								<CardFooter>
-									<Button onClick={() => goToConstructor(item._id)} label="В конструктор" />
+									<Button type='primary' onClick={() => goToConstructor(item._id)} label="В конструктор" />
 								</CardFooter>
 							</Card>
 						))}

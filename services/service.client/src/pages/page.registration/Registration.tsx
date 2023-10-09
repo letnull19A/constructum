@@ -29,7 +29,7 @@ export const Registration = () => {
     ) {
       request({
         method: Method.POST,
-        url: 'http://localhost:7161/api/registration',
+        url: `${import.meta.env.VITE_API_URL}/api/registration`,
         headers: {
           Authorization: 'Bearer 0',
           'Content-Type': 'application/json',
