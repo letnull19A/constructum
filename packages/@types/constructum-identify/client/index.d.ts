@@ -1,4 +1,4 @@
-export declare const trpcClient: (host: string, port: number) => {
+export declare const trpcClient: (address: string) => {
     ping: {
         query: import("@trpc/client").Resolver<import("@trpc/server").BuildProcedure<"query", {
             _config: import("@trpc/server").RootConfig<{

@@ -1,6 +1,6 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import { $log as logger } from '@tsed/logger'
+import { $log, $log as logger } from '@tsed/logger'
 import router from './routes/index.js'
 import bodyParser from 'body-parser'
 import cors from 'cors'
@@ -24,13 +24,10 @@ if (process.env.PORT === undefined || Number.isNaN(process.env.PORT))
 if (process.env.REDIS_URL === undefined || process.env.REDIS_URL === '')
 	throw Error('REDIS_URL parameter is not defined')
 
-if (process.env.IDENTIFY_HOST === undefined || process.env.IDENTIFY_HOST === '')
-	throw new Error('IDENTIFY_HOST is not defined')
+if (process.env.IDENTIFY_ADDRESS === undefined || process.env.IDENTIFY_ADDRESS === '')
+	throw new Error('IDENTIFY_ADDRESS is not defined')
 
-if (process.env.IDENTIFY_PORT === undefined || Number.isNaN(process.env.IDENTIFY_PORT))
-	throw new Error('IDENTIFY_PORT is not defined or not a number')
-
-const port = process.env.PORT | 8989
+const port = process.env.PORT
 
 const checkIdentifyServerAlive = async () => {
 
@@ -40,10 +37,14 @@ const checkIdentifyServerAlive = async () => {
 
 	for (let i = 0; i < count; i++) {
 		logger.info(`trying to connect to identify server... [${i + 1}|${count}]`)
-		const client = trpcClient(process.env.IDENTIFY_HOST, process.env.IDENTIFY_PORT)
-		const result = await client.ping.query()
+		const client = trpcClient(process.env.IDENTIFY_ADDRESS)
 
-		if (result === 'pong') return
+		const result = await client.ping.query("hi") 
+
+		if (result === 'pong') {
+			$log.info('identify server is live')
+			return
+		}
 	}
 
 	throw new Error('identify server is not alive or count of requests exceeded')
@@ -85,7 +86,7 @@ const main = async () => {
 		logger.info(`auth-server started with mode: ${process.env.NODE_ENV}`)
 		logger.info(`listen redis: ${process.env.REDIS_URL}`)
 		logger.info(`listen mongo: ${process.env.MONGO_CONNECTION}`)
-		logger.info(`identify server: ${process.env.IDENTIFY_HOST}:${process.env.IDENTIFY_PORT}`)
+		logger.info(`identify server: ${process.env.IDENTIFY_ADDRESS}`)
 	})
 }
 

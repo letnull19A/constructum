@@ -1,4 +1,4 @@
-FROM node:16.17.0-bullseye-slim
+FROM node:20-bullseye-slim
 
 WORKDIR /services/service.identify
 COPY ./services/service.identify/package.json .

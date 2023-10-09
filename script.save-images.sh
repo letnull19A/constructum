@@ -1,14 +1,14 @@
 #!/bin/bash
 
-rm constructum-api.gz
-rm constructum-auth.gz
-rm constructum-compiler.gz
-rm constructum-identify.gz
-rm constructum-client.gz
+rm ./images/constructum-api.gz
+rm ./images/constructum-auth.gz
+rm ./images/constructum-compiler.gz
+rm ./images/constructum-identify.gz
+rm ./images/constructum-client.gz
 
 images_dir="./images"
 
-if [-d "$images_dir"] 
+if [ -d "$images_dir" ] 
 then
     echo "directory $images_dir is already existing"
 else

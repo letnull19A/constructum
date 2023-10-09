@@ -8,7 +8,7 @@ import { $log as logger } from '@tsed/logger'
 const syntax = ['ef', 'sql']
 
 export const appRouter = router({
-    ping: publicProcedure.query(async () => {
+    ping: publicProcedure.input(z.string()).query(async () => {
         logger.info(`accepted new query: ping`)
         return 'pong'
     }),

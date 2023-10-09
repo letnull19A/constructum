@@ -25,7 +25,7 @@ compilerRoute.post('/:id/:syntax/build', async (req, res) => {
 
 		const project = await projects.findOne({ _id: new ObjectId(id) })
 
-		const response = await trpcClient('localhost', 5490).build.query({
+		const response = await trpcClient(process.env.COMPILER_TRPC_ADDRESS).build.query({
 			syntaxName: syntax,
 			projectData: JSON.stringify(project)
 		})
