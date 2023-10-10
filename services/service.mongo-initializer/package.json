@@ -4,8 +4,22 @@
   "description": "",
   "main": "build/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "ts-build": "rimraf ./build && npx tsc",
+    "dev": "cross-env NODE_ENV=development npx nodemon",
+    "start": "cross-env NODE_ENV=production node build/index.js",
+    "start-dev": "rimraf ./build && npm run ts-build && node build/index.js",
+    "lint": "npx eslint ./src",
+    "pkgi": "npm i",
+    "format": "npx eslint ./src --fix"
   },
   "author": "letnull19a",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@tsed/logger": "^6.6.3",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.3.1",
+    "mongodb": "^6.1.0",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.2.2"
+  }
 }
