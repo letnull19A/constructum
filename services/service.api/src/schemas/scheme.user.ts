@@ -9,7 +9,7 @@ export interface IUser {
   projects: Array<Schema.Types.ObjectId>
 }
 
-const userSchema = new Schema<IUser>({
+export const userSchema = new Schema<IUser>({
   name: { type: String, required: [true, 'Поле имя пустое'] },
   surname: { type: String, required: [true, 'Поле фамилия пустое'] },
   email: { type: String, unique: true, required: [true, 'Поле email пустое'] },

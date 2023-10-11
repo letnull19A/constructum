@@ -19,18 +19,14 @@ const main = async () => {
 
     const client = new MongoClient(process.env.MONGO_CONNECTION)
 
+    const y = await client.db('ctor').collection('users').insertOne({ name: 'admin', surname: 'admin' })
+
     if (client === null || client === undefined)
         throw new Error('client not created')
 
     try {
 
-        client.connect()
-
-        client.db(process.env.DATA_BASE).command({ ping: 1 })
-
-        client.db(process.env.DATA_BASE).collection('users').insertOne({ name: '' })
-
-        logger.info(client.db(process.env.DATA_BASE).collection('users').find({ }))
+        const db = await client.connect()
 
         logger.info('successfully connect to MongoDB')
 
