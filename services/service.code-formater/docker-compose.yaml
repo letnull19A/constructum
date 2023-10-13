@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  database:
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=korean-cosmetic-shop
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - MAX_LOGIN_ATTEMPTS=0
+    networks:
+      network:
+        ipv4_address: 33.4.0.10
+    ports:
+      - "9834:9834"
+    volumes:
+      - pg:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    depends_on:
+      - database
+    networks:
+      network:
+        ipv4_address: 33.4.0.20
+    ports:
+      - "7701:7701"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=letnull19a@pgadmin.org
+      - PGADMIN_DEFAULT_PASSWORD=pwd
+    volumes:
+      - pgadmin:/root/.
+
+volumes:
+  pg:
+  pgadmin:
+
+networks:
+  network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 33.4.0.0/16
+          gateway: 33.4.0.1

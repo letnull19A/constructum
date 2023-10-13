@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+// @ts-ignore
 import { Button, Card, CardContent, CardFooter, CardHead, Content, Footer, Header, Menu } from '../../components'
 import { useTitle } from '../../hooks/hook.use-title'
 import { LayoutDefault } from '../../layouts/layout.default'
@@ -15,7 +16,7 @@ export const Projects = () => {
 	const getAllProjects = useHttp<IProject>()
 	const userData = JSON.parse(localStorage.getItem('user') ?? '{}')
 	const { bearer } = useBearer()
-	const [projects, setProjects] = useState<Array<IProject>>()
+	const [projects, setProjects] = useState<Array<IProject>>([])
 
 	useEffect(() => {
 		console.log(bearer)
@@ -36,9 +37,44 @@ export const Projects = () => {
 			setProjects([])
 			return
 		}
-		// @ts-ignore line
-		setProjects(getAllProjects.response)
+
+		if (getAllProjects.response === null) setProjects([])
+
+		console.log(projects)
 	}, [getAllProjects.response])
+
+	const displayProjects = () => {
+		if (getAllProjects.loading) {
+			return <p>Loading...</p>
+		}
+
+		if (getAllProjects.error === null && projects !== null && projects !== undefined) {
+			if (projects.length > 0) {
+				return projects.map((project, index) => (
+					<Card key={index} className="project-item">
+						<CardHead>{project.name}</CardHead>
+						<CardContent>{project.description}</CardContent>
+						<CardFooter>
+							<Button
+								type="primary"
+								label="Просмотр"
+								onClick={() => {
+									// @ts-ignore
+									navigate(`/project/${project['_id']}`)
+								}}
+							/>
+						</CardFooter>
+					</Card>
+				))
+			} else {
+				return <p>Проектов ещё нет, создайте сейчас!</p>
+			}
+		}
+
+		if (getAllProjects.error !== null) {
+			return <p>Не удалось загрузить проекты =(</p>
+		}
+	}
 
 	return (
 		<LayoutDefault>
@@ -46,29 +82,8 @@ export const Projects = () => {
 			<Header />
 			<Content className="projects-content">
 				<h1>Мои проекты</h1>
-				<Button type='primary' label="Добавить новый проект" onClick={() => navigate('/project/new')} />
-				<div className="project-list">
-					{getAllProjects.error === null && projects !== null && projects !== undefined && projects.length > 0 ? (
-						projects?.map((project, index) => (
-							<Card key={index} className="project-item">
-								<CardHead>{project.name}</CardHead>
-								<CardContent>{project.description}</CardContent>
-								<CardFooter>
-									<Button
-										type='primary'
-										label="Просмотр"
-										onClick={() => {
-											// @ts-ignore line
-											navigate(`/project/${project['_id']}`)
-										}}
-									/>
-								</CardFooter>
-							</Card>
-						))
-					) : (
-						<p>Не удалось загрузить проекты =(</p>
-					)}
-				</div>
+				<Button type="primary" label="Добавить новый проект" onClick={() => navigate('/project/new')} />
+				<div className="project-list">{displayProjects()}</div>
 			</Content>
 			<Footer />
 		</LayoutDefault>

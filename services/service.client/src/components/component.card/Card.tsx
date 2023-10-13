@@ -22,16 +22,16 @@ export const Card = (props: ICardProps) => {
     props.children?.forEach((child) => {
       if (isValidElement(child) && typeof child?.type === 'function') {
         switch (child.type.name) {
-          case 'CardHead':
+          case CardHead.name:
             cardTitle = child
             break
-          case 'CardImage':
+          case CardImage.name:
             cardImage = child
             break
-          case 'CardContent':
+          case CardContent.name:
             cardContent = child
             break
-          case 'CardFooter':
+          case CardFooter.name:
             cardFooter = child
             break
           default:
