@@ -13,15 +13,12 @@ RUN ["npm", "run", "build"]
 FROM nginx:1.17.10
 
 WORKDIR /usr/share/nginx/
-
 RUN rm -rf html
 RUN mkdir html
 
 WORKDIR /
-
 COPY ./nginx/nginx.conf /etc/nginx
 COPY --from=builder ./services/service.client/dist/* /usr/share/nginx/html
-
 COPY ./services/service.docs/public/* /usr/share/nginx/html/docs
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
