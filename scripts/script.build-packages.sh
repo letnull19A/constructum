@@ -3,7 +3,7 @@ prefix="constructum"
 
 clear
 
-cd ./packages
+cd ./../packages
 
 echo "building packages"
 
