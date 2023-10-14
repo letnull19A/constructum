@@ -16,6 +16,9 @@ WORKDIR /usr/share/nginx/
 RUN rm -rf html
 RUN mkdir html
 
+WORKDIR /usr/share/nginx/html
+RUN mkdir docs
+
 WORKDIR /
 COPY ./nginx/nginx.conf /etc/nginx
 COPY --from=builder ./services/service.client/dist/* /usr/share/nginx/html
