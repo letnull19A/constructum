@@ -47,12 +47,10 @@ pipeline {
         }
         stage('Testing packages') {
             steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Testing services') {
-            steps {
-                echo 'Tests services...'
+                dir ('tests') {
+                    sh 'npm i'
+                    echo 'Testing..'
+                }
             }
         }
         stage('Build docker images') {
@@ -64,8 +62,23 @@ pipeline {
                 sh 'docker image build -f client.Dockerfile -t constructum-client .'
             }
         }
+        stage('Start test-deploy') {
+            steps {
+                sh 'docker compose -f docker-compose.test.yml -p ctor-test up -d'
+            }
+        }
+        stage('Testing services') {
+            steps {
+                dir('tests') {
+                    nodejs('nodejs') {
+                        sh 'npm run test'
+                    }
+                }
+            }
+        }
         stage('Deploy') {
             steps {
+                sh 'docker compsoe -p ctor-test down'
                 sh 'docker compose -p ctor up -d'
             }
         }

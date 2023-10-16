@@ -1,0 +1,92 @@
+version: '3.7'
+name: 'constructum'
+
+services:
+  auth:
+    image: constructum-auth:latest
+    restart: always
+    container_name: auth
+    depends_on:
+      - identify
+    environment:
+      PORT: 11111
+      ENABLED_CORS: false
+      REDIS_URL: redis://45.12.74.222:6379
+      MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@mongo:27017/ctor?authMechanism=DEFAULT&authSource=admin
+      VERIFICATION_ATTEMPTS_OF_PING_TRPC: 10
+      IDENTIFY_ADDRESS: http://identify:3493
+    networks:
+      cnetwork:
+        ipv4_address: 77.5.0.30
+    ports:
+      - 11111:11111
+
+  api:
+    image: constructum-api:latest
+    restart: always
+    environment:
+      PORT: 7166
+      ENABLED_CORS: false
+      REDIS_URL: redis://45.12.74.222:6379
+      MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@mongo:27017/ctor?authMechanism=DEFAULT&authSource=admin
+      COMPILER_TRPC_ADDRESS: http://compiler:1245
+    depends_on:
+      - mongo
+      - redis
+      - compiler
+    networks:
+      cnetwork:
+        ipv4_address: 77.5.0.40
+    ports:
+      - 7166:7166
+
+  compiler:
+    image: constructum-compiler:latest
+    restart: always
+    environment:
+      PORT: 1245
+      NODE_ENV: production
+    depends_on:
+      - auth
+    networks:
+      cnetwork:
+        ipv4_address: 77.5.0.50
+    ports:
+      - 1245:1245
+
+  identify:
+    image: constructum-identify:latest
+    restart: always
+    environment:
+      PORT: 3493
+      MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@mongo:27017/?authMechanism=DEFAULT&authSource=admin
+    ports:
+      - 3493:3493
+    depends_on:
+      - mongo
+    networks:
+      cnetwork:
+        ipv4_address: 77.5.0.60
+
+  web-server:
+    image: constructum-client:latest
+    restart: always
+    depends_on:
+      - api
+      - auth
+    ports:
+      - 8090:8090
+    volumes:
+      - './nginx/nginx.conf://etc/nginx/nginx.conf:ro'
+      - './services/service.client://usr/share/nginx/html:ro'
+    networks:
+      cnetwork:
+        ipv4_address: 77.5.0.90
+
+networks:
+  cnetwork:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 77.5.0.0/16
+          gateway: 77.5.0.1
