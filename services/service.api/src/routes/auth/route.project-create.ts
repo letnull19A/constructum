@@ -17,7 +17,7 @@ projectCreateRoute.post('/create', async (req, res) => {
     const newProject = new ProjectModel({
       owner: new Types.ObjectId(owner),
       name: name,
-      description: description,
+      description: description, 
       members: new Types.ObjectId(owner),
       access: 'PRIVATE',
     })
