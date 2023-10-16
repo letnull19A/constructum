@@ -41,6 +41,4 @@ projectCreateRoute.post('/create', async (req, res) => {
       .catch((err) => {
         res.status(400).send(err)
       })
-  })
 })
-
