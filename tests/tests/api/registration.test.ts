@@ -26,6 +26,6 @@ describe('registration test', async () => {
 
 		const response = await axios.request(config)
 
-		expect(response.response.status).toBe(200)
+		expect(response.status).toBe(200)
 	})
 })
