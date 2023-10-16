@@ -31,8 +31,6 @@ services:
       MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@mongo:27017/ctor?authMechanism=DEFAULT&authSource=admin
       COMPILER_TRPC_ADDRESS: http://compiler:1245
     depends_on:
-      - mongo
-      - redis
       - compiler
     networks:
       cnetwork:
@@ -62,8 +60,6 @@ services:
       MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@mongo:27017/?authMechanism=DEFAULT&authSource=admin
     ports:
       - 3493:3493
-    depends_on:
-      - mongo
     networks:
       cnetwork:
         ipv4_address: 77.5.0.60
