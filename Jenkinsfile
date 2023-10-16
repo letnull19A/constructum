@@ -48,7 +48,10 @@ pipeline {
         stage('Testing packages') {
             steps {
                 dir ('tests') {
-                    sh 'npm i'
+                    nodejs('nodejs') {
+                        sh 'npm i'
+                    }
+                    
                     echo 'Testing..'
                 }
             }
