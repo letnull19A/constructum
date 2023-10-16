@@ -4,7 +4,6 @@ name: 'constructum'
 services:
   auth:
     image: constructum-auth:latest
-    container_name: auth
     depends_on:
       - identify
     environment:
