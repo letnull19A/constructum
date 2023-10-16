@@ -3,7 +3,7 @@ import qs from 'qs'
 import { expect, describe, it } from '@jest/globals'
 
 describe('registration test', async () => {
-	it('success registration', () => {
+	it('success registration', async () => {
 		let data = qs.stringify({
 			email: 'av@gmail.com',
 			name: 'Alex1',
