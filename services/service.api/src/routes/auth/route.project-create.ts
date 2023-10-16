@@ -34,12 +34,12 @@ projectCreateRoute.post('/create', async (req, res) => {
             await disconnect()
             res.status(200).send('Проект успешно создан')
           })
-          .catch((error) => {
+          .catch((error: any) => {
             logger.error(error)
             res.status(404).send('Пользователь не найден')
           })
       })
-      .catch((err) => {
+      .catch((err: any) => {
         res.status(400).send(err)
       })
 })
