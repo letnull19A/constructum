@@ -29,7 +29,7 @@ export const AddProject = () => {
       requestWithInterceptors(
         {
           method: Method.POST,
-          url: `${import.meta.env.VITE_API_URL}/api/project`,
+          url: `${import.meta.env.VITE_API_URL}/api/project/create`,
           headers: {
             Authorization: `Bearer ${userTokens.access}`,
           },
