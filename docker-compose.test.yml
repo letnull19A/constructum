@@ -4,7 +4,6 @@ name: 'constructum'
 services:
   auth:
     image: constructum-auth:latest
-    restart: always
     container_name: auth
     depends_on:
       - identify
@@ -23,7 +22,6 @@ services:
 
   api:
     image: constructum-api:latest
-    restart: always
     environment:
       PORT: 7166
       ENABLED_CORS: false
@@ -40,7 +38,6 @@ services:
 
   compiler:
     image: constructum-compiler:latest
-    restart: always
     environment:
       PORT: 1245
       NODE_ENV: production
@@ -54,7 +51,6 @@ services:
 
   identify:
     image: constructum-identify:latest
-    restart: always
     environment:
       PORT: 3493
       MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@mongo:27017/?authMechanism=DEFAULT&authSource=admin
@@ -66,7 +62,6 @@ services:
 
   web-server:
     image: constructum-client:latest
-    restart: always
     depends_on:
       - api
       - auth
