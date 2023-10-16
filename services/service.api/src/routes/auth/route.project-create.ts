@@ -10,9 +10,11 @@ export const projectCreateRoute = express.Router()
 projectCreateRoute.post('/create', async (req, res) => {
     const { owner, name, description } = req.body
   
-    await connect()
+    const connection = await mongoose.connect(process.env.MONGO_CONNECTION)
   
-    const newProject = new Project({
+    const ProjectModel = connection.models.Project || connection.model('Project', projectSchema)
+
+    const newProject = new ProjectModel({
       owner: new Types.ObjectId(owner),
       name: name,
       description: description,
