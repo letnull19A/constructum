@@ -33,6 +33,6 @@ describe('registration test', () => {
 			}
 		}
 
-		expect(result.status).toBe(200)
+		expect(result.response.status).toBe(200)
 	})
 })
