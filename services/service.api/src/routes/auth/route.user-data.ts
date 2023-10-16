@@ -1,7 +1,6 @@
 import express from 'express'
 import { connect as mongoConnect, disconnect as mongoDisconnect } from '../../database/database.mongo.js'
 import Project from '../../schemas/scheme.project.js'
-import { Types } from 'mongoose'
 import { $log as logger } from '@tsed/logger'
 
 export const userDataRoute = express.Router()
@@ -12,9 +11,7 @@ userDataRoute.get('/:uid/projects', async (req, res) => {
   const { uid } = req.params
 
   try {
-    const connection = await mongoConnect()
-
-    logger.debug(connection?.version)
+    await mongoConnect()
 
     const response = await Project.find({ members: [`${uid}`] })
 
@@ -22,7 +19,7 @@ userDataRoute.get('/:uid/projects', async (req, res) => {
 
     res.status(200).send(response)
   } catch (error) {
-    logger.error('PROJ ' + error)
+    logger.error(error)
     res.status(500).send('Что-то пошло не так')
   }
 })

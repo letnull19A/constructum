@@ -1,6 +1,7 @@
 import { isValidElement } from 'react'
 import './layout-default.scss'
 import { IContents } from './layout.flat'
+import { Content, Footer, Header, Menu } from '../components'
 
 export const LayoutDefault = ({ children }: IContents) => {
   let headerElement
@@ -11,16 +12,16 @@ export const LayoutDefault = ({ children }: IContents) => {
   children?.forEach((child) => {
     if (isValidElement(child) && typeof child?.type === 'function') {
       switch (child.type.name) {
-        case 'Header':
+        case Header.name:
           headerElement = child
           break
-        case 'Content':
+        case Content.name:
           contentElement = child
           break
-        case 'Footer':
+        case Footer.name:
           footerElement = child
           break
-        case 'Menu':
+        case Menu.name:
           menuElement = child
           break
         default:

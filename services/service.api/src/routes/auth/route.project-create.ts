@@ -1,8 +1,8 @@
 import express from 'express'
 import { connect, disconnect } from '../../database/database.mongo.js'
-import Project from '../../schemas/scheme.project.js'
+import { projectSchema } from '../../schemas/scheme.project.js'
 import { Types } from 'mongoose'
-import User from '../../schemas/scheme.user.js'
+import { userSchema } from '../../schemas/scheme.user.js'
 import { $log as logger } from '@tsed/logger'
 
 export const projectCreateRoute = express.Router()
@@ -42,3 +42,5 @@ projectCreateRoute.post('/create', async (req, res) => {
         res.status(400).send(err)
       })
   })
+})
+
