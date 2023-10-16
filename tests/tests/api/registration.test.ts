@@ -2,7 +2,7 @@ import axios from 'axios'
 import qs from 'qs'
 import { expect, describe, it } from '@jest/globals'
 
-describe('registration test', async () => {
+describe('registration test', () => {
 	it('success registration', async () => {
 		let data = qs.stringify({
 			email: 'av@gmail.com',
