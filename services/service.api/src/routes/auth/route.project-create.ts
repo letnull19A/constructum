@@ -1,7 +1,7 @@
 import express from 'express'
 import { connect, disconnect } from '../../database/database.mongo.js'
 import { projectSchema } from '../../schemas/scheme.project.js'
-import { Types } from 'mongoose'
+import mongoose, { Types } from 'mongoose'
 import { userSchema } from '../../schemas/scheme.user.js'
 import { $log as logger } from '@tsed/logger'
 
@@ -13,6 +13,7 @@ projectCreateRoute.post('/create', async (req, res) => {
     const connection = await mongoose.connect(process.env.MONGO_CONNECTION)
   
     const ProjectModel = connection.models.Project || connection.model('Project', projectSchema)
+    const UserModel = connection.models.User || connection.model('User', userSchema)
 
     const newProject = new ProjectModel({
       owner: new Types.ObjectId(owner),
@@ -27,7 +28,7 @@ projectCreateRoute.post('/create', async (req, res) => {
     newProject
       .validate()
       .then(async () => {
-        User.findOneAndUpdate({ _id: new Types.ObjectId(owner) }, { $push: { projects: newProject._id } })
+        UserModel.findOneAndUpdate({ _id: new Types.ObjectId(owner) }, { $push: { projects: newProject._id } })
           .then(async (result) => {
             await newProject.save()
             await disconnect()
