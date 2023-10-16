@@ -62,8 +62,6 @@ services:
       MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@mongo:27017/?authMechanism=DEFAULT&authSource=admin
     ports:
       - 3493:3493
-    depends_on:
-      - mongo
     networks:
       cnetwork:
         ipv4_address: 77.5.0.60
