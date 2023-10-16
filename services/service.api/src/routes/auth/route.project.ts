@@ -19,7 +19,7 @@ projectRoute.get('/:id', async (req, res) => {
 
 		client.on('open', () => logger.debug('mongoDB client connected to DB'))
 
-		const db = client.db('test')
+		const db = client.db('ctor')
 
 		const projects = db.collection('projects')
     
