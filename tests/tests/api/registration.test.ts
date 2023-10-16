@@ -2,7 +2,7 @@ import axios from 'axios'
 import qs from 'qs'
 import { expect, describe, it } from '@jest/globals'
 
-describe('registration test', () => {
+describe('registration test', async () => {
 	it('success registration', () => {
 		let data = qs.stringify({
 			email: 'av@gmail.com',
@@ -24,15 +24,8 @@ describe('registration test', () => {
 			data: data
 		}
 
-		const result = async function makeRequest() {
-			try {
-				const response = await axios.request(config)
-				console.log(JSON.stringify(response.data))
-			} catch (error) {
-				console.log(error)
-			}
-		}
+		const response = await axios.request(config)
 
-		expect(result.response.status).toBe(200)
+		expect(response.response.status).toBe(200)
 	})
 })
