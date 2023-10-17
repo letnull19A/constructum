@@ -9,38 +9,63 @@ export const registrationRoute = express.Router()
 
 registrationRoute.post('', async (req, res) => {
 
-  $log.info('accepted new query: registration')
+  try {
 
-  const { name, surname, login, password, repassword, email } = req.body
+    $log.info('accepted new query: registration')
+    
+    const { name, surname, login, password, repassword, email } = req.body
 
-  if (password !== repassword) {
-    res.status(400).send('Пароли не совпадают')
+    if (name === '' || name === undefined) 
+      return res.status(400).send('field name is empty or undefined')
+
+    if (surname === '' || surname === undefined)
+      return res.status(400).send('field surname is empty or undefined')
+
+    if (login === '' || login === undefined)
+      return res.status(400).send('field login is empty or undefined')
+
+    if (password === '' || password === undefined)
+      return res.status(400).send('field password is empty or undefined')
+  
+    if (repassword === '' || repassword === undefined)
+      return res.status(400).send('field repassword is empty or undefined')
+
+    if (password !== repassword)
+      return res.status(400).send('Пароли не совпадают')
+
+    if (email === '' || email === undefined)
+      return res.status(400).send('field email is empty or undefined')
+
+    const connection = await mongoose.connect(process.env.MONGO_CONNECTION)
+
+    const encryptedPassword = await encryptPassword(password)
+
+    if (connection === undefined)
+      throw new Error('lost connection to DataBase Mongo')
+
+    const UserModel = connection.models.User || connection.model('User', userSchema)
+
+    const user = new UserModel({
+      name: name,
+      surname: surname,
+      email: email,
+      password: encryptedPassword,
+      login: login,
+    })
+
+    await user
+      .validate()
+      .then(async () => {
+        await user.save()
+        return res.sendStatus(200)
+      })
+      .catch((err: any) => {
+        $log.error(err)
+        return res.status(500).send('Ошибка сервера')
+      })
+
+  } catch (error: any) {
+    $log.error(error)
+    return res.status(500).send('Ошибка сервера')
   }
-
-  const connection = await mongoose.connect(process.env.MONGO_CONNECTION)
-
-  const encryptedPassword = await encryptPassword(password)
-
-  if (connection === undefined)
-    throw new Error('lost connection to DataBase Mongo')
-
-  const UserModel = connection.models.User || connection.model('User', userSchema)
-
-  const user = new UserModel({
-    name: name,
-    surname: surname,
-    email: email,
-    password: encryptedPassword,
-    login: login,
-  })
-
-  await user
-    .validate()
-    .then(async () => {
-      await user.save()
-      return res.sendStatus(200)
-    })
-    .catch((err: any) => {
-      return res.status(400).send(err)
-    })
 })
