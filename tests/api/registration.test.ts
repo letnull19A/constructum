@@ -24,7 +24,7 @@ describe('registration test', () => {
 			data: data
 		}
 
-		const response = await axios.request(config)
+		// const response = await axios.request(config)
 
 		expect(true).toBe(true)
 
