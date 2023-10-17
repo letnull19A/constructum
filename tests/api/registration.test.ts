@@ -34,7 +34,11 @@ describe('registration test', () => {
 			data: data
 		}
 
-		await expect(await axios.request(config).response.status).rejects.toEqual(200)
+		const response = await axios.request(config)
+
+		console.log(response)
+
+		expect(response).rejects.toEqual(200)
 	})
 
 	it('validation failed (name) status not 500', async () => {
