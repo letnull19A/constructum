@@ -22,7 +22,9 @@ describe('registration test', () => {
 
 			expect(response).toThrow('AxiosError: Request failed with status code 400')
 			expect(response).not.toThrow('AxiosError: Request failed with status code 500')
+			expect(response).not.toThrow('AxiosError: Request failed with status code 404')
 			expect(response.status).toBe(400)
+			expect(response.status).not.toBe(404)
 			expect(response.status).not.toBe(500)
 			expect(response.statusText).toBe('field name is empty or undefined')
 		} catch {}
@@ -49,7 +51,9 @@ describe('registration test', () => {
 
 			expect(response).toThrow('AxiosError: Request failed with status code 400')
 			expect(response).not.toThrow('AxiosError: Request failed with status code 500')
+			expect(response).not.toThrow('AxiosError: Request failed with status code 404')
 			expect(response.status).toBe(400)
+			expect(response.status).not.toBe(404)
 			expect(response.status).not.toBe(500)
 			expect(response.statusText).toBe('field surname is empty or undefined')
 		} catch {}
@@ -79,9 +83,9 @@ describe('registration test', () => {
 
 			const response = await axios.request(config)
 
-			expect(response).toThrow('AxiosError: Request failed with status code 400')
+			expect(response).not.toThrow('AxiosError: Request failed with status code 400')
 			expect(response).not.toThrow('AxiosError: Request failed with status code 500')
-			expect(response.status).toBe(400)
+			expect(response.status).not.toBe(400)
 			expect(response.status).not.toBe(500)
 			expect(response.status).toBe(200)
 		} catch {}
