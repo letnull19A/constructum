@@ -69,7 +69,7 @@ pipeline {
         }
         stage('Test services') {
             steps {
-                sh 'docker compose -f docker-compose.test.yml -p ctor-test up -d'
+                sh 'docker compose -f docker-compose.test.yml -p ctor-test up'
             }
         }
         stage('Deploy') {
