@@ -16,7 +16,7 @@ describe('registration test', () => {
 		const config = {
 			method: 'post',
 			maxBodyLength: Infinity,
-			url: 'http://api:8090/api/registration',
+			url: 'http://45.12.74.222/api/registration',
 			headers: {
 				Authorization: 'Bearer  ',
 				'Content-Type': 'application/x-www-form-urlencoded'

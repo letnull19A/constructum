@@ -54,10 +54,12 @@ pipeline {
                 }
             }
         }
-        stage('Testing web-server') {
+        stage('Testing nginx') {
             steps {
                 dir ('tests') {
-                    sh 'npm run test'
+                    nodejs('nodejs') {
+                        sh 'npm run test'
+                    }
                 }
             }
         }
