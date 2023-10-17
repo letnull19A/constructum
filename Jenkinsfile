@@ -51,13 +51,15 @@ pipeline {
                     nodejs('nodejs') {
                         sh 'npm i'
                     }
-                    
-                    echo 'Testing..'
                 }
             }
         }
         stage('Build docker images') {
             steps {
+                dir ('tests') {
+                    sh 'docker image build -t constructum-test .'
+                }
+
                 sh 'docker image build -f api.Dockerfile -t constructum-api .'
                 sh 'docker image build -f auth.Dockerfile -t constructum-auth .'
                 sh 'docker image build -f compiler.Dockerfile -t constructum-compiler .'
@@ -65,18 +67,9 @@ pipeline {
                 sh 'docker image build -f client.Dockerfile -t constructum-client .'
             }
         }
-        stage('Start test-deploy') {
+        stage('Test services') {
             steps {
                 sh 'docker compose -f docker-compose.test.yml -p ctor-test up -d'
-            }
-        }
-        stage('Testing services') {
-            steps {
-                dir('tests') {
-                    nodejs('nodejs') {
-                        sh 'npm run test'
-                    }
-                }
             }
         }
         stage('Deploy') {

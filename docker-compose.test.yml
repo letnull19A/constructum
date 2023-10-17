@@ -18,6 +18,18 @@ services:
         ipv4_address: 77.5.0.30
     ports:
       - 11111:11111
+  
+  tests:
+    image: constructum-tes:latest
+    depends_on:
+      - auth
+      - api
+      - compiler
+      - identify
+      - web-server
+    networks:
+      cnetwork:
+        ipv4_address: 77.5.1.30
 
   api:
     image: constructum-api:latest
