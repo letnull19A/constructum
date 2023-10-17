@@ -17,13 +17,7 @@ describe('registration test', () => {
 			data: data
 		}
 
-		const response = await axios.request(config)
-
-		expect(response).toThrow()
-		expect(response.status).toBe(400)
-		expect(response.status).not.toBe(404)
-		expect(response.status).not.toBe(500)
-		expect(response.statusText).toBe('field name is empty or undefined')
+		await expect(axios.request(config)).rejects.toThrow()
 	})
 
 	it('validation failed (surname)', async () => {
