@@ -20,7 +20,7 @@ services:
       - 11111:11111
   
   tests:
-    image: constructum-tes:latest
+    image: constructum-test:latest
     depends_on:
       - auth
       - api
