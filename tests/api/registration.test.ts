@@ -4,7 +4,7 @@ import { expect, describe, it } from '@jest/globals'
 
 describe('registration test', () => {
 	it('success registration', async () => {
-		let data = qs.stringify({
+		const data = qs.stringify({
 			email: 'av@gmail.com',
 			name: 'Alex1',
 			surname: 'Volkov1',
@@ -13,7 +13,7 @@ describe('registration test', () => {
 			login: 'login1'
 		})
 
-		let config = {
+		const config = {
 			method: 'post',
 			maxBodyLength: Infinity,
 			url: 'http://api:8090/api/registration',
