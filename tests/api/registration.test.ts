@@ -27,5 +27,6 @@ describe('registration test', () => {
 		const response = await axios.request(config)
 
 		expect(response.status).toBe(200)
+		expect(response.dtaa).toBe({})
 	})
 })
