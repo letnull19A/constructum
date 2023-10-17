@@ -19,7 +19,7 @@ describe('registration test', () => {
 
 		const response = await axios.request(config)
 
-		expect(response.error).rejects.toThrow('AxiosError: Request failed with status code 400')
+		expect(response).rejects.toThrow('AxiosError: Request failed with status code 400')
 		expect(response.status).toBe(400)
 		expect(response.statusText).toBe('field name is empty or undefined')
 	})
