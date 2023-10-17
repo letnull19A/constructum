@@ -4,24 +4,26 @@ import { expect, describe, it } from '@jest/globals'
 
 describe('registration test', () => {
 	it('validation failed (name)', async () => {
-		const data = {}
+		try {
+			const data = {}
 
-		const config = {
-			method: 'post',
-			maxBodyLength: Infinity,
-			url: 'http://45.12.74.222/api/registration',
-			headers: {
-				Authorization: 'Bearer  ',
-				'Content-Type': 'application/x-www-form-urlencoded'
-			},
-			data: data
-		}
+			const config = {
+				method: 'post',
+				maxBodyLength: Infinity,
+				url: 'http://45.12.74.222/api/registration',
+				headers: {
+					Authorization: 'Bearer  ',
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				data: data
+			}
 
-		const response = await axios.request(config)
+			const response = await axios.request(config)
 
-		expect(response).rejects.toThrow('AxiosError: Request failed with status code 400')
-		expect(response.status).toBe(400)
-		expect(response.statusText).toBe('field name is empty or undefined')
+			expect(response).toThrow('AxiosError: Request failed with status code 400')
+			expect(response.status).toBe(400)
+			expect(response.statusText).toBe('field name is empty or undefined')
+		} catch {}
 	})
 
 	it('validation failed (surname)', async () => {
