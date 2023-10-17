@@ -19,9 +19,7 @@ describe('registration test', () => {
 
 		const response = await axios.request(config)
 
-		// expect(response).rejects.toThrow('AxiosError: Request failed with status code 400')
-		expect(response).not.toThrow('AxiosError: Request failed with status code 500')
-		expect(response).not.toThrow('AxiosError: Request failed with status code 404')
+		expect(response).toThrow()
 		expect(response.status).toBe(400)
 		expect(response.status).not.toBe(404)
 		expect(response.status).not.toBe(500)
