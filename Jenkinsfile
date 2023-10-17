@@ -74,7 +74,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh 'docker compsoe -p ctor-test down'
+                sh 'docker compose -p ctor-test down'
                 sh 'docker compose -p ctor up -d'
             }
         }
