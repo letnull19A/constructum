@@ -37,28 +37,28 @@ services:
       - redis-test
       - identify-test
     environment:
-      PORT: 11197
+      PORT: 11198
       ENABLED_CORS: false
       REDIS_URL: redis://redis-test
       MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@mongo-test:27018/ctor-test?authMechanism=DEFAULT&authSource=admin
       VERIFICATION_ATTEMPTS_OF_PING_TRPC: 10
-      IDENTIFY_ADDRESS: http://identify:3498
+      IDENTIFY_ADDRESS: http://identify:3499
     networks:
       cnetwork:
         ipv4_address: 77.5.0.30
     ports:
-      - 11197:11197
+      - 11198:11197
 
   api-test:
     image: constructum-api:latest
     restart: always
     container_name: api-test
     environment:
-      PORT: 7161
+      PORT: 7162
       ENABLED_CORS: false
       REDIS_URL: redis://redis-test
       MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@mongo-test:27018/ctor?authMechanism=DEFAULT&authSource=admin
-      COMPILER_TRPC_ADDRESS: http://compiler:12245
+      COMPILER_TRPC_ADDRESS: http://compiler:12246
     depends_on:
       - mongo-test
       - redis-test
@@ -67,7 +67,7 @@ services:
       cnetwork:
         ipv4_address: 77.5.0.40
     ports:
-      - 7161:7161
+      - 7162:7161
 
   compiler-test:
     image: constructum-compiler:latest
@@ -82,17 +82,17 @@ services:
       cnetwork:
         ipv4_address: 77.5.0.50
     ports:
-      - 12245:12245
+      - 12246:12245
 
   identify-test:
     image: constructum-identify:latest
     restart: always
     container_name: identify-test
     environment:
-      PORT: 3498
+      PORT: 3499
       MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@mongo-test:27018/?authMechanism=DEFAULT&authSource=admin
     ports:
-      - 3498:3498
+      - 3499:3498
     depends_on:
       - mongo-test
     networks:
