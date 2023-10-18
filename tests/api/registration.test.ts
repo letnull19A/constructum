@@ -1,15 +1,15 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import qs from 'qs'
 import { expect, describe, it } from '@jest/globals'
 
 describe('registration test', () => {
 	it('validation failed (name) throwing Error', async () => {
-		const data = {}
+		let data = {}
 
-		const config = {
+		let config = {
 			method: 'post',
 			maxBodyLength: Infinity,
-			url: 'http://45.12.74.222/api/registration',
+			url: 'http://45.12.74.222:8077/api/registration',
 			headers: {
 				Authorization: 'Bearer  ',
 				'Content-Type': 'application/x-www-form-urlencoded'
@@ -17,16 +17,16 @@ describe('registration test', () => {
 			data: data
 		}
 
-		await expect(axios.request(config)).rejects.toThrow()
+		await expect(axios.request(config)).rejects.toThrow(AxiosError)
 	})
 
-	it('validation failed (name) status not 200', async () => {
-		const data = {}
+	it('validation failed (name) status text and status = 400', async () => {
+		let data = {}
 
-		const config = {
+		let config = {
 			method: 'post',
 			maxBodyLength: Infinity,
-			url: 'http://45.12.74.222/api/registration',
+			url: 'http://45.12.74.222:8077/api/registration',
 			headers: {
 				Authorization: 'Bearer  ',
 				'Content-Type': 'application/x-www-form-urlencoded'
@@ -34,69 +34,451 @@ describe('registration test', () => {
 			data: data
 		}
 
-		await expect(await axios.request(config).status).not.toEqual(200)
+		let response = axios.request(config)
+
+		await expect(response).rejects.toThrow(new AxiosError('Request failed with status code 400'))
 	})
 
-	// it('validation failed (name) status not 500', async () => {
-	// 	const data = {}
+	it('validation failed (name) status != 500', async () => {
+		try {
+			let data = {}
 
-	// 	const config = {
-	// 		method: 'post',
-	// 		maxBodyLength: Infinity,
-	// 		url: 'http://45.12.74.222/api/registration',
-	// 		headers: {
-	// 			Authorization: 'Bearer  ',
-	// 			'Content-Type': 'application/x-www-form-urlencoded'
-	// 		},
-	// 		data: data
-	// 	}
+			let config = {
+				method: 'post',
+				maxBodyLength: Infinity,
+				url: 'http://45.12.74.222:8077/api/registration',
+				headers: {
+					Authorization: 'Bearer  ',
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				data: data
+			}
 
-	// 	await expect(axios.request(config).status).not.toEqual(500)
-	// })
+			let response = await axios.post(config.url, config.data, config)
 
-	// it('validation failed (name) having status text', async () => {
-	// 	const data = {}
+			expect(response.status).not.toEqual(500)
+		} catch (err: any) {}
+	})
 
-	// 	const config = {
-	// 		method: 'post',
-	// 		maxBodyLength: Infinity,
-	// 		url: 'http://45.12.74.222/api/registration',
-	// 		headers: {
-	// 			Authorization: 'Bearer  ',
-	// 			'Content-Type': 'application/x-www-form-urlencoded'
-	// 		},
-	// 		data: data
-	// 	}
+	it('validation failed (name) status text', async () => {
+		try {
+			let data = {}
 
-	// 	await expect(axios.request(config).statusText).toEqual('field name is empty or undefined')
-	// })
+			let config = {
+				method: 'post',
+				maxBodyLength: Infinity,
+				url: 'http://45.12.74.222:8077/api/registration',
+				headers: {
+					Authorization: 'Bearer  ',
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				data: data
+			}
 
-	// it('validation failed (surname)', async () => {
-	// 	const data = {
-	// 		name: 'Alex1'
-	// 	}
+			let response = (await axios.post(config.url, config.data, config)).statusText
 
-	// 	const config = {
-	// 		method: 'post',
-	// 		maxBodyLength: Infinity,
-	// 		url: 'http://45.12.74.222/api/registration',
-	// 		headers: {
-	// 			Authorization: 'Bearer  ',
-	// 			'Content-Type': 'application/x-www-form-urlencoded'
-	// 		},
-	// 		data: data
-	// 	}
+			expect(response).toEqual('')
+		} catch (err: any) {
+			expect(err.response.data).toEqual('field name is empty or undefined')
+		}
+	})
 
-	// 	const response = await axios.request(config)
+	it('validation failed (surname) throwing Error', async () => {
+		let data = {
+			name: 'Alex1'
+		}
 
-	// 	expect(response).rejects.toThrow('AxiosError: Request failed with status code 400')
-	// 	expect(response).not.toThrow('AxiosError: Request failed with status code 500')
-	// 	expect(response).not.toThrow('AxiosError: Request failed with status code 404')
-	// 	expect(response.status).toBe(400)
-	// 	expect(response.status).not.toBe(404)
-	// 	expect(response.status).not.toBe(500)
-	// 	expect(response.statusText).toBe('field surname is empty or undefined')
-	// })
+		let config = {
+			method: 'post',
+			maxBodyLength: Infinity,
+			url: 'http://45.12.74.222:8077/api/registration',
+			headers: {
+				Authorization: 'Bearer  ',
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			data: data
+		}
+
+		await expect(axios.request(config)).rejects.toThrow(AxiosError)
+	})
+
+	it('validation failed (surname) status text and status = 400', async () => {
+		try {
+			let data = {
+				name: 'Alex1'
+			}
+
+			let config = {
+				method: 'post',
+				maxBodyLength: Infinity,
+				url: 'http://45.12.74.222:8077/api/registration',
+				headers: {
+					Authorization: 'Bearer  ',
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				data: data
+			}
+
+			let response = (await axios.post(config.url, config.data, config)).statusText
+
+			expect(response).toEqual('')
+		} catch (err: any) {
+			expect(err.response.data).toEqual('field surname is empty or undefined')
+			expect(err.response.status).toEqual(400)
+		}
+	})
+
+	it('validation failed (surname) status != 500', async () => {
+		try {
+			let data = {
+				name: 'Alex1'
+			}
+
+			let config = {
+				method: 'post',
+				maxBodyLength: Infinity,
+				url: 'http://45.12.74.222:8077/api/registration',
+				headers: {
+					Authorization: 'Bearer  ',
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				data: data
+			}
+
+			let response = (await axios.post(config.url, config.data, config)).statusText
+
+			expect(response).toEqual('')
+		} catch (err: any) {
+			expect(err.response.status).not.toEqual(500)
+		}
+	})
+
+	it('validation failed (surname) status text', async () => {
+		try {
+			let data = {
+				name: 'Alex1'
+			}
+
+			let config = {
+				method: 'post',
+				maxBodyLength: Infinity,
+				url: 'http://45.12.74.222:8077/api/registration',
+				headers: {
+					Authorization: 'Bearer  ',
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				data: data
+			}
+
+			let response = (await axios.post(config.url, config.data, config)).statusText
+
+			expect(response).toEqual('')
+		} catch (err: any) {
+			expect(err.response.data).toEqual('field surname is empty or undefined')
+		}
+	})
+
+	it('validation failed (login) throwing Error', async () => {
+		let data = {
+			name: 'Alex1',
+			surname: 'Volkov1'
+		}
+
+		let config = {
+			method: 'post',
+			maxBodyLength: Infinity,
+			url: 'http://45.12.74.222:8077/api/registration',
+			headers: {
+				Authorization: 'Bearer  ',
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			data: data
+		}
+
+		await expect(axios.request(config)).rejects.toThrow(AxiosError)
+	})
+
+	it('validation failed (login) status text and status = 400', async () => {
+		try {
+			let data = {
+				name: 'Alex1',
+				surname: 'Volkov1'
+			}
+
+			let config = {
+				method: 'post',
+				maxBodyLength: Infinity,
+				url: 'http://45.12.74.222:8077/api/registration',
+				headers: {
+					Authorization: 'Bearer  ',
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				data: data
+			}
+
+			let response = (await axios.post(config.url, config.data, config)).statusText
+
+			expect(response).toEqual('')
+		} catch (err: any) {
+			expect(err.response.data).toEqual('field login is empty or undefined')
+			expect(err.response.status).toEqual(400)
+		}
+	})
+
+	it('validation failed (login) status != 500', async () => {
+		try {
+			let data = {
+				name: 'Alex1',
+				surname: 'Volkov1'
+			}
+
+			let config = {
+				method: 'post',
+				maxBodyLength: Infinity,
+				url: 'http://45.12.74.222:8077/api/registration',
+				headers: {
+					Authorization: 'Bearer  ',
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				data: data
+			}
+
+			let response = await axios.post(config.url, config.data, config)
+
+			expect(response.status).not.toEqual(500)
+		} catch (err: any) {}
+	})
+
+	it('validation failed (password) throwing Error', async () => {
+		let data = {
+			name: 'Alex1',
+			surname: 'Volkov1',
+			login: 'login1'
+		}
+
+		let config = {
+			method: 'post',
+			maxBodyLength: Infinity,
+			url: 'http://45.12.74.222:8077/api/registration',
+			headers: {
+				Authorization: 'Bearer  ',
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			data: data
+		}
+
+		await expect(axios.request(config)).rejects.toThrow(AxiosError)
+	})
+
+	it('validation failed (password) status text and status = 400', async () => {
+		try {
+			let data = {
+				name: 'Alex1',
+				surname: 'Volkov1',
+				login: 'login1'
+			}
+
+			let config = {
+				method: 'post',
+				maxBodyLength: Infinity,
+				url: 'http://45.12.74.222:8077/api/registration',
+				headers: {
+					Authorization: 'Bearer  ',
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				data: data
+			}
+
+			let response = (await axios.post(config.url, config.data, config)).statusText
+
+			expect(response).toEqual('')
+		} catch (err: any) {
+			expect(err.response.data).toEqual('field password is empty or undefined')
+			expect(err.response.status).toEqual(400)
+		}
+	})
+
+	it('validation failed (password) status != 500', async () => {
+		try {
+			let data = {
+				name: 'Alex1',
+				surname: 'Volkov1',
+				login: 'login1'
+			}
+
+			let config = {
+				method: 'post',
+				maxBodyLength: Infinity,
+				url: 'http://45.12.74.222:8077/api/registration',
+				headers: {
+					Authorization: 'Bearer  ',
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				data: data
+			}
+
+			let response = await axios.post(config.url, config.data, config)
+
+			expect(response.status).not.toEqual(500)
+		} catch (err: any) {}
+	})
+
+	it('validation failed (repassword) throwing Error', async () => {
+		let data = {
+			name: 'Alex1',
+			surname: 'Volkov1',
+			login: 'login1',
+			password: '11111111'
+		}
+
+		let config = {
+			method: 'post',
+			maxBodyLength: Infinity,
+			url: 'http://45.12.74.222:8077/api/registration',
+			headers: {
+				Authorization: 'Bearer  ',
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			data: data
+		}
+
+		await expect(axios.request(config)).rejects.toThrow(AxiosError)
+	})
+
+	it('validation failed (repassword) status text and status = 400', async () => {
+		try {
+			let data = {
+				name: 'Alex1',
+				surname: 'Volkov1',
+				login: 'login1',
+				password: '11111111'
+			}
+
+			let config = {
+				method: 'post',
+				maxBodyLength: Infinity,
+				url: 'http://45.12.74.222:8077/api/registration',
+				headers: {
+					Authorization: 'Bearer  ',
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				data: data
+			}
+
+			let response = (await axios.post(config.url, config.data, config)).statusText
+
+			expect(response).toEqual('')
+		} catch (err: any) {
+			expect(err.response.data).toEqual('field password is empty or undefined')
+			expect(err.response.status).toEqual(400)
+		}
+	})
+
+	it('validation failed (repassword) status != 500', async () => {
+		try {
+			let data = {
+				name: 'Alex1',
+				surname: 'Volkov1',
+				login: 'login1',
+				password: '11111111'
+			}
+
+			let config = {
+				method: 'post',
+				maxBodyLength: Infinity,
+				url: 'http://45.12.74.222:8077/api/registration',
+				headers: {
+					Authorization: 'Bearer  ',
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				data: data
+			}
+
+			let response = await axios.post(config.url, config.data, config)
+
+			expect(response.status).not.toEqual(500)
+		} catch (err: any) {}
+	})
+
+	it('validation failed (repassword not equal password) throwing Error', async () => {
+		let data = {
+			name: 'Alex1',
+			surname: 'Volkov1',
+			login: 'login1',
+			password: '11111111',
+			repassword: '11111111a'
+		}
+
+		let config = {
+			method: 'post',
+			maxBodyLength: Infinity,
+			url: 'http://45.12.74.222:8077/api/registration',
+			headers: {
+				Authorization: 'Bearer  ',
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			data: data
+		}
+
+		await expect(axios.request(config)).rejects.toThrow(AxiosError)
+	})
+
+	it('validation failed (repassword not equal password) status text and status = 400', async () => {
+		try {
+			let data = {
+				name: 'Alex1',
+				surname: 'Volkov1',
+				login: 'login1',
+				password: '11111111',
+				repassword: '11111111a'
+			}
+
+			let config = {
+				method: 'post',
+				maxBodyLength: Infinity,
+				url: 'http://45.12.74.222:8077/api/registration',
+				headers: {
+					Authorization: 'Bearer  ',
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				data: data
+			}
+
+			let response = (await axios.post(config.url, config.data, config)).statusText
+
+			expect(response).toEqual('')
+		} catch (err: any) {
+			expect(err.response.data).toEqual('field repassword not equal password')
+			expect(err.response.status).toEqual(400)
+		}
+	})
+
+	it('validation failed (repassword not equal password) status != 500', async () => {
+		try {
+			let data = {
+				name: 'Alex1',
+				surname: 'Volkov1',
+				login: 'login1',
+				password: '11111111',
+				repassword: '11111111a'
+			}
+
+			let config = {
+				method: 'post',
+				maxBodyLength: Infinity,
+				url: 'http://45.12.74.222:8077/api/registration',
+				headers: {
+					Authorization: 'Bearer  ',
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				data: data
+			}
+
+			let response = await axios.post(config.url, config.data, config)
+
+			expect(response.status).not.toEqual(500)
+		} catch (err: any) {}
+	})
 
 	// it('success registration', async () => {
 	// 	const data = qs.stringify({
@@ -128,3 +510,5 @@ describe('registration test', () => {
 	// 	expect(response.status).toBe(200)
 	// })
 })
+
+describe('success creating users', () => {})

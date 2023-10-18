@@ -31,7 +31,7 @@ registrationRoute.post('', async (req, res) => {
       return res.status(400).send('field repassword is empty or undefined')
 
     if (password !== repassword)
-      return res.status(400).send('Пароли не совпадают')
+      return res.status(400).send('field repassword not equal password')
 
     if (email === '' || email === undefined)
       return res.status(400).send('field email is empty or undefined')

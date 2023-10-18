@@ -54,15 +54,6 @@ pipeline {
                 }
             }
         }
-        stage('Testing nginx') {
-            steps {
-                dir ('tests') {
-                    nodejs('nodejs') {
-                        sh 'npm run test'
-                    }
-                }
-            }
-        }
         stage('Build docker images') {
             steps {
                 sh 'docker image build -f api.Dockerfile -t constructum-api .'
@@ -72,8 +63,23 @@ pipeline {
                 sh 'docker image build -f client.Dockerfile -t constructum-client .'
             }
         }
-        stage('Deploy') {
+        stage('Test deploy') {
             steps {
+                sh 'docker compose -f docker-compose.test.yml -p ctor-test up -d'
+            }
+        }
+        stage('Testing nginx + application') {
+            steps {
+                dir ('tests') {
+                    nodejs('nodejs') {
+                        sh 'npm run test'
+                    }
+                }
+            }
+        }
+        stage('Deploy + integration') {
+            steps {
+                sh 'docker compose -p ctor-test down'
                 sh 'docker compose -p ctor up -d'
             }
         }
