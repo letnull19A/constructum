@@ -13,7 +13,7 @@ export const Projects = () => {
 	useTitle('Мои проекты')
 
 	const navigate = useNavigate()
-	const getAllProjects = useHttp<IProject>()
+	const getAllProjects = useHttp<Array<IProject>>()
 	const userData = JSON.parse(localStorage.getItem('user') ?? '{}')
 	const { bearer } = useBearer()
 	const [projects, setProjects] = useState<Array<IProject>>([])
