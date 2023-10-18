@@ -1,52 +1,51 @@
 import dotenv from 'dotenv'
 import process from 'process'
-import { $log as logger } from '@tsed/logger'
+import { $log } from '@tsed/$log'
 import { MongoDBWrapper } from 'constructum-dbs'
 import { createHTTPServer } from '@trpc/server/adapters/standalone'
 import { appRouter } from 'constructum-identify'
 
-logger.level = 'debug'
-logger.name = 'IDENTIFY'
+$log.level = 'debug'
+$log.name = 'IDENTIFY'
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` })
 
 if (process.env.PORT === 0 || Number.isNaN(process.env.PORT)) {
-    throw Error('env parameter PORT is 0 or isNaN value')
+	throw Error('env parameter PORT is 0 or isNaN value')
 }
 
 if (process.env.MONGO_CONNECTION === '' || process.env.MONGO_CONNECTION === undefined) {
-    throw Error('env parameter MONGO_CONNECTION is empty or undefined')
+	throw Error('env parameter MONGO_CONNECTION is empty or undefined')
 }
 
-const main = async () => { 
+const main = async () => {
+	const mongo = new MongoDBWrapper(process.env.MONGO_CONNECTION)
+	const port = process.env.PORT
 
-    const mongo = new MongoDBWrapper(process.env.MONGO_CONNECTION)
-    const port = process.env.PORT 
-    
-    logger.info('starting server')
-    logger.info(`server started in ${process.env.NODE_ENV} mode`)
-    
-    await mongo.connect({
-        onSuccess: () => {
-            logger.info('mongodb connected')
-        },
-        onError: (error: any) => {
-            logger.error(error)
-        }
-    })
+	$log.info('starting server')
+	$log.info(`server started in ${process.env.NODE_ENV} mode`)
 
-    mongo.disconnect({
-        onSuccess: () => logger.info('mongo disconnected'),
-        onError: (error: any) => logger.error(error)
-    })
+	await mongo.connect({
+		onSuccess: () => {
+			$log.info('mongodb connected')
+		},
+		onError: (error: any) => {
+			$log.error(error)
+		}
+	})
 
-    const server = createHTTPServer({
-        router: appRouter
-    })
+	mongo.disconnect({
+		onSuccess: () => $log.info('mongo disconnected'),
+		onError: (error: any) => $log.error(error)
+	})
 
-    logger.info(`tRPC server listen now port: ${port}`) 
+	const server = createHTTPServer({
+		router: appRouter
+	})
 
-    server.listen(port)
+	$log.info(`tRPC server listen now port: ${port}`)
+
+	server.listen(port)
 }
 
-main().catch(logger.error)
+main().catch($log.error)
