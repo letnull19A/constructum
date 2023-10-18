@@ -42,7 +42,16 @@ export const Projects = () => {
 
 		console.log(projects)
 
-		setProjects(getAllProjects.response)
+		setProjects(
+			getAllProjects.response.map((item) => {
+				owner: item.owner
+				name: item.name
+				description: item.description
+				members: item.members
+				entities: item.entities
+				access: item.access
+			})
+		)
 	}, [getAllProjects.response])
 
 	const displayProjects = () => {
