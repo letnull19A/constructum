@@ -41,6 +41,8 @@ export const Projects = () => {
 		if (getAllProjects.response === null) setProjects([])
 
 		console.log(projects)
+
+		setProjects(getAllProjects.response)
 	}, [getAllProjects.response])
 
 	const displayProjects = () => {
