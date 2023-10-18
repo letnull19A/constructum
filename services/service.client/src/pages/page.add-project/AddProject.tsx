@@ -26,11 +26,9 @@ export const AddProject = () => {
 				description: surnameFieldRef.current.value
 			}
 
-			console.log(`${import.meta.env.VITE_API_URL}/api/project/create`)
-
 			requestWithInterceptors({
 				method: Method.POST,
-				url: `${import.meta.env.VITE_API_URL}/api/project/create`,
+				url: 'http://45.12.74.222:80/api/project/create',
 				headers: {
 					Authorization: `Bearer ${userTokens.access}`
 				},
