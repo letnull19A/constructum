@@ -51,6 +51,8 @@ export const Projects = () => {
 					} as IProject)
 			)
 		)
+
+		console.log(projects)
 	}, [getAllProjects.response])
 
 	const displayProjects = () => {
