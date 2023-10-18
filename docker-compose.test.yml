@@ -42,7 +42,7 @@ services:
       REDIS_URL: redis://redis-test
       MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@mongo-test:27018/ctor-test?authMechanism=DEFAULT&authSource=admin
       VERIFICATION_ATTEMPTS_OF_PING_TRPC: 10
-      IDENTIFY_ADDRESS: http://identify:3499
+      IDENTIFY_ADDRESS: http://identify-test:3499
     networks:
       cnetwork:
         ipv4_address: 77.5.0.30
@@ -58,7 +58,7 @@ services:
       ENABLED_CORS: false
       REDIS_URL: redis://redis-test
       MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@mongo-test:27018/ctor?authMechanism=DEFAULT&authSource=admin
-      COMPILER_TRPC_ADDRESS: http://compiler:12246
+      COMPILER_TRPC_ADDRESS: http://compiler-test:12246
     depends_on:
       - mongo-test
       - redis-test
