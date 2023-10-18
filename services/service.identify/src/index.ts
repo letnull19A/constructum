@@ -1,9 +1,9 @@
 import dotenv from 'dotenv'
 import process from 'process'
-import { $log } from '@tsed/$log'
 import { MongoDBWrapper } from 'constructum-dbs'
 import { createHTTPServer } from '@trpc/server/adapters/standalone'
 import { appRouter } from 'constructum-identify'
+import { $log } from '@tsed/logger'
 
 $log.level = 'debug'
 $log.name = 'IDENTIFY'
