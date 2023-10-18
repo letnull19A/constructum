@@ -33,24 +33,23 @@ export const Projects = () => {
 	}, [bearer])
 
 	useEffect(() => {
-		if (getAllProjects.response === null && getAllProjects.response === undefined) {
+		if (getAllProjects.response === null || getAllProjects.response === undefined) {
 			setProjects([])
 			return
 		}
 
-		if (getAllProjects.response === null) setProjects([])
-
-		console.log(projects)
-
 		setProjects(
-			getAllProjects.response.map((item) => {
-				owner: item.owner
-				name: item.name
-				description: item.description
-				members: item.members
-				entities: item.entities
-				access: item.access
-			})
+			getAllProjects.response.map(
+				(item) =>
+					({
+						owner: item.owner,
+						name: item.name,
+						description: item.description,
+						members: item.members,
+						entities: item.entities,
+						access: item.access
+					} as IProject)
+			)
 		)
 	}, [getAllProjects.response])
 
