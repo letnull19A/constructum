@@ -28,7 +28,7 @@ export const AddProject = () => {
 
 			requestWithInterceptors({
 				method: Method.POST,
-				url: 'http://45.12.74.222:80/api/project/create',
+				url: 'http://45.12.74.222/api/project/create',
 				headers: {
 					Authorization: `Bearer ${userTokens.access}`
 				},
