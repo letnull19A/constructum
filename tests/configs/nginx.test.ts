@@ -12,7 +12,7 @@ describe('check not found case', () => {
 			let config = {
 				method: 'post',
 				maxBodyLength: Infinity,
-				url: 'http://45.12.74.222/api/reg',
+				url: 'http://45.12.74.222:3593/api/reg',
 				headers: {
 					Authorization: 'Bearer  ',
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -40,7 +40,7 @@ describe('check nginx reverse-proxy working', () => {
 			let config = {
 				method: 'post',
 				maxBodyLength: Infinity,
-				url: 'http://45.12.74.222/api/registration',
+				url: 'http://45.12.74.222:3593/api/registration',
 				headers: {
 					Authorization: 'Bearer  ',
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -64,7 +64,7 @@ describe('check nginx reverse-proxy working', () => {
 			let config = {
 				method: 'post',
 				maxBodyLength: Infinity,
-				url: 'http://45.12.74.222/api/auth',
+				url: 'http://45.12.74.222:3593/api/auth',
 				headers: {
 					Authorization: 'Bearer  ',
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -88,7 +88,7 @@ describe('check nginx reverse-proxy working', () => {
 			let config = {
 				method: 'post',
 				maxBodyLength: Infinity,
-				url: 'http://45.12.74.222/api/refresh',
+				url: 'http://45.12.74.222:3593/api/refresh',
 				headers: {
 					Authorization: 'Bearer  ',
 					'Content-Type': 'application/x-www-form-urlencoded'
