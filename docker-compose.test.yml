@@ -12,35 +12,18 @@ services:
       cnetwork:
         ipv4_address: 77.5.0.10
 
-  mongo-test:
-    image: mongo:latest
-    restart: always
-    container_name: mongo-test
-    ports:
-      - 27018:27018
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: J_Lbdysq_Yjdsq_Vbh1
-      MONGO_INITDB_DATABASE: ctor-test
-    networks:
-      cnetwork:
-        ipv4_address: 77.5.0.20
-    volumes:
-      - mongodb:/data/db
-
   auth-test:
     image: constructum-auth:latest
     restart: always
     container_name: auth-test
     depends_on:
-      - mongo-test
       - redis-test
       - identify-test
     environment:
       PORT: 11198
       ENABLED_CORS: false
       REDIS_URL: redis://redis-test
-      MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@mongo-test:27018/ctor-test?authMechanism=DEFAULT&authSource=admin
+      MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@45.12.74.222:27017/ctor-test?authMechanism=DEFAULT&authSource=admin
       VERIFICATION_ATTEMPTS_OF_PING_TRPC: 10
       IDENTIFY_ADDRESS: http://identify-test:2499
     networks:
@@ -57,10 +40,9 @@ services:
       PORT: 7162
       ENABLED_CORS: false
       REDIS_URL: redis://redis-test
-      MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@mongo-test:27018/ctor?authMechanism=DEFAULT&authSource=admin
+      MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@45.12.74.222:27017/ctor-test?authMechanism=DEFAULT&authSource=admin
       COMPILER_TRPC_ADDRESS: http://compiler-test:12246
     depends_on:
-      - mongo-test
       - redis-test
       - compiler-test
     networks:
@@ -90,11 +72,9 @@ services:
     container_name: identify-test
     environment:
       PORT: 9375
-      MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@mongo-test:27018/?authMechanism=DEFAULT&authSource=admin
+      MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@45.12.74.222:27017/ctor-test?authMechanism=DEFAULT&authSource=admin
     ports:
       - 9375:9375
-    depends_on:
-      - mongo-test
     networks:
       cnetwork:
         ipv4_address: 77.5.0.60
@@ -114,9 +94,6 @@ services:
     networks:
       cnetwork:
         ipv4_address: 77.5.0.90
-
-volumes:
-  mongodb:
 
 networks:
   cnetwork:

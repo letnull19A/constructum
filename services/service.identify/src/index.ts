@@ -48,4 +48,4 @@ const main = async () => {
 	server.listen(port)
 }
 
-main().catch($log.error)
+main().catch((err) => $log.error(err))
