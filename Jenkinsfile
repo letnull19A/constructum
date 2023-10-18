@@ -65,6 +65,7 @@ pipeline {
         }
         stage('Test deploy') {
             steps {
+                sh 'docker compose -p ctor-test down'
                 sh 'docker compose -f docker-compose.test.yml -p ctor-test up -d'
             }
         }
