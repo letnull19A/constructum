@@ -19,6 +19,9 @@ refreshRoute.post('', async (req, res) => {
   try {
     const { refresh } = req.body
 
+    if (refresh === '' || refresh === undefined || refresh === null)
+      return res.send('refresh tocken is not defined').status(400)
+
     if ((await session.isAvalible(refresh)) && isVerifyRefreshToken({ refresh })) {
       const pathToKey = path.join(dirname('.'), './keys/key.secret.pub')
       const privateKey = fs.readFileSync(pathToKey).toString()

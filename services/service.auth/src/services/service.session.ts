@@ -22,7 +22,9 @@ export class Session {
 	}
 
 	public end = async (key: string) => {
-
+		if (key === undefined) {
+			throw new Error('Ключ не определён')
+		}
 
 		await this._redisClient.connect()
 		await this._redisClient.readyClient.del(key)
