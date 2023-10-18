@@ -94,7 +94,7 @@ services:
     ports:
       - 3498:3498
     depends_on:
-      - mongo-test-test
+      - mongo-test
     networks:
       cnetwork:
         ipv4_address: 77.5.0.60
