@@ -38,21 +38,21 @@ export const Projects = () => {
 			return
 		}
 
-		setProjects(
-			getAllProjects.response.map(
-				(item) =>
-					({
-						owner: item.owner,
-						name: item.name,
-						description: item.description,
-						members: item.members,
-						entities: item.entities,
-						access: item.access
-					} as IProject)
-			)
+		const readyArray = getAllProjects.response.map(
+			(item) =>
+				({
+					owner: item.owner,
+					name: item.name,
+					description: item.description,
+					members: item.members,
+					entities: item.entities,
+					access: item.access
+				} as IProject)
 		)
 
-		console.log(projects)
+		console.log(readyArray)
+
+		setProjects(readyArray)
 	}, [getAllProjects.response])
 
 	const displayProjects = () => {
