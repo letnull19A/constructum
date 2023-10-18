@@ -7,7 +7,7 @@ services:
     restart: always
     container_name: redis-test
     ports:
-      - 6380:6379
+      - 6380:6380
     networks:
       cnetwork:
         ipv4_address: 77.5.0.10
@@ -17,7 +17,7 @@ services:
     restart: always
     container_name: mongo-test
     ports:
-      - 27018:27017
+      - 27018:27018
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: J_Lbdysq_Yjdsq_Vbh1
@@ -47,7 +47,7 @@ services:
       cnetwork:
         ipv4_address: 77.5.0.30
     ports:
-      - 11198:11197
+      - 11198:11198
 
   api-test:
     image: constructum-api:latest
@@ -67,14 +67,14 @@ services:
       cnetwork:
         ipv4_address: 77.5.0.40
     ports:
-      - 7162:7161
+      - 7162:7162
 
   compiler-test:
     image: constructum-compiler:latest
     restart: always
     container_name: compiler-test
     environment:
-      PORT: 12245
+      PORT: 12246
       NODE_ENV: production
     depends_on:
       - auth-test
@@ -92,7 +92,7 @@ services:
       PORT: 3499
       MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@mongo-test:27018/?authMechanism=DEFAULT&authSource=admin
     ports:
-      - 3499:3498
+      - 3499:3499
     depends_on:
       - mongo-test
     networks:
