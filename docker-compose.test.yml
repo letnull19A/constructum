@@ -107,7 +107,7 @@ services:
       - api-test
       - auth-test
     ports:
-      - 8077:8077
+      - 3593:3593
     volumes:
       - './nginx/nginx.test.conf://etc/nginx/nginx.test.conf:ro'
       - './services/service.client://usr/share/nginx/html:ro'
