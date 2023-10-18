@@ -146,7 +146,7 @@ describe('check nginx reverse-proxy working', () => {
 
 			await axios.post(config.url, config.data, config)
 		} catch (err: any) {
-			expect(err.response.status).toEqual(404)
+			expect(err.response.status).toEqual(401)
 		}
 	})
 })
