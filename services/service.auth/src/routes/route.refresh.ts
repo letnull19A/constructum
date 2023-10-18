@@ -20,7 +20,7 @@ refreshRoute.post('', async (req, res) => {
     const { refresh } = req.body
 
     if (refresh === '' || refresh === undefined || refresh === null)
-      return res.send('refresh tocken is not defined').status(400)
+      return res.status(400).send('refresh token is not defined')
 
     if ((await session.isAvalible(refresh)) && isVerifyRefreshToken({ refresh })) {
       const pathToKey = path.join(dirname('.'), './keys/key.secret.pub')
