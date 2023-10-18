@@ -369,7 +369,7 @@ describe('registration test', () => {
 
 			expect(response).toEqual('')
 		} catch (err: any) {
-			expect(err.response.data).toEqual('field password is empty or undefined')
+			expect(err.response.data).toEqual('field repassword is empty or undefined')
 			expect(err.response.status).toEqual(400)
 		}
 	})
