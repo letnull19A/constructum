@@ -25,7 +25,7 @@ services:
       REDIS_URL: redis://redis-test
       MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@45.12.74.222:27017/ctor-test?authMechanism=DEFAULT&authSource=admin
       VERIFICATION_ATTEMPTS_OF_PING_TRPC: 10
-      IDENTIFY_ADDRESS: http://identify-test:2499
+      IDENTIFY_ADDRESS: http://identify-test:9375
     networks:
       cnetwork:
         ipv4_address: 77.5.0.30
