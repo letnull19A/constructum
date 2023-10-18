@@ -101,4 +101,52 @@ describe('check nginx reverse-proxy working', () => {
 			expect(err.response.status).not.toEqual(404)
 		}
 	})
+
+	it('check /api/project/create', async () => {
+		try {
+			let data = {
+				name: 'Alex1',
+				surname: 'Volkov1'
+			}
+
+			let config = {
+				method: 'post',
+				maxBodyLength: Infinity,
+				url: 'http://45.12.74.222:3593/api/project/create',
+				headers: {
+					Authorization: 'Bearer  ',
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				data: data
+			}
+
+			await axios.post(config.url, config.data, config)
+		} catch (err: any) {
+			expect(err.response.status).not.toEqual(404)
+		}
+	})
+
+	it('check /api/project/:id', async () => {
+		try {
+			let data = {
+				name: 'Alex1',
+				surname: 'Volkov1'
+			}
+
+			let config = {
+				method: 'post',
+				maxBodyLength: Infinity,
+				url: 'http://45.12.74.222:3593/api/project/0',
+				headers: {
+					Authorization: 'Bearer  ',
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				data: data
+			}
+
+			await axios.post(config.url, config.data, config)
+		} catch (err: any) {
+			expect(err.response.status).toEqual(404)
+		}
+	})
 })

@@ -28,13 +28,14 @@ projectCreateRoute.post('/create', async (req, res) => {
     newProject
       .validate()
       .then(async () => {
-        UserModel.findOneAndUpdate({ _id: new Types.ObjectId(owner) }, { $push: { projects: newProject._id } })
-          .then(async (result) => {
+        UserModel.findOneAndUpdate(
+            { _id: new Types.ObjectId(owner) }, 
+            { $push: { projects: newProject._id } 
+          }).then(async () => {
             await newProject.save()
             await disconnect()
             res.status(200).send('Проект успешно создан')
-          })
-          .catch((error: any) => {
+          }).catch((error: any) => {
             logger.error(error)
             res.status(404).send('Пользователь не найден')
           })
