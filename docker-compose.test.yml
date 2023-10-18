@@ -37,7 +37,7 @@ services:
     restart: always
     container_name: api-test
     environment:
-      PORT: 9357
+      PORT: 12221
       ENABLED_CORS: false
       REDIS_URL: redis://redis-test
       MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@45.12.74.222:27017/ctor-test?authMechanism=DEFAULT&authSource=admin
@@ -49,7 +49,7 @@ services:
       cnetwork:
         ipv4_address: 77.5.0.40
     ports:
-      - 9357:9357
+      - 12221:12221
 
   compiler-test:
     image: constructum-compiler:latest
