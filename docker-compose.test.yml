@@ -103,9 +103,9 @@ services:
     container_name: client-test
     ports:
       - 80:80
-    # volumes:
-    #   - './nginx/nginx.conf://etc/nginx/nginx.conf:ro'
-    #   - './services/service.client://usr/share/nginx/html:ro'
+    volumes:
+      - './nginx/nginx.conf://etc/nginx/nginx.conf:ro'
+      - './services/service.client://usr/share/nginx/html:ro'
     networks:
       cnetwork:
         ipv4_address: 77.5.0.90
@@ -117,8 +117,10 @@ services:
     depends_on:
       - api-test
       - auth-test
+    volumes:
+      - './gateway/nginx.conf://etc/nginx/nginx.conf:ro'
     ports:
-      - 8033:8033
+      - 80:80
     networks:
       client_net:
         ipv4_address: 34.12.0.2
