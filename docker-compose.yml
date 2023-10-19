@@ -38,7 +38,7 @@ services:
       - identify
     environment:
       PORT: 11197
-      ENABLED_CORS: false
+      ENABLED_CORS: true
       REDIS_URL: redis://redis
       MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@mongo:27017/ctor?authMechanism=DEFAULT&authSource=admin
       VERIFICATION_ATTEMPTS_OF_PING_TRPC: 10
@@ -55,7 +55,7 @@ services:
     container_name: api
     environment:
       PORT: 7161
-      ENABLED_CORS: false
+      ENABLED_CORS: true
       REDIS_URL: redis://redis
       MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@mongo:27017/ctor?authMechanism=DEFAULT&authSource=admin
       COMPILER_TRPC_ADDRESS: http://compiler:12245
