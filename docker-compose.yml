@@ -120,7 +120,7 @@ services:
       - api
       - auth
     ports:
-      - 80:80
+      - 8033:8033
     networks:
       cnetwork:
         ipv4_address: 7.5.1.10
