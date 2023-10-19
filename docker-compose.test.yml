@@ -5,7 +5,7 @@ services:
   mongo-test:
     image: mongo:latest
     restart: always
-    container_name: mongo
+    container_name: mongo-test
     ports:
       - 27017:27017
     environment:
