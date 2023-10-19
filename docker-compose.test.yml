@@ -100,7 +100,7 @@ services:
       - api-test
       - auth-test
     ports:
-      - 80:80
+      - 8033:80
     networks:
       client_net:
         ipv4_address: 34.12.0.2
