@@ -14,6 +14,11 @@ const redis = new RedisDBWrapper(process.env.REDIS_URL)
 const session = new Session(redis)
 
 authRoute.post('/auth', isNotAuth, async (req, res) => {
+
+	if (proccess.env.CORS_ENABLED) {
+		res.set('Access-Control-Allow-Origin', '*');
+	}
+
 	const { login, password } = req.body
 
 	if (login === undefined || login === '') {

@@ -31,6 +31,8 @@ export const Projects = () => {
 	}, [bearer, userData, getAllProjects])
 
 	useEffect(() => {
+		console.log('check')
+
 		if (getAllProjects.response === null || getAllProjects.response === undefined) {
 			setProjects([])
 			return
