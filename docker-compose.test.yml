@@ -7,7 +7,7 @@ services:
     restart: always
     container_name: mongo-test
     ports:
-      - 27017:27017
+      - 27018:27018
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: J_Lbdysq_Yjdsq_Vbh1
@@ -39,7 +39,7 @@ services:
       PORT: 11198
       ENABLED_CORS: false
       REDIS_URL: redis://redis-test
-      MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@45.12.74.222:27017/ctor-test?authMechanism=DEFAULT&authSource=admin
+      MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@45.12.74.222:27018/ctor-test?authMechanism=DEFAULT&authSource=admin
       VERIFICATION_ATTEMPTS_OF_PING_TRPC: 10
       IDENTIFY_ADDRESS: http://identify-test:9375
     networks:
@@ -56,7 +56,7 @@ services:
       PORT: 12221
       ENABLED_CORS: false
       REDIS_URL: redis://redis-test
-      MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@45.12.74.222:27017/ctor-test?authMechanism=DEFAULT&authSource=admin
+      MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@45.12.74.222:27018/ctor-test?authMechanism=DEFAULT&authSource=admin
       COMPILER_TRPC_ADDRESS: http://compiler-test:12246
     depends_on:
       - redis-test
@@ -90,7 +90,7 @@ services:
       - mongo-test
     environment:
       PORT: 9375
-      MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@45.12.74.222:27017/ctor-test?authMechanism=DEFAULT&authSource=admin
+      MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@45.12.74.222:27018/ctor-test?authMechanism=DEFAULT&authSource=admin
     ports:
       - 9375:9375
     networks:
