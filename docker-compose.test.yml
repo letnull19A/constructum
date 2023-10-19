@@ -2,6 +2,22 @@ version: '3.7'
 name: 'constructum'
 
 services:
+  mongo-test:
+    image: mongo:latest
+    restart: always
+    container_name: mongo
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: J_Lbdysq_Yjdsq_Vbh1
+      MONGO_INITDB_DATABASE: ctor
+    networks:
+      cnetwork:
+        ipv4_address: 77.5.0.20
+    volumes:
+      - mongodb:/data/db
+
   redis-test:
     image: redis:latest
     restart: always
@@ -70,6 +86,8 @@ services:
     image: constructum-identify:latest
     restart: always
     container_name: identify-test
+    depends_on:
+      - mongo-test
     environment:
       PORT: 9375
       MONGO_CONNECTION: mongodb://admin:J_Lbdysq_Yjdsq_Vbh1@45.12.74.222:27017/ctor-test?authMechanism=DEFAULT&authSource=admin
