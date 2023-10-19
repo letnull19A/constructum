@@ -47,7 +47,9 @@ const server = async () => {
 	const app = express()
 
 	if (process.env.NODE_ENV === 'development' || process.env.ENABLED_CORS) {
-		app.use(cors())
+		app.use(cors({
+			origin: '*'
+		}))
 		logger.info('cors is enabled')
 	}
 

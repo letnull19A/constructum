@@ -57,12 +57,9 @@ const main = async () => {
 
 	if (process.env.CORS_ENABLED) {
 
-		const corsOptions = {
-			origin: '*',
-			optionsSuccessStatus: 200
-		}
-
-		app.use(cors(corsOptions))
+		app.use(cors({
+			origin: '*'
+		}))
 		logger.info('cors is enabled')
 	}
 
