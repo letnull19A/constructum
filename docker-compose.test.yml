@@ -90,7 +90,7 @@ services:
     #   - './services/service.client://usr/share/nginx/html:ro'
     networks:
       cnetwork:
-        ipv4_address: 7.5.0.90
+        ipv4_address: 77.5.0.90
 
   gateway-test:
     image: ctor-gateway:latest
@@ -103,7 +103,7 @@ services:
       - 80:80
     networks:
       cnetwork:
-        ipv4_address: 7.5.1.10
+        ipv4_address: 77.5.1.10
 
 networks:
   cnetwork:
