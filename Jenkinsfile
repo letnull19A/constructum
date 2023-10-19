@@ -58,6 +58,7 @@ pipeline {
             steps {
                 dir ('gateway') {
                     sh 'docker image build -t ctor-gateway .'
+                    sh 'docker image build -f test.Dockerfile -t ctor-gateway-test .'
                 }
 
                 sh 'docker image build -f api.Dockerfile -t constructum-api .'

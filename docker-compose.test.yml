@@ -111,7 +111,7 @@ services:
         ipv4_address: 77.5.0.90
 
   gateway-test:
-    image: ctor-gateway:latest
+    image: ctor-gateway-test:latest
     restart: always
     container_name: gateway-test
     depends_on:
