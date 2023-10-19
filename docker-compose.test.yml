@@ -88,9 +88,9 @@ services:
       - auth-test
     ports:
       - 3593:3593
-    volumes:
-      - './nginx/test/nginx.conf://etc/nginx/nginx.conf:ro'
-      - './services/service.client://usr/share/nginx/html:ro'
+    # volumes:
+    #   - './nginx/test/nginx.conf://etc/nginx/nginx.conf:ro'
+    #   - './services/service.client://usr/share/nginx/html:ro'
     networks:
       cnetwork:
         ipv4_address: 77.5.0.90
