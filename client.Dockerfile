@@ -20,7 +20,7 @@ WORKDIR /usr/share/nginx/html
 RUN mkdir docs
 
 WORKDIR /
-COPY ./nginx/nginx.conf /etc/nginx
+COPY ./services/service.client/nginx/nginx.conf /etc/nginx
 COPY --from=builder ./services/service.client/dist/* /usr/share/nginx/html
 COPY ./services/service.docs/public/* /usr/share/nginx/html/docs
 

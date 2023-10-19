@@ -99,13 +99,10 @@ services:
       cnetwork:
         ipv4_address: 7.5.0.60
 
-  web-server:
+  client:
     image: constructum-client:latest
     restart: always
-    container_name: web-server
-    depends_on:
-      - api
-      - auth
+    container_name: client
     ports:
       - 80:80
     # volumes:
@@ -114,6 +111,19 @@ services:
     networks:
       cnetwork:
         ipv4_address: 7.5.0.90
+
+  gateway:
+    image: ctor-gateway:latest
+    restart: always
+    container_name: gateway
+    depends_on:
+      - api
+      - auth
+    ports:
+      - 80:80
+    networks:
+      cnetwork:
+        ipv4_address: 7.5.1.10
 
 volumes:
   mongodb:
