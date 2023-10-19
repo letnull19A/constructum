@@ -97,8 +97,8 @@ services:
     restart: always
     container_name: gateway-test
     depends_on:
-      - api
-      - auth
+      - api-test
+      - auth-test
     ports:
       - 80:80
     networks:
