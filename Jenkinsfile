@@ -56,14 +56,15 @@ pipeline {
         }
         stage('Build docker images') {
             steps {
-                dir ('/') {
-                    sh 'docker image build -f ./gateway/Dockerfile -t ctor-gateway .'
-                    sh 'docker image build -f api.Dockerfile -t constructum-api .'
-                    sh 'docker image build -f auth.Dockerfile -t constructum-auth .'
-                    sh 'docker image build -f compiler.Dockerfile -t constructum-compiler .'
-                    sh 'docker image build -f identify.Dockerfile -t constructum-identify .'
-                    sh 'docker image build -f client.Dockerfile -t constructum-client .'
+                dir ('gateway') {
+                    sh 'docker image build -t ctor-gateway .'
                 }
+
+                sh 'docker image build -f api.Dockerfile -t constructum-api .'
+                sh 'docker image build -f auth.Dockerfile -t constructum-auth .'
+                sh 'docker image build -f compiler.Dockerfile -t constructum-compiler .'
+                sh 'docker image build -f identify.Dockerfile -t constructum-identify .'
+                sh 'docker image build -f client.Dockerfile -t constructum-client .'
             }
         }
         stage('Test deploy') {
