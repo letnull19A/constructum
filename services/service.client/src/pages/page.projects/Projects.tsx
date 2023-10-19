@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom'
-// @ts-ignore
 import { Button, Card, CardContent, CardFooter, CardHead, Content, Footer, Header, Menu } from '../../components'
 import { useTitle } from '../../hooks/hook.use-title'
 import { LayoutDefault } from '../../layouts/layout.default'
@@ -30,7 +29,7 @@ export const Projects = () => {
 				}
 			})
 		}
-	}, [bearer])
+	}, [bearer, userData, getAllProjects])
 
 	useEffect(() => {
 		if (getAllProjects.response === null || getAllProjects.response === undefined) {
@@ -38,17 +37,17 @@ export const Projects = () => {
 			return
 		}
 
-		const readyArray = getAllProjects.response.map(
-			(item) =>
-				({
-					owner: item.owner,
-					name: item.name,
-					description: item.description,
-					members: item.members,
-					entities: item.entities,
-					access: item.access
-				} as IProject)
-		)
+		// https://stackoverflow.com/a/67265349
+		const readyArray = getAllProjects.response.map((item) => {
+			return {
+				owner: item.owner,
+				name: item.name,
+				description: item.description,
+				members: item.members,
+				entities: item.entities,
+				access: item.access
+			} as IProject
+		})
 
 		console.log(readyArray)
 
