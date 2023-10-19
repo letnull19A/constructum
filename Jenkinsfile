@@ -56,7 +56,7 @@ pipeline {
         }
         stage('Build docker images') {
             steps {
-                sh 'docker image build -f ./gateway/Dockerfile -t ctor-gateway .'
+                sh 'docker image build -f gateway.Dockerfile -t ctor-gateway .'
                 sh 'docker image build -f api.Dockerfile -t constructum-api .'
                 sh 'docker image build -f auth.Dockerfile -t constructum-auth .'
                 sh 'docker image build -f compiler.Dockerfile -t constructum-compiler .'
