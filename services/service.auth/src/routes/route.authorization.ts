@@ -15,7 +15,7 @@ const session = new Session(redis)
 
 authRoute.post('/auth', isNotAuth, async (req, res) => {
 
-	if (proccess.env.CORS_ENABLED) {
+	if (process.env.CORS_ENABLED) {
 		res.set('Access-Control-Allow-Origin', '*');
 	}
 
