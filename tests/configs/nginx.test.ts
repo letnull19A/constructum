@@ -12,7 +12,7 @@ describe('check not found case', () => {
 			let config = {
 				method: 'post',
 				maxBodyLength: Infinity,
-				url: 'http://45.130.43.67/api/reg',
+				url: 'http://45.130.43.67:8033/api/reg',
 				headers: {
 					Authorization: 'Bearer  ',
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -40,7 +40,7 @@ describe('check nginx reverse-proxy working', () => {
 			let config = {
 				method: 'post',
 				maxBodyLength: Infinity,
-				url: 'http://45.130.43.67/api/registration',
+				url: 'http://45.130.43.67:8033/api/registration',
 				headers: {
 					Authorization: 'Bearer  ',
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -64,7 +64,7 @@ describe('check nginx reverse-proxy working', () => {
 			let config = {
 				method: 'post',
 				maxBodyLength: Infinity,
-				url: 'http://45.130.43.67/api/auth',
+				url: 'http://45.130.43.67:8033/api/auth',
 				headers: {
 					Authorization: 'Bearer  ',
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -88,7 +88,7 @@ describe('check nginx reverse-proxy working', () => {
 			let config = {
 				method: 'post',
 				maxBodyLength: Infinity,
-				url: 'http://45.130.43.67/api/refresh',
+				url: 'http://45.130.43.67:8033/api/refresh',
 				headers: {
 					Authorization: 'Bearer  ',
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -112,7 +112,7 @@ describe('check nginx reverse-proxy working', () => {
 			let config = {
 				method: 'post',
 				maxBodyLength: Infinity,
-				url: 'http://45.130.43.67/api/project/create',
+				url: 'http://45.130.43.67:8033/api/project/create',
 				headers: {
 					Authorization: 'Bearer  ',
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -136,7 +136,7 @@ describe('check nginx reverse-proxy working', () => {
 	// 		let config = {
 	// 			method: 'post',
 	// 			maxBodyLength: Infinity,
-	// 			url: 'http://45.130.43.67/api/project/0',
+	// 			url: 'http://45.130.43.67:8033/api/project/0',
 	// 			headers: {
 	// 				Authorization: 'Bearer  ',
 	// 				'Content-Type': 'application/x-www-form-urlencoded'

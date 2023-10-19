@@ -9,7 +9,7 @@ describe('registration test', () => {
 		let config = {
 			method: 'post',
 			maxBodyLength: Infinity,
-			url: 'http://45.130.43.67/api/registration',
+			url: 'http://45.130.43.67:8033/api/registration',
 			headers: {
 				Authorization: 'Bearer  ',
 				'Content-Type': 'application/x-www-form-urlencoded'
@@ -26,7 +26,7 @@ describe('registration test', () => {
 		let config = {
 			method: 'post',
 			maxBodyLength: Infinity,
-			url: 'http://45.130.43.67/api/registration',
+			url: 'http://45.130.43.67:8033/api/registration',
 			headers: {
 				Authorization: 'Bearer  ',
 				'Content-Type': 'application/x-www-form-urlencoded'
@@ -46,7 +46,7 @@ describe('registration test', () => {
 			let config = {
 				method: 'post',
 				maxBodyLength: Infinity,
-				url: 'http://45.130.43.67/api/registration',
+				url: 'http://45.130.43.67:8033/api/registration',
 				headers: {
 					Authorization: 'Bearer  ',
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -67,7 +67,7 @@ describe('registration test', () => {
 			let config = {
 				method: 'post',
 				maxBodyLength: Infinity,
-				url: 'http://45.130.43.67/api/registration',
+				url: 'http://45.130.43.67:8033/api/registration',
 				headers: {
 					Authorization: 'Bearer  ',
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -91,7 +91,7 @@ describe('registration test', () => {
 		let config = {
 			method: 'post',
 			maxBodyLength: Infinity,
-			url: 'http://45.130.43.67/api/registration',
+			url: 'http://45.130.43.67:8033/api/registration',
 			headers: {
 				Authorization: 'Bearer  ',
 				'Content-Type': 'application/x-www-form-urlencoded'
@@ -111,7 +111,7 @@ describe('registration test', () => {
 			let config = {
 				method: 'post',
 				maxBodyLength: Infinity,
-				url: 'http://45.130.43.67/api/registration',
+				url: 'http://45.130.43.67:8033/api/registration',
 				headers: {
 					Authorization: 'Bearer  ',
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -137,7 +137,7 @@ describe('registration test', () => {
 			let config = {
 				method: 'post',
 				maxBodyLength: Infinity,
-				url: 'http://45.130.43.67/api/registration',
+				url: 'http://45.130.43.67:8033/api/registration',
 				headers: {
 					Authorization: 'Bearer  ',
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -162,7 +162,7 @@ describe('registration test', () => {
 			let config = {
 				method: 'post',
 				maxBodyLength: Infinity,
-				url: 'http://45.130.43.67/api/registration',
+				url: 'http://45.130.43.67:8033/api/registration',
 				headers: {
 					Authorization: 'Bearer  ',
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -187,7 +187,7 @@ describe('registration test', () => {
 		let config = {
 			method: 'post',
 			maxBodyLength: Infinity,
-			url: 'http://45.130.43.67/api/registration',
+			url: 'http://45.130.43.67:8033/api/registration',
 			headers: {
 				Authorization: 'Bearer  ',
 				'Content-Type': 'application/x-www-form-urlencoded'
@@ -208,7 +208,7 @@ describe('registration test', () => {
 			let config = {
 				method: 'post',
 				maxBodyLength: Infinity,
-				url: 'http://45.130.43.67/api/registration',
+				url: 'http://45.130.43.67:8033/api/registration',
 				headers: {
 					Authorization: 'Bearer  ',
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -235,7 +235,7 @@ describe('registration test', () => {
 			let config = {
 				method: 'post',
 				maxBodyLength: Infinity,
-				url: 'http://45.130.43.67/api/registration',
+				url: 'http://45.130.43.67:8033/api/registration',
 				headers: {
 					Authorization: 'Bearer  ',
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -259,7 +259,7 @@ describe('registration test', () => {
 		let config = {
 			method: 'post',
 			maxBodyLength: Infinity,
-			url: 'http://45.130.43.67/api/registration',
+			url: 'http://45.130.43.67:8033/api/registration',
 			headers: {
 				Authorization: 'Bearer  ',
 				'Content-Type': 'application/x-www-form-urlencoded'
@@ -281,7 +281,7 @@ describe('registration test', () => {
 			let config = {
 				method: 'post',
 				maxBodyLength: Infinity,
-				url: 'http://45.130.43.67/api/registration',
+				url: 'http://45.130.43.67:8033/api/registration',
 				headers: {
 					Authorization: 'Bearer  ',
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -309,7 +309,7 @@ describe('registration test', () => {
 			let config = {
 				method: 'post',
 				maxBodyLength: Infinity,
-				url: 'http://45.130.43.67/api/registration',
+				url: 'http://45.130.43.67:8033/api/registration',
 				headers: {
 					Authorization: 'Bearer  ',
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -334,7 +334,7 @@ describe('registration test', () => {
 		let config = {
 			method: 'post',
 			maxBodyLength: Infinity,
-			url: 'http://45.130.43.67/api/registration',
+			url: 'http://45.130.43.67:8033/api/registration',
 			headers: {
 				Authorization: 'Bearer  ',
 				'Content-Type': 'application/x-www-form-urlencoded'
@@ -357,7 +357,7 @@ describe('registration test', () => {
 			let config = {
 				method: 'post',
 				maxBodyLength: Infinity,
-				url: 'http://45.130.43.67/api/registration',
+				url: 'http://45.130.43.67:8033/api/registration',
 				headers: {
 					Authorization: 'Bearer  ',
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -386,7 +386,7 @@ describe('registration test', () => {
 			let config = {
 				method: 'post',
 				maxBodyLength: Infinity,
-				url: 'http://45.130.43.67/api/registration',
+				url: 'http://45.130.43.67:8033/api/registration',
 				headers: {
 					Authorization: 'Bearer  ',
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -412,7 +412,7 @@ describe('registration test', () => {
 		let config = {
 			method: 'post',
 			maxBodyLength: Infinity,
-			url: 'http://45.130.43.67/api/registration',
+			url: 'http://45.130.43.67:8033/api/registration',
 			headers: {
 				Authorization: 'Bearer  ',
 				'Content-Type': 'application/x-www-form-urlencoded'
@@ -436,7 +436,7 @@ describe('registration test', () => {
 			let config = {
 				method: 'post',
 				maxBodyLength: Infinity,
-				url: 'http://45.130.43.67/api/registration',
+				url: 'http://45.130.43.67:8033/api/registration',
 				headers: {
 					Authorization: 'Bearer  ',
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -466,7 +466,7 @@ describe('registration test', () => {
 			let config = {
 				method: 'post',
 				maxBodyLength: Infinity,
-				url: 'http://45.130.43.67/api/registration',
+				url: 'http://45.130.43.67:8033/api/registration',
 				headers: {
 					Authorization: 'Bearer  ',
 					'Content-Type': 'application/x-www-form-urlencoded'
@@ -493,7 +493,7 @@ describe('registration test', () => {
 	// 	const config = {
 	// 		method: 'post',
 	// 		maxBodyLength: Infinity,
-	// 		url: 'http://45.130.43.67/api/registration',
+	// 		url: 'http://45.130.43.67:8033/api/registration',
 	// 		headers: {
 	// 			Authorization: 'Bearer  ',
 	// 			'Content-Type': 'application/x-www-form-urlencoded'
