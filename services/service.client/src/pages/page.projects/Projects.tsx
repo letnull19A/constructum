@@ -18,7 +18,6 @@ export const Projects = () => {
 	const [projects, setProjects] = useState<Array<IProject>>([])
 
 	useEffect(() => {
-		console.log(bearer)
 		if (bearer !== '') {
 			getAllProjects.requestWithInterceptors({
 				method: Method.GET,
@@ -36,8 +35,6 @@ export const Projects = () => {
 			setProjects([])
 			return
 		}
-
-		// https://stackoverflow.com/a/67265349
 		const readyArray = getAllProjects.response.map((item) => {
 			return {
 				owner: item.owner,
@@ -49,6 +46,7 @@ export const Projects = () => {
 			} as IProject
 		})
 
+		console.log(getAllProjects.response)
 		console.log(readyArray)
 
 		setProjects(readyArray)
