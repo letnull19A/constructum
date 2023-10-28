@@ -16,7 +16,7 @@ services:
       cnetwork:
         ipv4_address: 77.5.0.20
     volumes:
-      - mongodb:/data/db
+      - mongodb:/data/db_test
 
   redis-test:
     image: redis:latest
